@@ -24,9 +24,11 @@
 
                 {{-- Left --}}
                 <div class="flex-1 min-w-0">
-                    <h1 class="text-[5.25rem] font-black uppercase leading-[0.85] mb-6 tracking-tight">
+                    <h1 class="text-[5.25rem] font-black uppercase leading-[0.85] mb-6 tracking-tight italic">
                         LEKKER VRETEN<br>
-                        <span class="bg-[#C8FF00] px-2 py-1 inline-block">ZONDER STRESS.</span>
+                        <span class="bg-[#C8FF00] px-3 py-1 inline-block" style="transform: skewX(-8deg); box-shadow: 5px 5px 0px 0px #000;">
+                            <span style="display: inline-block; transform: skewX(8deg);">ZONDER STRESS.</span>
+                        </span>
                     </h1>
                     <p class="text-gray-700 mb-9 leading-relaxed text-base max-w-sm">
                         Geen keuzestress. Geen ingewikkelde shit.<br>
