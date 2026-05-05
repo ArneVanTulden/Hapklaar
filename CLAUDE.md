@@ -77,3 +77,27 @@ Key design decisions:
 - `shopping_list_items.ingredient_id` is nullable (manual items allowed)
 - Connection: MySQL (local via MySQL Workbench)
 - Database name: `hapklaar`
+
+## Figma Screenshots
+
+All 20 design screens are in `docs/figma/`:
+- `01-home.png` — landing page
+- `02-ontdekken.png` — receptenlijst met filters
+- `03-recept-stappen.png` — recept detail, stappen tab
+- `04-recept-voeding.png` — recept detail, voedingswaarden tab
+- `05-recept-reviews.png` — recept detail, reviews tab
+- `06-ijskast-scanner.png` — AI scanner
+- `07-ijskast-scanner-modal.png` — ingrediënt toevoegen modal
+- `08-boodschappen.png` — boodschappenlijst
+- `09-boodschappen-modal.png` — item toevoegen modal
+- `10-profiel-favorieten.png` — profiel, favorieten tab
+- `11-profiel-reviews.png` — profiel, reviews tab
+- `12-profiel-instellingen.png` — profiel, instellingen tab
+- `13-login.png` — inlogpagina
+- `14-register.png` — registratiepagina
+- `15-wachtwoord-vergeten.png` — wachtwoord reset
+- `16-admin-dashboard.png` — admin dashboard
+- `17-admin-recensies.png` — admin recensies beheer
+- `18-admin-recepten.png` — admin recepten overzicht
+- `19-admin-nieuw-recept.png` — admin nieuw recept formulier
+- `20-admin-gebruikers.png` — admin gebruikersbeheer
