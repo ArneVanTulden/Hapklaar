@@ -74,7 +74,89 @@
         {{-- ============================================================
              TRENDING RECEPTEN (Livewire)
         ============================================================ --}}
-        <livewire:trending-recipes />
+        <section class="py-16 border-b-2 border-black bg-white">
+            <div class="max-w-6xl mx-auto px-6">
+
+                <div class="flex items-center gap-4 mb-10">
+                    <h2 class="text-4xl font-black uppercase">TRENDING RECEPTEN</h2>
+                    <span class="bg-[#C8FF00] text-black text-[10px] font-black uppercase tracking-widest px-3 py-1 border-2 border-black">HOT &amp; FRESH</span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6">
+
+                    <!-- Card 1 -->
+                    <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
+                        <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
+                            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300 text-4xl">🍽</div>
+                            <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-brand text-white">STUDENT FAVORIET</span>
+                        </div>
+
+                        <div class="p-4 flex flex-col flex-1">
+                            <h3 class="font-black uppercase text-lg leading-tight mb-3">Snelle Pasta met Tomaat</h3>
+
+                            <div class="flex items-center gap-3 mb-4 text-[10px] font-bold uppercase text-gray-500 tracking-wide flex-wrap">
+                                <span>⏱ 20 MIN</span>
+                                <span>⚡ 450 KCAL</span>
+                                <span>🍽 |||</span>
+                            </div>
+
+                            <a href="#"
+                               class="mt-auto text-center text-[11px] font-black uppercase tracking-widest bg-brand text-white no-underline px-4 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                LAAT ME ZIEN!
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
+                        <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
+                            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300 text-4xl">🍽</div>
+                            <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-[#FF6B00] text-white">HOT DEAL</span>
+                        </div>
+
+                        <div class="p-4 flex flex-col flex-1">
+                            <h3 class="font-black uppercase text-lg leading-tight mb-3">Ovengebakken Zoete Aardappel</h3>
+
+                            <div class="flex items-center gap-3 mb-4 text-[10px] font-bold uppercase text-gray-500 tracking-wide flex-wrap">
+                                <span>⏱ 35 MIN</span>
+                                <span>⚡ 320 KCAL</span>
+                                <span>🍽 ||||</span>
+                            </div>
+
+                            <a href="#"
+                               class="mt-auto text-center text-[11px] font-black uppercase tracking-widest bg-brand text-white no-underline px-4 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                LAAT ME ZIEN!
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
+                        <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
+                            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300 text-4xl">🍽</div>
+                            <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-[#C8FF00] text-black">LAAGSTE AFWAS</span>
+                        </div>
+
+                        <div class="p-4 flex flex-col flex-1">
+                            <h3 class="font-black uppercase text-lg leading-tight mb-3">Rijstsalade met Groenten</h3>
+
+                            <div class="flex items-center gap-3 mb-4 text-[10px] font-bold uppercase text-gray-500 tracking-wide flex-wrap">
+                                <span>⏱ 15 MIN</span>
+                                <span>⚡ 280 KCAL</span>
+                                <span>🍽 ||</span>
+                            </div>
+
+                            <a href="#"
+                               class="mt-auto text-center text-[11px] font-black uppercase tracking-widest bg-brand text-white no-underline px-4 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                LAAT ME ZIEN!
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
 
         {{-- ============================================================
              HOE WERKT HET?
@@ -137,16 +219,12 @@
                     <p class="text-white/75 mb-8 text-sm leading-relaxed max-w-xs">
                         Ontvang wekelijks een curated lijst met recepten die wél te doen zijn op een dinsdagavond.
                     </p>
-                    <div x-data="{ subscribed: false }">
+                    <div>
                         <button
-                            x-show="!subscribed"
-                            @click="subscribed = true"
+                            type="button"
                             class="text-[11px] font-black uppercase tracking-widest bg-black text-white px-6 py-3 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.4)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.4)] transition-all duration-75 cursor-pointer">
                             IK WIL DIT!
                         </button>
-                        <p x-show="subscribed" x-cloak class="text-white font-black uppercase text-xl tracking-widest">
-                            ✓ JE BENT ERIN!
-                        </p>
                     </div>
                 </div>
 
