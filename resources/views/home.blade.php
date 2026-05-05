@@ -24,21 +24,21 @@
 
                 {{-- Left --}}
                 <div class="flex-1 min-w-0">
-                    <h1 class="text-[4.5rem] font-black uppercase leading-[0.9] mb-5 tracking-tight">
+                    <h1 class="text-[5.25rem] font-black uppercase leading-[0.85] mb-6 tracking-tight">
                         LEKKER VRETEN<br>
-                        <span class="bg-[#C8FF00] px-1 inline-block">ZONDER STRESS.</span>
+                        <span class="bg-[#C8FF00] px-2 py-1 inline-block">ZONDER STRESS.</span>
                     </h1>
-                    <p class="text-gray-500 mb-8 leading-relaxed text-sm max-w-xs">
+                    <p class="text-gray-700 mb-9 leading-relaxed text-base max-w-sm">
                         Geen keuzestress. Geen ingewikkelde shit.<br>
                         Gewoon vreten wat de pot schaft (of wat er nog in je koelkast ligt).
                     </p>
                     <div class="flex gap-4 flex-wrap">
                         <a href="#"
-                           class="text-[11px] font-black uppercase tracking-widest bg-brand text-white no-underline px-6 py-3 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                           class="text-[12px] font-black uppercase tracking-widest bg-brand text-white no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#C8FF00] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#C8FF00] transition-all duration-75">
                             ONTDEK RECEPTEN
                         </a>
                         <a href="#"
-                           class="text-[11px] font-black uppercase tracking-widest bg-white text-black no-underline px-6 py-3 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                           class="text-[12px] font-black uppercase tracking-widest bg-white text-black no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#E5006E] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#E5006E] transition-all duration-75">
                             SCAN JE KOELKAST
                         </a>
                     </div>
@@ -46,23 +46,23 @@
 
                 {{-- Right: Image card --}}
                 <div class="flex-shrink-0 relative">
-                    <div class="relative w-72">
+                    <div class="relative w-72" style="transform: rotate(3deg);">
                         {{-- Yellow image box --}}
-                        <div class="border-4 border-black bg-[#FFD600] shadow-[8px_8px_0px_0px_#000]">
+                        <div class="border-4 border-black bg-[#FFD600]" style="box-shadow: 6px 6px 0px 0px #FF1493;">
                             <div class="aspect-square bg-[#FFD600] flex items-center justify-center text-[#FFD600] overflow-hidden">
                                 <img src="{{ asset('images/kater_bowl.png') }}" alt="Ultieme Katerbowl" class="w-full h-full object-cover">
                             </div>
-                            <div class="bg-black px-4 py-3 border-t-4 border-black">
-                                <span class="text-white font-black uppercase tracking-widest text-sm">ULTIEME KATER BOWL</span>
+                            <div class="bg-white px-4 py-3 border-t-4 border-black">
+                                <span class="text-black font-black uppercase tracking-widest text-sm italic">ULTIEME KATER BOWL</span>
                             </div>
                         </div>
                         {{-- HOT! badge --}}
-                        <div class="absolute -top-3 -right-4 bg-[#C8FF00] border-2 border-black px-3 py-1 font-black text-sm uppercase shadow-[3px_3px_0px_0px_#000]">
+                        <div class="absolute -top-3 -right-4 bg-[#C8FF00] border-2 border-black px-3 py-1 font-black text-sm uppercase shadow-[5px_5px_0px_0px_#000]">
                             HOT!
                         </div>
                         {{-- Star circle --}}
-                        <div class="absolute -bottom-5 -left-5 w-14 h-14 rounded-full bg-purple-600 border-2 border-black flex items-center justify-center shadow-[3px_3px_0px_0px_#000] z-10">
-                            <span class="text-white text-xl font-black">★</span>
+                        <div class="absolute -bottom-6 -left-10 w-14 h-14 rounded-full bg-purple-500 border-2 border-black flex items-center justify-center z-10">
+                            <span class="text-black text-xl font-black">★</span>
                         </div>
                     </div>
                 </div>
