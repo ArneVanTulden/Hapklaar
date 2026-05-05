@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+@theme {
+    --color-brand-pink: #FF0066;
+    --color-brand-lime: #CCFF00;
+    --color-brand-dark: #0E0E0E;
+    --font-anton: 'Anton', sans-serif;
+    --animate-marquee: marquee 35s linear infinite;
+}
+
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
