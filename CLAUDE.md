@@ -101,3 +101,18 @@ All 20 design screens are in `docs/figma/`:
 - `18-admin-recepten.png` — admin recepten overzicht
 - `19-admin-nieuw-recept.png` — admin nieuw recept formulier
 - `20-admin-gebruikers.png` — admin gebruikersbeheer
+
+## Stack Decisions
+
+- **Laravel 13** + **Livewire 4** for server-driven reactivity
+- **Alpine.js** for client-side UI only (modals, tabs, toggles, show/hide)
+- **Tailwind CSS 4** utility-first, no separate SCSS
+- **Edamam API** for nutrition data (calories, macros, vitamins)
+- Rule of thumb: Livewire = server data, Alpine = visual/client-side only
+
+### Strict styling rules
+- **ONLY Tailwind utility classes** — no custom CSS, no SCSS, no style tags
+- **NO** `@apply` except for very small reusable components in `app.css`
+- **NO** inline `style=""` attributes
+- All spacing, colors, typography via Tailwind classes directly in Blade files
+- Custom colors are defined in `app.css` as Tailwind theme variables, not in separate files
