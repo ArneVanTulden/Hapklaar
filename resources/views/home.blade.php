@@ -162,13 +162,13 @@
         {{-- ============================================================
              HOE WERKT HET?
         ============================================================ --}}
-        <section class="py-20 border-b-2 border-black bg-white">
+        <section class="py-16 bg-[var(--pink-soft)]">
             <div class="max-w-4xl mx-auto px-6">
-                <h2 class="text-4xl font-black uppercase text-center mb-16">HOE WERKT HET?</h2>
+                <h2 class="text-3xl font-black uppercase italic text-center mb-16 text-[#2B1B1B]">HOE WERKT HET?</h2>
 
                 <div class="relative flex items-start justify-between gap-4">
                     {{-- Dashed connector line --}}
-                    <div class="absolute top-10 left-[calc(16.67%+10px)] right-[calc(16.67%+10px)] border-t-2 border-dashed border-black z-0 pointer-events-none"></div>
+                    <div class="absolute top-10 -left-20 -right-20 border-t-2 border-dashed border-black z-0 pointer-events-none"></div>
 
                     {{-- VIND --}}
                     <div class="flex-1 flex flex-col items-center text-center relative z-10">
@@ -177,19 +177,19 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-black uppercase mb-2">VIND</h3>
-                        <p class="text-sm text-gray-500 max-w-[160px] leading-snug">Kies een recept op basis van je budget of koelkast inhoud.</p>
+                        <h3 class="text-xl font-black uppercase mb-2 text-[#2B1B1B]">VIND</h3>
+                        <p class="text-sm text-gray-700 max-w-[170px] leading-snug">Kies een recept op basis van je budget of koelkast inhoud.</p>
                     </div>
 
                     {{-- KOOK --}}
                     <div class="flex-1 flex flex-col items-center text-center relative z-10">
-                        <div class="w-20 h-20 rounded-full bg-brand border-2 border-black flex items-center justify-center mb-5 shadow-[4px_4px_0px_0px_#000]">
+                        <div class="w-20 h-20 rounded-full bg-[var(--pink)] border-2 border-black flex items-center justify-center mb-5 shadow-[4px_4px_0px_0px_#000]">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-black uppercase mb-2 text-brand">KOOK</h3>
-                        <p class="text-sm text-gray-500 max-w-[160px] leading-snug">Volg de stappen zonder dat je brein explodeert.</p>
+                        <h3 class="text-xl font-black uppercase mb-2 text-[var(--pink)]">KOOK</h3>
+                        <p class="text-sm text-gray-700 max-w-[170px] leading-snug">Volg de stappen zonder dat je brein explodeert.</p>
                     </div>
 
                     {{-- EET --}}
@@ -200,7 +200,7 @@
                             </svg>
                         </div>
                         <h3 class="text-xl font-black uppercase mb-2 text-purple-600">EET</h3>
-                        <p class="text-sm text-gray-500 max-w-[160px] leading-snug">Vreten maar. De afwas is een probleem voor morgen.</p>
+                        <p class="text-sm text-gray-700 max-w-[170px] leading-snug">Vreten maar. De afwas is een probleem voor morgen.</p>
                     </div>
                 </div>
             </div>
@@ -209,29 +209,30 @@
         {{-- ============================================================
              CTA: NOOIT MEER KEUZESTRESS (Alpine.js)
         ============================================================ --}}
-        <section>
-            <div class="grid grid-cols-2 min-h-96">
+        <section class="bg-white py-10">
+            <div class="max-w-7xl mx-auto px-1">
+                <div class="grid grid-cols-2 min-h-[420px] border-[3px] border-black" style="box-shadow: 6px 0 0 0 var(--lime), 0 6px 0 0 var(--lime);">
 
                 {{-- Left: Brand pink --}}
-                <div class="bg-brand border-r-2 border-black p-14 flex flex-col justify-center">
-                    <h2 class="text-5xl font-black uppercase text-white leading-none mb-5">
+                <div class="bg-[var(--pink)] border-r-2 border-black p-16 flex flex-col justify-center">
+                    <h2 class="text-5xl font-black uppercase italic text-white leading-none mb-5">
                         NOOIT MEER<br>KEUZESTRESS.
                     </h2>
-                    <p class="text-white/75 mb-8 text-sm leading-relaxed max-w-xs">
+                    <p class="text-white/75 mb-8 text-sm leading-relaxed max-w-sm">
                         Ontvang wekelijks een curated lijst met recepten die wél te doen zijn op een dinsdagavond.
                     </p>
                     <div>
                         <button
                             type="button"
-                            class="text-[11px] font-black uppercase tracking-widest bg-black text-white px-6 py-3 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,0.4)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.4)] transition-all duration-75 cursor-pointer">
+                            class="text-[11px] font-black uppercase tracking-widest bg-black text-white px-6 py-3 border-2 border-black shadow-[5px_5px_0px_0px_var(--lime)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_var(--lime)] transition-all duration-75 cursor-pointer">
                             IK WIL DIT!
                         </button>
                     </div>
                 </div>
 
                 {{-- Right: App mockup --}}
-                <div class="bg-[#F0F0F0] p-14 flex items-center justify-center border-t-2 border-black">
-                    <div class="w-52 bg-white border-2 border-black shadow-[6px_6px_0px_0px_#000] overflow-hidden">
+                <div class="bg-white p-16 flex items-center justify-center">
+                    <div class="w-64 bg-white border-2 border-black overflow-hidden" style="box-shadow: 8px 8px 0px 0px var(--hot-pink);">
                         {{-- Mockup header --}}
                         <div class="bg-[var(--lime)] border-b-2 border-black px-3 py-2">
                             <span class="text-[10px] font-black uppercase tracking-wider">HAPKLAAR APP</span>
@@ -251,6 +252,7 @@
                     </div>
                 </div>
 
+                </div>
             </div>
         </section>
 
