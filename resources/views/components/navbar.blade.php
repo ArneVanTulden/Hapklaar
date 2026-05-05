@@ -1,4 +1,4 @@
-<header class="border-b-2 border-brand">
+<header class="border-b-2 border-black">
 
     {{-- Main nav: 3-column grid keeps links truly centered --}}
     <nav class="grid items-center px-6 bg-white"
@@ -44,8 +44,11 @@
 
     </nav>
 
+    {{-- Pink separator line --}}
+    <div class="h-1 bg-brand"></div>
+
     {{-- Ticker --}}
-    <div class="bg-[#C8FF00] overflow-hidden">
+    <div class="bg-[#C8FF00] overflow-hidden mt-2">
         <div class="flex w-max animate-ticker py-[7px]">
             @php
                 $text = 'ELKE KATER PASTA &bull; KOOK VOOR &euro;2 PER PERSOON &bull; GEEN STRESS GEWOON VRETEN &bull; STUDENTENDEALS: GRATIS BIER BIJ BESTELLING &bull; &nbsp;&nbsp;&nbsp;';
