@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+:root {
+    --pink: #E5006E;
+    --lime: #C8FF00;
+    --yellow: #FFD600;
+    --hot-pink: #FF1493;
+    --pink-soft: #FFF0F5;
+}
+
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-    --color-brand: #E5006E;
+    --color-brand: var(--pink);
     --animate-ticker: ticker 20s linear infinite;
 }
 

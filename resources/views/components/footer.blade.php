@@ -4,8 +4,8 @@
          style="grid-template-columns: 1fr auto 1fr;">
 
         {{-- Logo --}}
-        <a href="{{ route('home') }}"
-           class="text-2xl font-black italic text-[#C8FF00] no-underline">
+          <a href="{{ route('home') }}"
+              class="text-2xl font-black italic text-[var(--lime)] no-underline">
             HAPKLAAR
         </a>
 

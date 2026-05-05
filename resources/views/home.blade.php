@@ -19,14 +19,14 @@
         {{-- ============================================================
              HERO
         ============================================================ --}}
-        <section class="bg-[#FFF0F5] border-b-2 border-black">
+        <section class="bg-[var(--pink-soft)] border-b-2 border-black">
             <div class="max-w-6xl mx-auto px-6 py-16 flex items-center gap-16">
 
                 {{-- Left --}}
                 <div class="flex-1 min-w-0">
                     <h1 class="text-[5.25rem] font-black uppercase leading-[0.85] mb-6 tracking-tight italic">
                         LEKKER VRETEN<br>
-                        <span class="bg-[#C8FF00] px-3 py-1 inline-block" style="transform: skewX(-8deg); box-shadow: 5px 5px 0px 0px #000;">
+                        <span class="bg-[var(--lime)] px-3 py-1 inline-block" style="transform: skewX(-8deg); box-shadow: 5px 5px 0px 0px #000;">
                             <span style="display: inline-block; transform: skewX(8deg);">ZONDER STRESS.</span>
                         </span>
                     </h1>
@@ -36,11 +36,11 @@
                     </p>
                     <div class="flex gap-4 flex-wrap">
                         <a href="#"
-                           class="text-[12px] font-black uppercase tracking-widest bg-brand text-white no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#C8FF00] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#C8FF00] transition-all duration-75">
+                           class="text-[12px] font-black uppercase tracking-widest bg-brand text-white no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_var(--lime)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--lime)] transition-all duration-75">
                             ONTDEK RECEPTEN
                         </a>
                         <a href="#"
-                           class="text-[12px] font-black uppercase tracking-widest bg-white text-black no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#E5006E] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#E5006E] transition-all duration-75">
+                           class="text-[12px] font-black uppercase tracking-widest bg-white text-black no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_var(--pink)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--pink)] transition-all duration-75">
                             SCAN JE KOELKAST
                         </a>
                     </div>
@@ -50,8 +50,8 @@
                 <div class="flex-shrink-0 relative">
                     <div class="relative w-72" style="transform: rotate(3deg);">
                         {{-- Yellow image box --}}
-                        <div class="border-4 border-black bg-[#FFD600]" style="box-shadow: 6px 6px 0px 0px #FF1493;">
-                            <div class="aspect-square bg-[#FFD600] flex items-center justify-center text-[#FFD600] overflow-hidden">
+                        <div class="border-4 border-black bg-[var(--yellow)]" style="box-shadow: 6px 6px 0px 0px var(--hot-pink);">
+                            <div class="aspect-square bg-[var(--yellow)] flex items-center justify-center text-[var(--yellow)] overflow-hidden">
                                 <img src="{{ asset('images/kater_bowl.png') }}" alt="Ultieme Katerbowl" class="w-full h-full object-cover">
                             </div>
                             <div class="bg-white px-4 py-3 border-t-4 border-black">
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         {{-- HOT! badge --}}
-                        <div class="absolute -top-3 -right-4 bg-[#C8FF00] border-2 border-black px-3 py-1 font-black text-sm uppercase shadow-[5px_5px_0px_0px_#000]">
+                        <div class="absolute -top-3 -right-4 bg-[var(--lime)] border-2 border-black px-3 py-1 font-black text-sm uppercase shadow-[5px_5px_0px_0px_#000]">
                             HOT!
                         </div>
                         {{-- Star circle --}}
@@ -80,7 +80,7 @@
 
                 <div class="flex items-center gap-4 mb-10">
                     <h2 class="text-4xl font-black uppercase">TRENDING RECEPTEN</h2>
-                    <span class="bg-[#C8FF00] text-black text-[10px] font-black uppercase tracking-widest px-3 py-1 border-2 border-black">HOT &amp; FRESH</span>
+                    <span class="bg-[var(--lime)] text-black text-[10px] font-black uppercase tracking-widest px-3 py-1 border-2 border-black">HOT &amp; FRESH</span>
                 </div>
 
                 <div class="grid grid-cols-3 gap-6">
@@ -135,7 +135,7 @@
                     <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
                         <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
                             <img src="{{ asset('images/brakke_bowl.png') }}" alt="Rijstsalade met Groenten" class="w-full h-full object-cover">
-                            <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-[#C8FF00] text-black">LAAGSTE AFWAS</span>
+                            <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-[var(--lime)] text-black">LAAGSTE AFWAS</span>
                         </div>
 
                         <div class="p-4 flex flex-col flex-1">
@@ -172,7 +172,7 @@
 
                     {{-- VIND --}}
                     <div class="flex-1 flex flex-col items-center text-center relative z-10">
-                        <div class="w-20 h-20 rounded-full bg-[#C8FF00] border-2 border-black flex items-center justify-center mb-5 shadow-[4px_4px_0px_0px_#000]">
+                        <div class="w-20 h-20 rounded-full bg-[var(--lime)] border-2 border-black flex items-center justify-center mb-5 shadow-[4px_4px_0px_0px_#000]">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                             </svg>
@@ -233,7 +233,7 @@
                 <div class="bg-[#F0F0F0] p-14 flex items-center justify-center border-t-2 border-black">
                     <div class="w-52 bg-white border-2 border-black shadow-[6px_6px_0px_0px_#000] overflow-hidden">
                         {{-- Mockup header --}}
-                        <div class="bg-[#C8FF00] border-b-2 border-black px-3 py-2">
+                        <div class="bg-[var(--lime)] border-b-2 border-black px-3 py-2">
                             <span class="text-[10px] font-black uppercase tracking-wider">HAPKLAAR APP</span>
                         </div>
                         {{-- Mockup content --}}

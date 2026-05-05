@@ -16,7 +16,7 @@
                 <a href="{{ route('home') }}"
                    @class([
                        'text-[11px] font-bold uppercase tracking-widest text-black no-underline',
-                       'border-2 border-black rounded-full px-3 py-1 leading-none bg-[#C8FF00] shadow-[4px_4px_0px_0px_#000]' => request()->routeIs('home'),
+                       'border-2 border-black rounded-full px-3 py-1 leading-none bg-[var(--lime)] shadow-[4px_4px_0px_0px_#000]' => request()->routeIs('home'),
                    ])>
                     HOME
                 </a>
@@ -48,7 +48,7 @@
     <div class="h-1 bg-brand"></div>
 
     {{-- Ticker --}}
-    <div class="bg-[#C8FF00] overflow-hidden mt-2">
+    <div class="bg-[var(--lime)] overflow-hidden mt-2">
         <div class="flex w-max animate-ticker py-[7px]">
             @php
                 $text = 'ELKE KATER PASTA &bull; KOOK VOOR &euro;2 PER PERSOON &bull; GEEN STRESS GEWOON VRETEN &bull; STUDENTENDEALS: GRATIS BIER BIJ BESTELLING &bull; &nbsp;&nbsp;&nbsp;';
