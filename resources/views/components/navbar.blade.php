@@ -21,10 +21,42 @@
                     HOME
                 </a>
             </li>
-            <li><a href="#" class="text-[11px] font-bold uppercase tracking-widest text-black no-underline">ONTDEKKEN</a></li>
-            <li><a href="#" class="text-[11px] font-bold uppercase tracking-widest text-black no-underline">MIJN KEUKEN</a></li>
-            <li><a href="#" class="text-[11px] font-bold uppercase tracking-widest text-black no-underline">BOODSCHAPPEN</a></li>
-            <li><a href="#" class="text-[11px] font-bold uppercase tracking-widest text-black no-underline">PROFIEL</a></li>
+            <li>
+                <a href="{{ route('ontdekken') }}"
+                   @class([
+                       'text-[11px] font-bold uppercase tracking-widest text-black no-underline',
+                       'border-2 border-black rounded-full px-3 py-1 leading-none bg-[var(--lime)] shadow-[4px_4px_0px_0px_#000]' => request()->routeIs('ontdekken'),
+                   ])>
+                    ONTDEKKEN
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('mijn-keuken') }}"
+                   @class([
+                       'text-[11px] font-bold uppercase tracking-widest text-black no-underline',
+                       'border-2 border-black rounded-full px-3 py-1 leading-none bg-[var(--lime)] shadow-[4px_4px_0px_0px_#000]' => request()->routeIs('mijn-keuken'),
+                   ])>
+                    MIJN KEUKEN
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('boodschappen') }}"
+                   @class([
+                       'text-[11px] font-bold uppercase tracking-widest text-black no-underline',
+                       'border-2 border-black rounded-full px-3 py-1 leading-none bg-[var(--lime)] shadow-[4px_4px_0px_0px_#000]' => request()->routeIs('boodschappen'),
+                   ])>
+                    BOODSCHAPPEN
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('profiel') }}"
+                   @class([
+                       'text-[11px] font-bold uppercase tracking-widest text-black no-underline',
+                       'border-2 border-black rounded-full px-3 py-1 leading-none bg-[var(--lime)] shadow-[4px_4px_0px_0px_#000]' => request()->routeIs('profiel'),
+                   ])>
+                    PROFIEL
+                </a>
+            </li>
         </ul>
 
         {{-- Login button (right column) --}}
