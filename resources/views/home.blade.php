@@ -49,9 +49,8 @@
                     <div class="relative w-72">
                         {{-- Yellow image box --}}
                         <div class="border-4 border-black bg-[#FFD600] shadow-[8px_8px_0px_0px_#000]">
-                            <div class="aspect-square bg-[#FFD600] flex items-center justify-center text-[#FFD600]">
-                                {{-- Placeholder until real images exist --}}
-                                <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300 text-6xl">🍜</div>
+                            <div class="aspect-square bg-[#FFD600] flex items-center justify-center text-[#FFD600] overflow-hidden">
+                                <img src="{{ asset('images/kater_bowl.png') }}" alt="Ultieme Katerbowl" class="w-full h-full object-cover">
                             </div>
                             <div class="bg-black px-4 py-3 border-t-4 border-black">
                                 <span class="text-white font-black uppercase tracking-widest text-sm">ULTIEME KATER BOWL</span>
@@ -87,7 +86,7 @@
                     <!-- Card 1 -->
                     <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
                         <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
-                            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300 text-4xl">🍽</div>
+                            <img src="{{ asset('images/kater_pasta.png') }}" alt="Snelle Pasta met Tomaat" class="w-full h-full object-cover">
                             <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-brand text-white">STUDENT FAVORIET</span>
                         </div>
 
@@ -110,7 +109,7 @@
                     <!-- Card 2 -->
                     <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
                         <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
-                            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300 text-4xl">🍽</div>
+                            <img src="{{ asset('images/budget_nachos.png') }}" alt="Ovengebakken Zoete Aardappel" class="w-full h-full object-cover">
                             <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-[#FF6B00] text-white">HOT DEAL</span>
                         </div>
 
@@ -133,7 +132,7 @@
                     <!-- Card 3 -->
                     <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
                         <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
-                            <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-300 text-4xl">🍽</div>
+                            <img src="{{ asset('images/brakke_bowl.png') }}" alt="Rijstsalade met Groenten" class="w-full h-full object-cover">
                             <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-[#C8FF00] text-black">LAAGSTE AFWAS</span>
                         </div>
 
