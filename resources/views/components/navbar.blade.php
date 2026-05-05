@@ -67,7 +67,7 @@
                     DASHBOARD
                 </a>
             @else
-                <a href="#"
+                <a href="{{ route('login') }}"
                    class="text-[11px] font-black uppercase tracking-widest text-white bg-[var(--pink)] no-underline px-5 py-2 border-2 border-black shadow-[4px_4px_0px_0px_#000]">
                     LOGIN
                 </a>
