@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('nutrition_info', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('recipe_id')->constrained()->cascadeOnDelete();
+            $table->decimal('calories', 8, 2)->nullable();
+            $table->decimal('protein', 8, 2)->nullable();
+            $table->decimal('carbs', 8, 2)->nullable();
+            $table->decimal('fat', 8, 2)->nullable();
+            $table->decimal('sugar', 8, 2)->nullable();
+            $table->decimal('vitamin_a', 8, 2)->nullable();
+            $table->decimal('vitamin_c', 8, 2)->nullable();
+            $table->decimal('iron', 8, 2)->nullable();
+            $table->decimal('sodium', 8, 2)->nullable();
+            $table->decimal('potassium', 8, 2)->nullable();
+            $table->decimal('fiber', 8, 2)->nullable();
         });
     }
 

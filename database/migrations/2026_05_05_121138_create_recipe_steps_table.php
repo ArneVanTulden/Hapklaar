@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('recipe_steps', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('recipe_id')->constrained()->cascadeOnDelete();
+            $table->unsignedSmallInteger('step_number');
+            $table->text('description');
+            $table->string('video_url')->nullable();
+            $table->string('video_timestamp')->nullable();
         });
     }
 

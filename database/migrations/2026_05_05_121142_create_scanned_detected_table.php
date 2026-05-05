@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('scanned_detected', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('session_id')->constrained('scanner_sessions')->cascadeOnDelete();
+            $table->foreignId('ingredients_id')->nullable()->constrained('ingredients')->nullOnDelete();
+            $table->string('name');
         });
     }
 

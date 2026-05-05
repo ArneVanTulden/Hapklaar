@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('diet_tags', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('type')->nullable();
+            $table->string('color')->nullable();
+            $table->string('icon')->nullable();
+            $table->string('video_timestamp')->nullable();
             $table->timestamps();
         });
     }

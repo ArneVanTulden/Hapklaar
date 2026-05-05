@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('scanner_sessions', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('image_url')->nullable();
+            $table->string('status')->default('pending');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

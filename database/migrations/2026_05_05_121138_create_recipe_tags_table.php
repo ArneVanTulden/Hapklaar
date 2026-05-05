@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('recipe_tags', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->foreignId('recipe_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('tag_id')->constrained('diet_tags')->cascadeOnDelete();
+            $table->primary(['recipe_id', 'tag_id']);
         });
     }
 

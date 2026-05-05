@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('notification_preferences', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->boolean('is_enabled')->default(true);
         });
     }
 

@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('review_photos', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('review_id')->constrained()->cascadeOnDelete();
+            $table->string('photo_url');
+            $table->unsignedSmallInteger('sort_order')->default(0);
         });
     }
 
