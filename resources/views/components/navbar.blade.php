@@ -62,10 +62,44 @@
         {{-- Login button (right column) --}}
         <div class="flex justify-end">
             @auth
-                <a href="{{ url('/dashboard') }}"
-                   class="text-[11px] font-black uppercase tracking-widest text-white bg-[var(--pink)] no-underline px-5 py-2 border-2 border-black shadow-[4px_4px_0px_0px_#000]">
-                    DASHBOARD
-                </a>
+                <div class="relative" x-data="{ open: false }">
+                    <button @click="open = !open"
+                            class="flex items-center justify-center w-9 h-9 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 bg-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <circle cx="12" cy="8" r="4"/>
+                            <path stroke-linecap="round" d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                        </svg>
+                    </button>
+
+                    <div x-show="open"
+                         @click.outside="open = false"
+                         x-transition:enter="transition ease-out duration-100"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         class="absolute right-0 top-full mt-2 w-44 bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] z-50"
+                         style="display: none;">
+                        <a href="{{ route('profiel') }}"
+                           class="flex items-center gap-2 px-4 py-3 text-[11px] font-black uppercase tracking-widest text-black no-underline hover:bg-[var(--lime)] border-b border-gray-100 transition-colors">
+                            PROFIEL
+                        </a>
+                        @if(auth()->user()->role === 'admin')
+                        <a href="{{ url('/admin') }}"
+                           class="flex items-center gap-2 px-4 py-3 text-[11px] font-black uppercase tracking-widest text-black no-underline hover:bg-[var(--lime)] border-b border-gray-100 transition-colors">
+                            ADMIN
+                        </a>
+                        @endif
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                    class="w-full text-left px-4 py-3 text-[11px] font-black uppercase tracking-widest text-[var(--pink)] hover:bg-[var(--pink-soft)] transition-colors">
+                                LOGOUT
+                            </button>
+                        </form>
+                    </div>
+                </div>
             @else
                 <a href="{{ route('login') }}"
                    class="text-[11px] font-black uppercase tracking-widest text-white bg-[var(--pink)] no-underline px-5 py-2 border-2 border-black shadow-[4px_4px_0px_0px_#000]">
