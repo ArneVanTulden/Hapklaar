@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(php artisan migrate:fresh 2>&1)"
+      "PowerShell(php artisan migrate:fresh 2>&1)",
+      "Bash(dir \"c:\\\\Workspace\\\\Hapklaar\\\\app\\\\\")"
     ]
   }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn() => view('home'))->name('home');
@@ -7,6 +8,16 @@ Route::get('/ontdekken', fn() => view('ontdekken'))->name('ontdekken');
 Route::get('/mijn-keuken', fn() => view('mijn-keuken'))->name('mijn-keuken');
 Route::get('/boodschappen', fn() => view('boodschappen'))->name('boodschappen');
 Route::get('/profiel', fn() => view('profiel'))->name('profiel');
-Route::get('/login', fn() => view('login'))->name('login');
-Route::get('/register', fn() => view('register'))->name('register');
-Route::get('/forgot-password', fn() => view('forgot-password'))->name('forgot-password');
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', fn() => view('login'))->name('login');
+    Route::get('/register', fn() => view('register'))->name('register');
+    Route::get('/forgot-password', fn() => view('forgot-password'))->name('forgot-password');
+});
+
+Route::post('/logout', function () {
+    Auth::logout();
+    session()->invalidate();
+    session()->regenerateToken();
+    return redirect()->route('home');
+})->middleware('auth')->name('logout');
