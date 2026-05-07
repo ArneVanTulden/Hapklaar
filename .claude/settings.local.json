@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "PowerShell(php artisan migrate:fresh 2>&1)",
-      "Bash(dir \"c:\\\\Workspace\\\\Hapklaar\\\\app\\\\\")"
+      "Bash(dir \"c:\\\\Workspace\\\\Hapklaar\\\\app\\\\\")",
+      "Bash(xargs grep -l \"profile\\\\|Profile\")",
+      "Bash(php artisan *)",
+      "PowerShell(php artisan migrate 2>&1)",
+      "PowerShell(php artisan db:seed 2>&1)"
     ]
   }
 }
