@@ -118,6 +118,7 @@
                                 'img'            => 'kater_pasta',
                                 'avatars'        => ['bg-purple-500', 'bg-indigo-400', 'bg-teal-400'],
                                 'extra_users'    => 12,
+                                'slug'           => 'ultieme-kater-pasta',
                             ],
                             [
                                 'badge'          => 'GEZONDE KEUZE',
@@ -131,6 +132,7 @@
                                 'img'            => 'brakke_bowl',
                                 'avatars'        => ['bg-purple-500', 'bg-blue-400'],
                                 'extra_users'    => 4,
+                                'slug'           => 'studeren-salade',
                             ],
                             [
                                 'badge'          => 'SUPER GOEDKOOP',
@@ -144,6 +146,7 @@
                                 'img'            => 'budget_nachos',
                                 'avatars'        => ['bg-purple-500', 'bg-orange-400'],
                                 'extra_users'    => 42,
+                                'slug'           => 'cheeky-burger',
                             ],
                             [
                                 'badge'          => 'COMFORT FOOD',
@@ -157,6 +160,7 @@
                                 'img'            => 'kater_bowl',
                                 'avatars'        => ['bg-purple-500', 'bg-blue-400'],
                                 'extra_users'    => 8,
+                                'slug'           => 'honey-pizza',
                             ],
                             [
                                 'badge'          => 'ULTRA SNEL',
@@ -170,6 +174,7 @@
                                 'img'            => 'brakke_bowl',
                                 'avatars'        => ['bg-indigo-500'],
                                 'extra_users'    => 0,
+                                'slug'           => 'gebakken-noodles',
                             ],
                             [
                                 'badge'          => 'VEGA WINNER',
@@ -183,13 +188,15 @@
                                 'img'            => 'kater_bowl',
                                 'avatars'        => ['bg-purple-500', 'bg-teal-500'],
                                 'extra_users'    => 0,
+                                'slug'           => 'pompoen-soep',
                             ],
                         ];
                     @endphp
 
                     <div class="grid grid-cols-3 gap-5">
                         @foreach($cards as $card)
-                            <div class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] flex flex-col">
+                            <a href="{{ route('recept', $card['slug']) }}"
+                               class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] flex flex-col no-underline text-inherit hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
 
                                 {{-- Image --}}
                                 <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
@@ -253,7 +260,7 @@
                                     </div>
 
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
 

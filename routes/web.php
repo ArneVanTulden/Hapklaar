@@ -15,6 +15,8 @@ Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', fn() => view('forgot-password'))->name('forgot-password');
 });
 
+Route::get('/recepten/{slug}', fn(string $slug) => view('recept', compact('slug')))->name('recept');
+
 Route::post('/logout', function () {
     Auth::logout();
     session()->invalidate();
