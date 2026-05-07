@@ -6,7 +6,12 @@
       "Bash(xargs grep -l \"profile\\\\|Profile\")",
       "Bash(php artisan *)",
       "PowerShell(php artisan migrate 2>&1)",
-      "PowerShell(php artisan db:seed 2>&1)"
+      "PowerShell(php artisan db:seed 2>&1)",
+      "PowerShell(php artisan tinker --execute=\"$u = App\\\\Models\\\\User::where\\('email','arne.zeekoe@gmail.com'\\)->first\\(\\); echo $u ? 'found: '.$u->username.' role:'.$u->role.' pw_hash:'.substr\\($u->password,0,20\\) : 'NOT FOUND';\" 2>&1)",
+      "PowerShell(php artisan tinker --execute=\"echo App\\\\Models\\\\User::where\\('email','arne.zeekoe@gmail.com'\\)->count\\(\\);\" 2>&1)",
+      "PowerShell(php artisan db:seed --class=UserSeeder 2>&1)",
+      "PowerShell(php artisan tinker --execute=\"echo Hash::check\\('password', App\\\\Models\\\\User::where\\('email','arne.zeekoe@gmail.com'\\)->value\\('password'\\)\\) ? 'OK' : 'FAIL';\" 2>&1)",
+      "Bash(composer show *)"
     ]
   }
 }
