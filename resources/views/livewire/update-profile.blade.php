@@ -5,7 +5,7 @@
         PROFIELFOTO WIJZIGEN
     </button>
 
-    <form wire:submit.prevent="save">
+    <form wire:submit="save">
         <div class="mb-4">
             <label class="block text-[8px] font-black uppercase tracking-widest text-brand mb-1.5">GEBRUIKERSNAAM</label>
             <input type="text"
@@ -23,8 +23,11 @@
         </div>
 
         <button type="submit"
+                wire:loading.attr="disabled"
+                wire:loading.class="opacity-60 cursor-not-allowed"
                 class="w-full bg-brand text-white text-[11px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-            OPSLAAN
+            <span wire:loading.remove>OPSLAAN</span>
+            <span wire:loading>OPSLAAN...</span>
         </button>
     </form>
 </div>

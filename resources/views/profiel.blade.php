@@ -34,7 +34,7 @@
                 <div class="flex items-center justify-between bg-white border-2 border-black shadow-[4px_4px_0px_0px_var(--hot-pink)] px-5 py-4 mb-5">
                     <div>
                         <p class="text-[8px] font-black uppercase tracking-widest text-gray-400 mb-0.5">GEBRUIKERSNAAM</p>
-                        <p class="text-2xl font-black uppercase leading-none">{{ auth()->user()?->username ?? 'GEBRUIKER' }}</p>
+                        <p class="text-2xl font-black uppercase leading-none">{{ auth()->user()->username }}</p>
                     </div>
                     <button class="flex items-center gap-1.5 bg-brand text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -63,7 +63,7 @@
 
                         {{-- Bio --}}
                         <div class="flex-1 bg-[#E8FFB0] border-b-2 border-black flex items-center justify-center p-8">
-                            <p class="text-[11px] font-black uppercase tracking-widest text-gray-500 text-center">{{ auth()->user()?->bio ?: 'HIER KOMT DE BIO VAN DE GEBRUIKER' }}</p>
+                            <p class="text-[11px] font-black uppercase tracking-widest text-gray-500 text-center">{{ auth()->user()->bio ?: 'HIER KOMT DE BIO VAN DE GEBRUIKER' }}</p>
                         </div>
 
                         {{-- Stats --}}
@@ -320,7 +320,7 @@
                             <div class="mb-5">
                                 <label class="block text-[8px] font-black uppercase tracking-widest text-brand mb-1.5">E-MAILADRES</label>
                                 <input type="email"
-                                       value="{{ auth()->user()?->email }}"
+                                       value="{{ auth()->user()->email }}"
                                        readonly
                                        class="w-full border-2 border-black px-3 py-2.5 text-sm font-medium outline-none bg-white text-gray-500 cursor-default">
                             </div>

@@ -10,7 +10,6 @@ class UpdateProfile extends Component
 {
     public string $username = '';
     public string $bio = '';
-    public bool $saved = false;
 
     public function mount(): void
     {
@@ -36,7 +35,7 @@ class UpdateProfile extends Component
         ]);
 
         session()->flash('profile_saved', true);
-        $this->redirect(route('profiel'));
+        $this->redirectRoute('profiel');
     }
 
     public function render()
