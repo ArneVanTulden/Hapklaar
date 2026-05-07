@@ -72,21 +72,18 @@
                         </div>
 
                         {{-- Tabs --}}
-                        <div class="flex gap-7 border-b-2 border-black mb-6">
-                            <button @click="tab = 'stappen'"
-                                    :class="tab === 'stappen' ? 'border-b-2 border-brand text-brand' : 'text-gray-400 hover:text-black'"
-                                    class="text-[11px] font-black uppercase tracking-widest pb-2.5 -mb-px transition-colors">
-                                STAPPEN
+                        <div class="flex gap-6 border-b-2 border-black mb-6 items-end">
+                            <button @click="tab = 'stappen'" class="text-[11px] font-black uppercase tracking-widest">
+                                <span x-show="tab === 'stappen'" class="block bg-[var(--lime)] border-2 border-black px-4 py-2.5 mb-[-2px]">STAPPEN</span>
+                                <span x-show="tab !== 'stappen'" x-cloak class="block text-gray-400 hover:text-black italic pb-2.5 transition-colors">STAPPEN</span>
                             </button>
-                            <button @click="tab = 'voedingswaarden'"
-                                    :class="tab === 'voedingswaarden' ? 'border-b-2 border-brand text-brand' : 'text-gray-400 hover:text-black'"
-                                    class="text-[11px] font-black uppercase tracking-widest pb-2.5 -mb-px transition-colors">
-                                VOEDINGSWAARDEN
+                            <button @click="tab = 'voedingswaarden'" class="text-[11px] font-black uppercase tracking-widest">
+                                <span x-show="tab === 'voedingswaarden'" x-cloak class="block bg-[var(--lime)] border-2 border-black px-4 py-2.5 mb-[-2px]">VOEDINGSWAARDEN</span>
+                                <span x-show="tab !== 'voedingswaarden'" class="block text-gray-400 hover:text-black italic pb-2.5 transition-colors">VOEDINGSWAARDEN</span>
                             </button>
-                            <button @click="tab = 'reviews'"
-                                    :class="tab === 'reviews' ? 'border-b-2 border-brand text-brand' : 'text-gray-400 hover:text-black'"
-                                    class="text-[11px] font-black uppercase tracking-widest pb-2.5 -mb-px transition-colors">
-                                REVIEWS
+                            <button @click="tab = 'reviews'" class="text-[11px] font-black uppercase tracking-widest">
+                                <span x-show="tab === 'reviews'" x-cloak class="block bg-[var(--lime)] border-2 border-black px-4 py-2.5 mb-[-2px]">REVIEWS</span>
+                                <span x-show="tab !== 'reviews'" class="block text-gray-400 hover:text-black italic pb-2.5 transition-colors">REVIEWS</span>
                             </button>
                         </div>
 
