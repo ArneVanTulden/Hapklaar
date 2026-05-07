@@ -11,7 +11,10 @@
       "PowerShell(php artisan tinker --execute=\"echo App\\\\Models\\\\User::where\\('email','arne.zeekoe@gmail.com'\\)->count\\(\\);\" 2>&1)",
       "PowerShell(php artisan db:seed --class=UserSeeder 2>&1)",
       "PowerShell(php artisan tinker --execute=\"echo Hash::check\\('password', App\\\\Models\\\\User::where\\('email','arne.zeekoe@gmail.com'\\)->value\\('password'\\)\\) ? 'OK' : 'FAIL';\" 2>&1)",
-      "Bash(composer show *)"
+      "Bash(composer show *)",
+      "Bash(Select-String -Path \"c:\\\\Workspace\\\\Hapklaar\\\\resources\\\\views\\\\profiel.blade.php\" -Pattern \"livewire\")",
+      "Bash(Select-String -Path \"c:\\\\Workspace\\\\Hapklaar\\\\resources\\\\views\\\\home.blade.php\" -Pattern \"</body>\")",
+      "Bash(Select-Object LineNumber, Line)"
     ]
   }
 }
