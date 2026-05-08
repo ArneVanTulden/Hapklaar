@@ -14,14 +14,7 @@
       "Bash(composer show *)",
       "Bash(Select-String -Path \"c:\\\\Workspace\\\\Hapklaar\\\\resources\\\\views\\\\profiel.blade.php\" -Pattern \"livewire\")",
       "Bash(Select-String -Path \"c:\\\\Workspace\\\\Hapklaar\\\\resources\\\\views\\\\home.blade.php\" -Pattern \"</body>\")",
-      "Bash(Select-Object LineNumber, Line)",
-      "Bash(Get-ChildItem -Path \"c:\\\\Workspace\\\\Hapklaar\\\\app\\\\Filament\" -Directory -ErrorAction SilentlyContinue)",
-      "PowerShell(php artisan make:filament-resource User --generate)",
-      "PowerShell(New-Item -ItemType Directory -Path \"app\\\\Filament\\\\Resources\\\\UserResource\" -Force)",
-      "PowerShell(php artisan make:filament-resource User --no-interaction 2>&1)",
-      "PowerShell(head -20)",
-      "Bash(grep -r \"use Filament\\\\\\\\\\\\Schemas\\\\\\\\\\\\Schema\" vendor/filament/filament/src/Resources/Resource.php)",
-      "Bash(grep -rn 'Schema $schema' vendor/filament/filament/src/Resources/Resource.php)"
+      "Bash(Select-Object LineNumber, Line)"
     ]
   }
 }
