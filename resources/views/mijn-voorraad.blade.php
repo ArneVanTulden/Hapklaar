@@ -20,52 +20,31 @@
               x-data="{
                   activeFilter: 'alles',
                   showAddModal: false,
-                  newItem: { name: '', qty: '1', unit: 'stuks', location: 'koelkast', expiry: '' },
+                  newItem: { name: '', qty: '1', unit: 'stuks', location: 'koelkast' },
                   items: [
-                      { id: 1,  name: 'MELK',              qty: '1',   unit: 'LITER',     location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300',             expiry: '2026-05-09' },
-                      { id: 2,  name: 'GRIEKSE YOGHURT',   qty: '500', unit: 'G',         location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300',             expiry: '2026-05-10' },
-                      { id: 3,  name: 'KIPFILET',          qty: '400', unit: 'G',         location: 'koelkast',     category: 'VLEES',        catClass: 'bg-pink-100 text-pink-700 border-pink-300',           expiry: '2026-05-09' },
-                      { id: 4,  name: 'SPINAZIE',          qty: '300', unit: 'G',         location: 'koelkast',     category: 'GROENTEN',     catClass: 'bg-emerald-100 text-emerald-700 border-emerald-300',  expiry: '2026-05-12' },
-                      { id: 5,  name: 'EIEREN',            qty: '6',   unit: 'STUKS',     location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300',             expiry: '2026-05-20' },
-                      { id: 6,  name: 'OUDE KAAS',         qty: '200', unit: 'G',         location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300',             expiry: '2026-05-25' },
-                      { id: 7,  name: 'RODE PAPRIKA',      qty: '2',   unit: 'STUKS',     location: 'koelkast',     category: 'GROENTEN',     catClass: 'bg-emerald-100 text-emerald-700 border-emerald-300',  expiry: '2026-05-14' },
-                      { id: 8,  name: 'BOTER',             qty: '250', unit: 'G',         location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300',             expiry: '2026-06-01' },
-                      { id: 9,  name: 'KIPPENDIJEN',       qty: '600', unit: 'G',         location: 'vriezer',      category: 'VLEES',        catClass: 'bg-pink-100 text-pink-700 border-pink-300',           expiry: '' },
-                      { id: 10, name: 'BROOD',             qty: '1',   unit: 'STUK',      location: 'vriezer',      category: 'GRANEN',       catClass: 'bg-amber-100 text-amber-700 border-amber-300',        expiry: '2026-06-15' },
-                      { id: 11, name: 'DIEPVRIES ERWTEN',  qty: '400', unit: 'G',         location: 'vriezer',      category: 'GROENTEN',     catClass: 'bg-emerald-100 text-emerald-700 border-emerald-300',  expiry: '' },
-                      { id: 12, name: 'TONIJNFILET',       qty: '2',   unit: 'STUKS',     location: 'vriezer',      category: 'VIS',          catClass: 'bg-cyan-100 text-cyan-700 border-cyan-300',           expiry: '' },
-                      { id: 13, name: 'PENNE PASTA',       qty: '500', unit: 'G',         location: 'voorraadkast', category: 'GRANEN',       catClass: 'bg-amber-100 text-amber-700 border-amber-300',        expiry: '' },
-                      { id: 14, name: 'BASMATI RIJST',     qty: '1',   unit: 'KG',        location: 'voorraadkast', category: 'GRANEN',       catClass: 'bg-amber-100 text-amber-700 border-amber-300',        expiry: '' },
-                      { id: 15, name: 'TOMATENBLOKJES',    qty: '2',   unit: 'BLIKKEN',   location: 'voorraadkast', category: 'SAUZEN',       catClass: 'bg-red-100 text-red-700 border-red-300',              expiry: '2026-11-01' },
-                      { id: 16, name: 'OLIJFOLIE',         qty: '750', unit: 'ML',        location: 'voorraadkast', category: 'SAUZEN',       catClass: 'bg-red-100 text-red-700 border-red-300',              expiry: '' },
-                      { id: 17, name: 'KNOFLOOK',          qty: '1',   unit: 'BOL',       location: 'voorraadkast', category: 'KRUIDEN',      catClass: 'bg-lime-100 text-lime-700 border-lime-300',           expiry: '' },
-                      { id: 18, name: 'RODE LINZEN',       qty: '500', unit: 'G',         location: 'voorraadkast', category: 'PEULVRUCHTEN', catClass: 'bg-orange-100 text-orange-700 border-orange-300',     expiry: '' },
-                      { id: 19, name: 'SOJASAUS',          qty: '200', unit: 'ML',        location: 'voorraadkast', category: 'SAUZEN',       catClass: 'bg-red-100 text-red-700 border-red-300',              expiry: '' },
+                      { id: 1,  name: 'MELK',              qty: '1',   unit: 'LITER',     location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300' },
+                      { id: 2,  name: 'GRIEKSE YOGHURT',   qty: '500', unit: 'G',         location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300' },
+                      { id: 3,  name: 'KIPFILET',          qty: '400', unit: 'G',         location: 'koelkast',     category: 'VLEES',        catClass: 'bg-pink-100 text-pink-700 border-pink-300' },
+                      { id: 4,  name: 'SPINAZIE',          qty: '300', unit: 'G',         location: 'koelkast',     category: 'GROENTEN',     catClass: 'bg-emerald-100 text-emerald-700 border-emerald-300' },
+                      { id: 5,  name: 'EIEREN',            qty: '6',   unit: 'STUKS',     location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300' },
+                      { id: 6,  name: 'OUDE KAAS',         qty: '200', unit: 'G',         location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300' },
+                      { id: 7,  name: 'RODE PAPRIKA',      qty: '2',   unit: 'STUKS',     location: 'koelkast',     category: 'GROENTEN',     catClass: 'bg-emerald-100 text-emerald-700 border-emerald-300' },
+                      { id: 8,  name: 'BOTER',             qty: '250', unit: 'G',         location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300' },
+                      { id: 9,  name: 'KIPPENDIJEN',       qty: '600', unit: 'G',         location: 'vriezer',      category: 'VLEES',        catClass: 'bg-pink-100 text-pink-700 border-pink-300' },
+                      { id: 10, name: 'BROOD',             qty: '1',   unit: 'STUK',      location: 'vriezer',      category: 'GRANEN',       catClass: 'bg-amber-100 text-amber-700 border-amber-300' },
+                      { id: 11, name: 'DIEPVRIES ERWTEN',  qty: '400', unit: 'G',         location: 'vriezer',      category: 'GROENTEN',     catClass: 'bg-emerald-100 text-emerald-700 border-emerald-300' },
+                      { id: 12, name: 'TONIJNFILET',       qty: '2',   unit: 'STUKS',     location: 'vriezer',      category: 'VIS',          catClass: 'bg-cyan-100 text-cyan-700 border-cyan-300' },
+                      { id: 13, name: 'PENNE PASTA',       qty: '500', unit: 'G',         location: 'voorraadkast', category: 'GRANEN',       catClass: 'bg-amber-100 text-amber-700 border-amber-300' },
+                      { id: 14, name: 'BASMATI RIJST',     qty: '1',   unit: 'KG',        location: 'voorraadkast', category: 'GRANEN',       catClass: 'bg-amber-100 text-amber-700 border-amber-300' },
+                      { id: 15, name: 'TOMATENBLOKJES',    qty: '2',   unit: 'BLIKKEN',   location: 'voorraadkast', category: 'SAUZEN',       catClass: 'bg-red-100 text-red-700 border-red-300' },
+                      { id: 16, name: 'OLIJFOLIE',         qty: '750', unit: 'ML',        location: 'voorraadkast', category: 'SAUZEN',       catClass: 'bg-red-100 text-red-700 border-red-300' },
+                      { id: 17, name: 'KNOFLOOK',          qty: '1',   unit: 'BOL',       location: 'voorraadkast', category: 'KRUIDEN',      catClass: 'bg-lime-100 text-lime-700 border-lime-300' },
+                      { id: 18, name: 'RODE LINZEN',       qty: '500', unit: 'G',         location: 'voorraadkast', category: 'PEULVRUCHTEN', catClass: 'bg-orange-100 text-orange-700 border-orange-300' },
+                      { id: 19, name: 'SOJASAUS',          qty: '200', unit: 'ML',        location: 'voorraadkast', category: 'SAUZEN',       catClass: 'bg-red-100 text-red-700 border-red-300' },
                   ],
                   get koelkastItems()   { return this.items.filter(i => i.location === 'koelkast') },
                   get vriezerItems()    { return this.items.filter(i => i.location === 'vriezer') },
                   get voorraadItems()   { return this.items.filter(i => i.location === 'voorraadkast') },
-                  get expiringItems() {
-                      const now = new Date(); now.setHours(0,0,0,0);
-                      const soon = new Date(now); soon.setDate(soon.getDate() + 3);
-                      return this.items.filter(i => {
-                          if (!i.expiry) return false;
-                          return new Date(i.expiry) <= soon;
-                      });
-                  },
-                  expiryStatus(expiry) {
-                      if (!expiry) return null;
-                      const now = new Date(); now.setHours(0,0,0,0);
-                      const soon = new Date(now); soon.setDate(soon.getDate() + 3);
-                      const d = new Date(expiry);
-                      if (d < now)   return 'verlopen';
-                      if (d <= soon) return 'bijna';
-                      return 'ok';
-                  },
-                  formatExpiry(expiry) {
-                      if (!expiry) return '';
-                      return new Date(expiry).toLocaleDateString('nl-BE', { day: '2-digit', month: '2-digit' });
-                  },
                   removeItem(id) {
                       this.items = this.items.filter(i => i.id !== id);
                   },
@@ -79,9 +58,8 @@
                           location: this.newItem.location,
                           category: 'OVERIG',
                           catClass: 'bg-gray-100 text-gray-700 border-gray-300',
-                          expiry: this.newItem.expiry
                       });
-                      this.newItem = { name: '', qty: '1', unit: 'stuks', location: 'koelkast', expiry: '' };
+                      this.newItem = { name: '', qty: '1', unit: 'stuks', location: 'koelkast' };
                       this.showAddModal = false;
                   }
               }">
@@ -204,23 +182,10 @@
                                                     <p class="text-[9px] text-gray-400 font-bold uppercase" x-text="item.qty + ' ' + item.unit"></p>
                                                 </div>
                                             </div>
-                                            <div class="flex items-center gap-2">
-                                                <span x-show="expiryStatus(item.expiry) === 'verlopen'"
-                                                      class="text-[8px] font-black uppercase tracking-widest px-2 py-1 bg-red-500 text-white">
-                                                    VERLOPEN
-                                                </span>
-                                                <span x-show="expiryStatus(item.expiry) === 'bijna'"
-                                                      class="text-[8px] font-black uppercase tracking-widest px-2 py-1 bg-[var(--yellow)] text-black border border-black">
-                                                    BIJNA OP
-                                                </span>
-                                                <span x-show="expiryStatus(item.expiry) === 'ok'"
-                                                      x-text="formatExpiry(item.expiry)"
-                                                      class="text-[9px] font-bold text-gray-400"></span>
-                                                <button @click="removeItem(item.id)"
-                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                                    ✕
-                                                </button>
-                                            </div>
+                                            <button @click="removeItem(item.id)"
+                                                    class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                                ✕
+                                            </button>
                                         </div>
                                     </template>
                                 </div>
@@ -262,23 +227,10 @@
                                                     <p class="text-[9px] text-gray-400 font-bold uppercase" x-text="item.qty + ' ' + item.unit"></p>
                                                 </div>
                                             </div>
-                                            <div class="flex items-center gap-2">
-                                                <span x-show="expiryStatus(item.expiry) === 'verlopen'"
-                                                      class="text-[8px] font-black uppercase tracking-widest px-2 py-1 bg-red-500 text-white">
-                                                    VERLOPEN
-                                                </span>
-                                                <span x-show="expiryStatus(item.expiry) === 'bijna'"
-                                                      class="text-[8px] font-black uppercase tracking-widest px-2 py-1 bg-[var(--yellow)] text-black border border-black">
-                                                    BIJNA OP
-                                                </span>
-                                                <span x-show="expiryStatus(item.expiry) === 'ok'"
-                                                      x-text="formatExpiry(item.expiry)"
-                                                      class="text-[9px] font-bold text-gray-400"></span>
-                                                <button @click="removeItem(item.id)"
-                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                                    ✕
-                                                </button>
-                                            </div>
+                                            <button @click="removeItem(item.id)"
+                                                    class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                                ✕
+                                            </button>
                                         </div>
                                     </template>
                                 </div>
@@ -322,23 +274,10 @@
                                                     <p class="text-[9px] text-gray-400 font-bold uppercase" x-text="item.qty + ' ' + item.unit"></p>
                                                 </div>
                                             </div>
-                                            <div class="flex items-center gap-2">
-                                                <span x-show="expiryStatus(item.expiry) === 'verlopen'"
-                                                      class="text-[8px] font-black uppercase tracking-widest px-2 py-1 bg-red-500 text-white">
-                                                    VERLOPEN
-                                                </span>
-                                                <span x-show="expiryStatus(item.expiry) === 'bijna'"
-                                                      class="text-[8px] font-black uppercase tracking-widest px-2 py-1 bg-[var(--yellow)] text-black border border-black">
-                                                    BIJNA OP
-                                                </span>
-                                                <span x-show="expiryStatus(item.expiry) === 'ok'"
-                                                      x-text="formatExpiry(item.expiry)"
-                                                      class="text-[9px] font-bold text-gray-400"></span>
-                                                <button @click="removeItem(item.id)"
-                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                                    ✕
-                                                </button>
-                                            </div>
+                                            <button @click="removeItem(item.id)"
+                                                    class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                                ✕
+                                            </button>
                                         </div>
                                     </template>
                                 </div>
@@ -391,42 +330,11 @@
                                 </div>
                             </div>
 
-                            <div class="border-t-2 border-dashed border-gray-300 mb-4"></div>
-
-                            <div class="flex justify-between items-center mb-5">
-                                <span class="text-[10px] font-black uppercase tracking-widest"
-                                      :class="expiringItems.length > 0 ? 'text-red-600' : 'text-gray-500'">
-                                    BIJNA VERLOPEN
-                                </span>
-                                <span class="text-lg font-black"
-                                      :class="expiringItems.length > 0 ? 'text-red-600' : 'text-gray-800'"
-                                      x-text="expiringItems.length"></span>
-                            </div>
-
                             <button @click="showAddModal = true"
                                     class="w-full bg-brand text-white text-[10px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                 + PRODUCT TOEVOEGEN
                             </button>
 
-                        </div>
-
-                        {{-- Expiring soon --}}
-                        <div x-show="expiringItems.length > 0"
-                             class="bg-[var(--yellow)] border-2 border-black shadow-[4px_4px_0px_0px_#000] p-4">
-                            <div class="flex items-center gap-2 mb-3">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-                                </svg>
-                                <p class="text-[9px] font-black uppercase tracking-widest">BIJNA VERLOPEN</p>
-                            </div>
-                            <template x-for="item in expiringItems" :key="'exp-' + item.id">
-                                <div class="flex justify-between items-center py-1.5 border-b border-black/10 last:border-0">
-                                    <span x-text="item.name" class="text-[10px] font-black uppercase"></span>
-                                    <span x-text="formatExpiry(item.expiry)"
-                                          :class="expiryStatus(item.expiry) === 'verlopen' ? 'text-red-600' : 'text-gray-700'"
-                                          class="text-[9px] font-black"></span>
-                                </div>
-                            </template>
                         </div>
 
                         {{-- Quick links --}}
@@ -544,7 +452,7 @@
                     </div>
 
                     {{-- Locatie --}}
-                    <div class="mb-4">
+                    <div class="mb-8">
                         <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">BEWAARPLAATS</label>
                         <div class="flex gap-2">
                             <button type="button"
@@ -572,14 +480,6 @@
                                 KAST
                             </button>
                         </div>
-                    </div>
-
-                    {{-- THT datum --}}
-                    <div class="mb-8">
-                        <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">THT DATUM <span class="text-gray-300">(OPTIONEEL)</span></label>
-                        <input type="date"
-                               x-model="newItem.expiry"
-                               class="w-full border-2 border-black px-4 py-3 text-[11px] font-black outline-none focus:border-brand transition-colors">
                     </div>
 
                     {{-- Submit --}}
