@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -14,7 +15,7 @@ use Illuminate\Notifications\Notifiable;
 
 #[Fillable(['username', 'email', 'password', 'avatar_url', 'bio', 'role'])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasName
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
@@ -26,7 +27,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function getFilamentName(): string
     {
-        return $this->username;
+        return $this->username ?? $this->email;
     }
 
     protected function casts(): array
