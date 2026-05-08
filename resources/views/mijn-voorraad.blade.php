@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Mijn Voorraad - Hapklaar</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -11,103 +12,14 @@
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
+
+        <script>window.__inventoryItems = @json($items);</script>
     </head>
     <body class="m-0 bg-[var(--pink-soft)] min-h-screen flex flex-col">
 
         <x-navbar />
 
-        <main class="flex-1 py-10"
-              x-data="{
-                  activeFilter: 'alles',
-                  showAddModal: false,
-                  newItem: { name: '', qty: '1', unit: 'stuks', location: 'koelkast' },
-                  items: [
-                      { id: 1,  name: 'MELK',              qty: '1',   unit: 'LITER',     location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300' },
-                      { id: 2,  name: 'GRIEKSE YOGHURT',   qty: '500', unit: 'G',         location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300' },
-                      { id: 3,  name: 'KIPFILET',          qty: '400', unit: 'G',         location: 'koelkast',     category: 'VLEES',        catClass: 'bg-pink-100 text-pink-700 border-pink-300' },
-                      { id: 4,  name: 'SPINAZIE',          qty: '300', unit: 'G',         location: 'koelkast',     category: 'GROENTEN',     catClass: 'bg-emerald-100 text-emerald-700 border-emerald-300' },
-                      { id: 5,  name: 'EIEREN',            qty: '6',   unit: 'STUKS',     location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300' },
-                      { id: 6,  name: 'OUDE KAAS',         qty: '200', unit: 'G',         location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300' },
-                      { id: 7,  name: 'RODE PAPRIKA',      qty: '2',   unit: 'STUKS',     location: 'koelkast',     category: 'GROENTEN',     catClass: 'bg-emerald-100 text-emerald-700 border-emerald-300' },
-                      { id: 8,  name: 'BOTER',             qty: '250', unit: 'G',         location: 'koelkast',     category: 'ZUIVEL',       catClass: 'bg-sky-100 text-sky-700 border-sky-300' },
-                      { id: 9,  name: 'KIPPENDIJEN',       qty: '600', unit: 'G',         location: 'vriezer',      category: 'VLEES',        catClass: 'bg-pink-100 text-pink-700 border-pink-300' },
-                      { id: 10, name: 'BROOD',             qty: '1',   unit: 'STUK',      location: 'vriezer',      category: 'GRANEN',       catClass: 'bg-amber-100 text-amber-700 border-amber-300' },
-                      { id: 11, name: 'DIEPVRIES ERWTEN',  qty: '400', unit: 'G',         location: 'vriezer',      category: 'GROENTEN',     catClass: 'bg-emerald-100 text-emerald-700 border-emerald-300' },
-                      { id: 12, name: 'TONIJNFILET',       qty: '2',   unit: 'STUKS',     location: 'vriezer',      category: 'VIS',          catClass: 'bg-cyan-100 text-cyan-700 border-cyan-300' },
-                      { id: 13, name: 'PENNE PASTA',       qty: '500', unit: 'G',         location: 'voorraadkast', category: 'GRANEN',       catClass: 'bg-amber-100 text-amber-700 border-amber-300' },
-                      { id: 14, name: 'BASMATI RIJST',     qty: '1',   unit: 'KG',        location: 'voorraadkast', category: 'GRANEN',       catClass: 'bg-amber-100 text-amber-700 border-amber-300' },
-                      { id: 15, name: 'TOMATENBLOKJES',    qty: '2',   unit: 'BLIKKEN',   location: 'voorraadkast', category: 'SAUZEN',       catClass: 'bg-red-100 text-red-700 border-red-300' },
-                      { id: 16, name: 'OLIJFOLIE',         qty: '750', unit: 'ML',        location: 'voorraadkast', category: 'SAUZEN',       catClass: 'bg-red-100 text-red-700 border-red-300' },
-                      { id: 17, name: 'KNOFLOOK',          qty: '1',   unit: 'BOL',       location: 'voorraadkast', category: 'KRUIDEN',      catClass: 'bg-lime-100 text-lime-700 border-lime-300' },
-                      { id: 18, name: 'RODE LINZEN',       qty: '500', unit: 'G',         location: 'voorraadkast', category: 'PEULVRUCHTEN', catClass: 'bg-orange-100 text-orange-700 border-orange-300' },
-                      { id: 19, name: 'SOJASAUS',          qty: '200', unit: 'ML',        location: 'voorraadkast', category: 'SAUZEN',       catClass: 'bg-red-100 text-red-700 border-red-300' },
-                  ],
-                  get koelkastItems()   { return this.items.filter(i => i.location === 'koelkast') },
-                  get vriezerItems()    { return this.items.filter(i => i.location === 'vriezer') },
-                  get voorraadItems()   { return this.items.filter(i => i.location === 'voorraadkast') },
-                  dragId: null,
-                  dragOver: null,
-                  dragCounts: { koelkast: 0, vriezer: 0, voorraadkast: 0 },
-                  startDrag(id, event) {
-                      this.dragId = id;
-                      this.activeFilter = 'alles';
-                      event.dataTransfer.effectAllowed = 'move';
-                      this._dragY = event.clientY;
-                      this._dragMoveHandler = (e) => { this._dragY = e.clientY; };
-                      window.addEventListener('dragover', this._dragMoveHandler);
-                      this._scrollLoop = setInterval(() => {
-                          const threshold = 120;
-                          const y = this._dragY;
-                          const h = window.innerHeight;
-                          if (y > h - threshold) {
-                              window.scrollBy(0, Math.ceil(((y - (h - threshold)) / threshold) * 16));
-                          } else if (y < threshold) {
-                              window.scrollBy(0, -Math.ceil(((threshold - y) / threshold) * 16));
-                          }
-                      }, 16);
-                  },
-                  endDrag() {
-                      this.dragId = null;
-                      this.dragOver = null;
-                      this.dragCounts = { koelkast: 0, vriezer: 0, voorraadkast: 0 };
-                      clearInterval(this._scrollLoop);
-                      window.removeEventListener('dragover', this._dragMoveHandler);
-                  },
-                  onDragEnter(loc) {
-                      this.dragCounts[loc]++;
-                      this.dragOver = loc;
-                  },
-                  onDragLeave(loc) {
-                      this.dragCounts[loc] = Math.max(0, this.dragCounts[loc] - 1);
-                      if (this.dragCounts[loc] === 0 && this.dragOver === loc) this.dragOver = null;
-                  },
-                  onDrop(loc) {
-                      if (this.dragId !== null) {
-                          const item = this.items.find(i => i.id === this.dragId);
-                          if (item) item.location = loc;
-                      }
-                      this.dragId = null;
-                      this.dragOver = null;
-                      this.dragCounts = { koelkast: 0, vriezer: 0, voorraadkast: 0 };
-                  },
-                  removeItem(id) {
-                      this.items = this.items.filter(i => i.id !== id);
-                  },
-                  addItem() {
-                      if (!this.newItem.name.trim()) return;
-                      this.items.push({
-                          id: Date.now(),
-                          name: this.newItem.name.toUpperCase(),
-                          qty: this.newItem.qty,
-                          unit: this.newItem.unit.toUpperCase(),
-                          location: this.newItem.location,
-                          category: 'OVERIG',
-                          catClass: 'bg-gray-100 text-gray-700 border-gray-300',
-                      });
-                      this.newItem = { name: '', qty: '1', unit: 'stuks', location: 'koelkast' };
-                      this.showAddModal = false;
-                  }
-              }">
+        <main class="flex-1 py-10" x-data="inventaris()">
             <div class="max-w-5xl mx-auto px-6">
 
                 {{-- ============================================================
@@ -115,13 +27,11 @@
                 ============================================================ --}}
                 <div class="relative mb-8">
 
-                    {{-- Rotated badge --}}
                     <div class="absolute top-0 right-0 bg-[var(--yellow)] border-2 border-black px-4 py-2 text-[10px] font-black uppercase tracking-widest shadow-[3px_3px_0px_0px_#000]"
                          style="transform: rotate(2deg);">
                         BIJGEHOUDEN
                     </div>
 
-                    {{-- Heading box --}}
                     <div class="inline-block bg-black border-b-4 border-brand pr-6 py-4 pl-4 mb-5">
                         <h1 class="text-[4rem] font-black uppercase italic leading-none text-white tracking-tight">
                             MIJN VOOR<span class="italic">RAAD</span>
@@ -138,7 +48,6 @@
                 ============================================================ --}}
                 <div class="flex items-center justify-between mb-6">
 
-                    {{-- Filter pills --}}
                     <div class="flex gap-2">
                         <button @click="activeFilter = 'alles'"
                                 :class="activeFilter === 'alles'
@@ -148,33 +57,32 @@
                             ALLES
                             <span x-text="'(' + items.length + ')'" class="ml-1 opacity-60"></span>
                         </button>
-                        <button @click="activeFilter = 'koelkast'"
-                                :class="activeFilter === 'koelkast'
+                        <button @click="activeFilter = 'fridge'"
+                                :class="activeFilter === 'fridge'
                                     ? 'bg-[var(--lime)] text-black border-black shadow-[3px_3px_0px_0px_#000]'
                                     : 'bg-white text-black border-black hover:bg-[var(--pink-soft)]'"
                                 class="text-[10px] font-black uppercase tracking-widest px-4 py-2 border-2 transition-all duration-75">
                             ❄ KOELKAST
-                            <span x-text="'(' + koelkastItems.length + ')'" class="ml-1 opacity-60"></span>
+                            <span x-text="'(' + fridgeItems.length + ')'" class="ml-1 opacity-60"></span>
                         </button>
-                        <button @click="activeFilter = 'vriezer'"
-                                :class="activeFilter === 'vriezer'
+                        <button @click="activeFilter = 'freezer'"
+                                :class="activeFilter === 'freezer'
                                     ? 'bg-gray-800 text-white border-gray-800 shadow-[3px_3px_0px_0px_#000]'
                                     : 'bg-white text-black border-black hover:bg-[var(--pink-soft)]'"
                                 class="text-[10px] font-black uppercase tracking-widest px-4 py-2 border-2 transition-all duration-75">
                             ❄❄ VRIEZER
-                            <span x-text="'(' + vriezerItems.length + ')'" class="ml-1 opacity-60"></span>
+                            <span x-text="'(' + freezerItems.length + ')'" class="ml-1 opacity-60"></span>
                         </button>
-                        <button @click="activeFilter = 'voorraadkast'"
-                                :class="activeFilter === 'voorraadkast'
+                        <button @click="activeFilter = 'pantry'"
+                                :class="activeFilter === 'pantry'
                                     ? 'bg-[var(--yellow)] text-black border-black shadow-[3px_3px_0px_0px_#000]'
                                     : 'bg-white text-black border-black hover:bg-[var(--pink-soft)]'"
                                 class="text-[10px] font-black uppercase tracking-widest px-4 py-2 border-2 transition-all duration-75">
                             VOORRAADKAST
-                            <span x-text="'(' + voorraadItems.length + ')'" class="ml-1 opacity-60"></span>
+                            <span x-text="'(' + pantryItems.length + ')'" class="ml-1 opacity-60"></span>
                         </button>
                     </div>
 
-                    {{-- Add button --}}
                     <button @click="showAddModal = true"
                             class="bg-brand text-white text-[10px] font-black uppercase tracking-widest px-5 py-2.5 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75 flex items-center gap-2">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -194,20 +102,19 @@
                     <div class="flex-1 min-w-0 space-y-4">
 
                         {{-- KOELKAST --}}
-                        <div x-show="activeFilter === 'alles' || activeFilter === 'koelkast'"
+                        <div x-show="activeFilter === 'alles' || activeFilter === 'fridge'"
                              x-transition:enter="transition ease-out duration-150"
                              x-transition:enter-start="opacity-0 -translate-y-1"
                              x-transition:enter-end="opacity-100 translate-y-0">
                             <div class="bg-white border-2 p-5 transition-all duration-150"
-                                 :class="dragOver === 'koelkast' && dragId !== null
+                                 :class="dragOver === 'fridge' && dragId !== null
                                      ? 'border-brand shadow-[4px_4px_0px_0px_var(--brand)]'
                                      : 'border-black shadow-[4px_4px_0px_0px_#000]'"
                                  @dragover.prevent
-                                 @dragenter.prevent="onDragEnter('koelkast')"
-                                 @dragleave="onDragLeave('koelkast')"
-                                 @drop.prevent="onDrop('koelkast')">
+                                 @dragenter.prevent="onDragEnter('fridge')"
+                                 @dragleave="onDragLeave('fridge')"
+                                 @drop.prevent="onDrop('fridge')">
 
-                                {{-- Section label --}}
                                 <div class="flex items-center justify-between mb-4">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -219,12 +126,11 @@
                                             KOELKAST
                                         </span>
                                     </div>
-                                    <span x-text="koelkastItems.length + ' ITEMS'" class="text-[9px] font-black uppercase tracking-widest text-gray-400"></span>
+                                    <span x-text="fridgeItems.length + ' ITEMS'" class="text-[9px] font-black uppercase tracking-widest text-gray-400"></span>
                                 </div>
 
-                                {{-- Items --}}
                                 <div>
-                                    <template x-for="item in koelkastItems" :key="item.id">
+                                    <template x-for="item in fridgeItems" :key="item.id">
                                         <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
                                              draggable="true"
                                              @dragstart="startDrag(item.id, $event)"
@@ -251,13 +157,13 @@
                                     </template>
                                 </div>
 
-                                <div x-show="koelkastItems.length === 0 && dragId === null" class="py-8 text-center">
+                                <div x-show="fridgeItems.length === 0 && dragId === null" class="py-8 text-center">
                                     <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">KOELKAST IS LEEG</p>
                                 </div>
 
                                 <div x-show="dragId !== null"
                                      class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
-                                     :class="dragOver === 'koelkast' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
+                                     :class="dragOver === 'fridge' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
                                     ❄ HIER NEERZETTEN
                                 </div>
 
@@ -265,18 +171,18 @@
                         </div>
 
                         {{-- VRIEZER --}}
-                        <div x-show="activeFilter === 'alles' || activeFilter === 'vriezer'"
+                        <div x-show="activeFilter === 'alles' || activeFilter === 'freezer'"
                              x-transition:enter="transition ease-out duration-150"
                              x-transition:enter-start="opacity-0 -translate-y-1"
                              x-transition:enter-end="opacity-100 translate-y-0">
                             <div class="bg-white border-2 p-5 transition-all duration-150"
-                                 :class="dragOver === 'vriezer' && dragId !== null
+                                 :class="dragOver === 'freezer' && dragId !== null
                                      ? 'border-brand shadow-[4px_4px_0px_0px_var(--brand)]'
                                      : 'border-black shadow-[4px_4px_0px_0px_#000]'"
                                  @dragover.prevent
-                                 @dragenter.prevent="onDragEnter('vriezer')"
-                                 @dragleave="onDragLeave('vriezer')"
-                                 @drop.prevent="onDrop('vriezer')">
+                                 @dragenter.prevent="onDragEnter('freezer')"
+                                 @dragleave="onDragLeave('freezer')"
+                                 @drop.prevent="onDrop('freezer')">
 
                                 <div class="flex items-center justify-between mb-4">
                                     <div class="flex items-center gap-2">
@@ -287,11 +193,11 @@
                                             VRIEZER
                                         </span>
                                     </div>
-                                    <span x-text="vriezerItems.length + ' ITEMS'" class="text-[9px] font-black uppercase tracking-widest text-gray-400"></span>
+                                    <span x-text="freezerItems.length + ' ITEMS'" class="text-[9px] font-black uppercase tracking-widest text-gray-400"></span>
                                 </div>
 
                                 <div>
-                                    <template x-for="item in vriezerItems" :key="item.id">
+                                    <template x-for="item in freezerItems" :key="item.id">
                                         <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
                                              draggable="true"
                                              @dragstart="startDrag(item.id, $event)"
@@ -318,13 +224,13 @@
                                     </template>
                                 </div>
 
-                                <div x-show="vriezerItems.length === 0 && dragId === null" class="py-8 text-center">
+                                <div x-show="freezerItems.length === 0 && dragId === null" class="py-8 text-center">
                                     <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">VRIEZER IS LEEG</p>
                                 </div>
 
                                 <div x-show="dragId !== null"
                                      class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
-                                     :class="dragOver === 'vriezer' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
+                                     :class="dragOver === 'freezer' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
                                     ❄❄ HIER NEERZETTEN
                                 </div>
 
@@ -332,18 +238,18 @@
                         </div>
 
                         {{-- VOORRAADKAST --}}
-                        <div x-show="activeFilter === 'alles' || activeFilter === 'voorraadkast'"
+                        <div x-show="activeFilter === 'alles' || activeFilter === 'pantry'"
                              x-transition:enter="transition ease-out duration-150"
                              x-transition:enter-start="opacity-0 -translate-y-1"
                              x-transition:enter-end="opacity-100 translate-y-0">
                             <div class="bg-white border-2 p-5 transition-all duration-150"
-                                 :class="dragOver === 'voorraadkast' && dragId !== null
+                                 :class="dragOver === 'pantry' && dragId !== null
                                      ? 'border-brand shadow-[4px_4px_0px_0px_var(--brand)]'
                                      : 'border-black shadow-[4px_4px_0px_0px_#000]'"
                                  @dragover.prevent
-                                 @dragenter.prevent="onDragEnter('voorraadkast')"
-                                 @dragleave="onDragLeave('voorraadkast')"
-                                 @drop.prevent="onDrop('voorraadkast')">
+                                 @dragenter.prevent="onDragEnter('pantry')"
+                                 @dragleave="onDragLeave('pantry')"
+                                 @drop.prevent="onDrop('pantry')">
 
                                 <div class="flex items-center justify-between mb-4">
                                     <div class="flex items-center gap-2">
@@ -356,11 +262,11 @@
                                             VOORRAADKAST
                                         </span>
                                     </div>
-                                    <span x-text="voorraadItems.length + ' ITEMS'" class="text-[9px] font-black uppercase tracking-widest text-gray-400"></span>
+                                    <span x-text="pantryItems.length + ' ITEMS'" class="text-[9px] font-black uppercase tracking-widest text-gray-400"></span>
                                 </div>
 
                                 <div>
-                                    <template x-for="item in voorraadItems" :key="item.id">
+                                    <template x-for="item in pantryItems" :key="item.id">
                                         <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
                                              draggable="true"
                                              @dragstart="startDrag(item.id, $event)"
@@ -387,13 +293,13 @@
                                     </template>
                                 </div>
 
-                                <div x-show="voorraadItems.length === 0 && dragId === null" class="py-8 text-center">
+                                <div x-show="pantryItems.length === 0 && dragId === null" class="py-8 text-center">
                                     <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">VOORRAADKAST IS LEEG</p>
                                 </div>
 
                                 <div x-show="dragId !== null"
                                      class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
-                                     :class="dragOver === 'voorraadkast' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
+                                     :class="dragOver === 'pantry' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
                                     HIER NEERZETTEN
                                 </div>
 
@@ -417,7 +323,6 @@
                     {{-- ---- RIGHT: Sidebar ---- --}}
                     <div class="w-72 flex-shrink-0 space-y-4">
 
-                        {{-- Stats box --}}
                         <div class="bg-white border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] p-6">
 
                             <h2 class="text-xl font-black uppercase italic text-center mb-5">JOUW KEUKEN</h2>
@@ -429,15 +334,15 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">❄ KOELKAST</span>
-                                    <span class="text-[12px] font-black" x-text="koelkastItems.length"></span>
+                                    <span class="text-[12px] font-black" x-text="fridgeItems.length"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">❄❄ VRIEZER</span>
-                                    <span class="text-[12px] font-black" x-text="vriezerItems.length"></span>
+                                    <span class="text-[12px] font-black" x-text="freezerItems.length"></span>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">VOORRAADKAST</span>
-                                    <span class="text-[12px] font-black" x-text="voorraadItems.length"></span>
+                                    <span class="text-[12px] font-black" x-text="pantryItems.length"></span>
                                 </div>
                             </div>
 
@@ -481,7 +386,7 @@
                     <div>
                         <p class="font-black uppercase text-lg leading-tight mb-1">WEET JE NOG WAT JE KAN MAKEN?</p>
                         <p class="text-[11px] text-gray-600 uppercase font-bold tracking-wide"
-                           x-text="'JE HEBT ' + items.length + ' PRODUCTEN IN Huis. WIJ BEDENKEN HET RECEPT.'"></p>
+                           x-text="'JE HEBT ' + items.length + ' PRODUCTEN IN HUIS. WIJ BEDENKEN HET RECEPT.'"></p>
                     </div>
                     <a href="{{ route('mijn-keuken') }}"
                        class="bg-black text-white text-[11px] font-black uppercase tracking-widest px-8 py-4 border-2 border-black hover:bg-gray-900 transition-colors flex-shrink-0 no-underline">
@@ -506,16 +411,13 @@
              @click.self="showAddModal = false"
              style="display: none;">
 
-            {{-- Overlay --}}
             <div class="absolute inset-0 bg-black/60"></div>
 
-            {{-- Modal card --}}
             <div class="relative bg-white border-2 border-black shadow-[8px_8px_0px_0px_var(--hot-pink)] w-full max-w-md z-10"
                  x-transition:enter="transition ease-out duration-150"
                  x-transition:enter-start="opacity-0 scale-95"
                  x-transition:enter-end="opacity-100 scale-100">
 
-                {{-- Close --}}
                 <button @click="showAddModal = false"
                         class="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-xl font-black border-2 border-black hover:bg-gray-800 transition-colors z-20">
                     ✕
@@ -525,7 +427,6 @@
 
                     <h2 class="text-3xl font-black uppercase italic mb-6">PRODUCT TOEVOEGEN</h2>
 
-                    {{-- Product naam --}}
                     <div class="mb-4">
                         <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">PRODUCT</label>
                         <input type="text"
@@ -535,7 +436,6 @@
                                class="w-full border-2 border-black px-4 py-3 text-[11px] font-black uppercase tracking-widest placeholder-gray-300 outline-none focus:border-brand transition-colors">
                     </div>
 
-                    {{-- Hoeveelheid + eenheid --}}
                     <div class="flex gap-3 mb-4">
                         <div class="flex-1">
                             <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">HOEVEELHEID</label>
@@ -562,29 +462,28 @@
                         </div>
                     </div>
 
-                    {{-- Locatie --}}
                     <div class="mb-8">
                         <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">BEWAARPLAATS</label>
                         <div class="flex gap-2">
                             <button type="button"
-                                    @click="newItem.location = 'koelkast'"
-                                    :class="newItem.location === 'koelkast'
+                                    @click="newItem.location = 'fridge'"
+                                    :class="newItem.location === 'fridge'
                                         ? 'bg-[var(--lime)] border-black text-black shadow-[2px_2px_0px_0px_#000]'
                                         : 'bg-white border-gray-300 text-gray-500'"
                                     class="flex-1 text-[9px] font-black uppercase tracking-widest py-2.5 border-2 transition-all duration-75">
                                 ❄ KOELKAST
                             </button>
                             <button type="button"
-                                    @click="newItem.location = 'vriezer'"
-                                    :class="newItem.location === 'vriezer'
+                                    @click="newItem.location = 'freezer'"
+                                    :class="newItem.location === 'freezer'
                                         ? 'bg-gray-800 border-gray-800 text-white shadow-[2px_2px_0px_0px_#000]'
                                         : 'bg-white border-gray-300 text-gray-500'"
                                     class="flex-1 text-[9px] font-black uppercase tracking-widest py-2.5 border-2 transition-all duration-75">
                                 ❄❄ VRIEZER
                             </button>
                             <button type="button"
-                                    @click="newItem.location = 'voorraadkast'"
-                                    :class="newItem.location === 'voorraadkast'
+                                    @click="newItem.location = 'pantry'"
+                                    :class="newItem.location === 'pantry'
                                         ? 'bg-[var(--yellow)] border-black text-black shadow-[2px_2px_0px_0px_#000]'
                                         : 'bg-white border-gray-300 text-gray-500'"
                                     class="flex-1 text-[9px] font-black uppercase tracking-widest py-2.5 border-2 transition-all duration-75">
@@ -593,7 +492,6 @@
                         </div>
                     </div>
 
-                    {{-- Submit --}}
                     <button @click="addItem()"
                             class="w-full bg-brand text-white text-base font-black uppercase italic tracking-widest py-4 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
                         TOEVOEGEN
@@ -606,5 +504,105 @@
         <x-footer />
 
         @livewireScripts
+
+        <script>
+        function inventaris() {
+            return {
+                activeFilter: 'alles',
+                showAddModal: false,
+                newItem: { name: '', qty: '1', unit: 'stuks', location: 'fridge' },
+                items: window.__inventoryItems || [],
+
+                get fridgeItems()   { return this.items.filter(i => i.location === 'fridge') },
+                get freezerItems()  { return this.items.filter(i => i.location === 'freezer') },
+                get pantryItems()   { return this.items.filter(i => i.location === 'pantry') },
+
+                dragId: null,
+                dragOver: null,
+                dragCounts: { fridge: 0, freezer: 0, pantry: 0 },
+
+                csrf() {
+                    return document.querySelector('meta[name="csrf-token"]').content;
+                },
+
+                startDrag(id, event) {
+                    this.dragId = id;
+                    this.activeFilter = 'alles';
+                    event.dataTransfer.effectAllowed = 'move';
+                    this._dragY = event.clientY;
+                    this._dragMoveHandler = (e) => { this._dragY = e.clientY; };
+                    window.addEventListener('dragover', this._dragMoveHandler);
+                    this._scrollLoop = setInterval(() => {
+                        const threshold = 120, y = this._dragY, h = window.innerHeight;
+                        if (y > h - threshold) window.scrollBy(0,  Math.ceil(((y - (h - threshold)) / threshold) * 16));
+                        else if (y < threshold) window.scrollBy(0, -Math.ceil(((threshold - y) / threshold) * 16));
+                    }, 16);
+                },
+
+                endDrag() {
+                    this.dragId = null;
+                    this.dragOver = null;
+                    this.dragCounts = { fridge: 0, freezer: 0, pantry: 0 };
+                    clearInterval(this._scrollLoop);
+                    window.removeEventListener('dragover', this._dragMoveHandler);
+                },
+
+                onDragEnter(loc) {
+                    this.dragCounts[loc]++;
+                    this.dragOver = loc;
+                },
+
+                onDragLeave(loc) {
+                    this.dragCounts[loc] = Math.max(0, this.dragCounts[loc] - 1);
+                    if (this.dragCounts[loc] === 0 && this.dragOver === loc) this.dragOver = null;
+                },
+
+                async onDrop(loc) {
+                    if (this.dragId !== null) {
+                        const item = this.items.find(i => i.id === this.dragId);
+                        if (item && item.location !== loc) {
+                            item.location = loc;
+                            fetch(`/mijn-voorraad/items/${item.id}`, {
+                                method: 'PATCH',
+                                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': this.csrf() },
+                                body: JSON.stringify({ location: loc }),
+                            });
+                        }
+                    }
+                    this.dragId = null;
+                    this.dragOver = null;
+                    this.dragCounts = { fridge: 0, freezer: 0, pantry: 0 };
+                },
+
+                removeItem(id) {
+                    this.items = this.items.filter(i => i.id !== id);
+                    fetch(`/mijn-voorraad/items/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'X-CSRF-TOKEN': this.csrf() },
+                    });
+                },
+
+                async addItem() {
+                    if (!this.newItem.name.trim()) return;
+                    const res = await fetch('/mijn-voorraad/items', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': this.csrf() },
+                        body: JSON.stringify({
+                            name:     this.newItem.name,
+                            quantity: this.newItem.qty,
+                            unit:     this.newItem.unit,
+                            location: this.newItem.location,
+                        }),
+                    });
+                    if (res.ok) {
+                        const item = await res.json();
+                        this.items.push(item);
+                    }
+                    this.newItem = { name: '', qty: '1', unit: 'stuks', location: 'fridge' };
+                    this.showAddModal = false;
+                },
+            }
+        }
+        </script>
     </body>
 </html>
