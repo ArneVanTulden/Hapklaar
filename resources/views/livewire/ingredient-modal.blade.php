@@ -60,28 +60,39 @@
                 </div>
             @endif
 
-            <div class="flex gap-3 mb-4">
+            <div class="flex gap-3 mb-4"
+                 x-data="{
+                     qty: $wire.entangle('qty'),
+                     unit: $wire.entangle('unit'),
+                     get step() { return ['g', 'ml'].includes(this.unit) ? 5 : 1; },
+                     increment() { this.qty = String(Math.max(0, parseInt(this.qty || 0) + this.step)); },
+                     decrement() { this.qty = String(Math.max(0, parseInt(this.qty || 0) - this.step)); },
+                 }"
+                 x-init="$watch('unit', (val) => { qty = String(['g','ml'].includes(val) ? 5 : 1); })">
                 <div class="flex-1">
                     <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">HOEVEELHEID</label>
-                    <input wire:model="qty"
-                           type="number"
-                           min="0"
-                           step="0.1"
-                           placeholder="1"
-                           class="w-full border-2 border-black px-4 py-3 text-[11px] font-black outline-none focus:border-brand transition-colors">
+                    <div class="flex border-2 border-black">
+                        <button @click="decrement()" type="button"
+                                class="px-4 py-3 text-[14px] font-black border-r-2 border-black hover:bg-gray-100 transition-colors select-none">−</button>
+                        <input x-model="qty"
+                               type="number"
+                               min="0"
+                               class="flex-1 text-center text-[13px] font-black outline-none bg-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                        <button @click="increment()" type="button"
+                                class="px-4 py-3 text-[14px] font-black border-l-2 border-black hover:bg-gray-100 transition-colors select-none">+</button>
+                    </div>
                 </div>
                 <div class="w-32">
                     <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">EENHEID</label>
-                    <select wire:model="unit"
+                    <select x-model="unit"
                             class="w-full border-2 border-black px-3 py-3 text-[11px] font-black uppercase outline-none focus:border-brand transition-colors bg-white appearance-none cursor-pointer">
                         <option value="stuks">STUKS</option>
                         <option value="g">G</option>
                         <option value="kg">KG</option>
                         <option value="ml">ML</option>
-                        <option value="liter">LITER</option>
+                        <option value="l">L</option>
                         <option value="blikken">BLIKKEN</option>
                         <option value="zakjes">ZAKJES</option>
-                        <option value="bol">BOL</option>
                     </select>
                 </div>
             </div>
