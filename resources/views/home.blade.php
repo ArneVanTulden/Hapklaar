@@ -35,11 +35,11 @@
                         Gewoon vreten wat de pot schaft (of wat er nog in je koelkast ligt).
                     </p>
                     <div class="flex gap-4 flex-wrap">
-                        <a href="#"
+                        <a href="{{ route('ontdekken') }}"
                            class="text-[12px] font-black uppercase tracking-widest bg-brand text-white no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_var(--lime)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--lime)] transition-all duration-75">
                             ONTDEK RECEPTEN
                         </a>
-                        <a href="#"
+                        <a href="{{ route('mijn-keuken') }}"
                            class="text-[12px] font-black uppercase tracking-widest bg-white text-black no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_var(--pink)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--pink)] transition-all duration-75">
                             SCAN JE KOELKAST
                         </a>
