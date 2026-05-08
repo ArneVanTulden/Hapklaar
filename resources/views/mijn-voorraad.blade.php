@@ -427,13 +427,45 @@
 
                     <h2 class="text-3xl font-black uppercase italic mb-6">PRODUCT TOEVOEGEN</h2>
 
+                    {{-- Ingredient search --}}
                     <div class="mb-4">
-                        <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">PRODUCT</label>
-                        <input type="text"
-                               x-model="newItem.name"
-                               @keydown.enter="addItem()"
-                               placeholder="BV. MELK, KIPFILET, PASTA..."
-                               class="w-full border-2 border-black px-4 py-3 text-[11px] font-black uppercase tracking-widest placeholder-gray-300 outline-none focus:border-brand transition-colors">
+                        <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">INGREDIËNT</label>
+
+                        {{-- Selected chip --}}
+                        <div x-show="newItem.ingredient_id"
+                             class="flex items-center justify-between border-2 border-black px-4 py-3 bg-[var(--lime)]">
+                            <div>
+                                <p x-text="newItem.ingredient_name" class="text-[11px] font-black uppercase"></p>
+                                <p x-text="newItem.ingredient_category" class="text-[9px] font-bold uppercase text-gray-600"></p>
+                            </div>
+                            <button type="button" @click="clearIngredient()" class="text-sm font-black hover:opacity-60 ml-4">✕</button>
+                        </div>
+
+                        {{-- Search input + dropdown --}}
+                        <div x-show="!newItem.ingredient_id" class="relative">
+                            <div class="flex items-center border-2 border-black px-4 py-3 bg-white">
+                                <svg class="w-4 h-4 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/>
+                                </svg>
+                                <input type="text"
+                                       x-model="newItem.search"
+                                       @input.debounce.250ms="searchIngredients()"
+                                       @keydown.escape="newItem.searchResults = []"
+                                       placeholder="ZOEK EEN INGREDIËNT..."
+                                       class="w-full text-[11px] font-black uppercase tracking-widest placeholder-gray-400 outline-none bg-transparent">
+                            </div>
+                            <div x-show="newItem.searchResults.length > 0"
+                                 class="absolute top-full left-0 right-0 bg-white border-2 border-t-0 border-black shadow-[4px_4px_0px_0px_#000] z-30 max-h-48 overflow-y-auto">
+                                <template x-for="result in newItem.searchResults" :key="result.id">
+                                    <button type="button"
+                                            @click="selectIngredient(result)"
+                                            class="w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-[var(--pink-soft)] border-b border-gray-100 last:border-0 transition-colors">
+                                        <span x-text="result.name" class="text-[11px] font-black uppercase"></span>
+                                        <span x-text="result.category" class="text-[9px] font-bold uppercase text-gray-400"></span>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="flex gap-3 mb-4">
@@ -510,7 +542,16 @@
             return {
                 activeFilter: 'alles',
                 showAddModal: false,
-                newItem: { name: '', qty: '1', unit: 'stuks', location: 'fridge' },
+                newItem: {
+                    ingredient_id: null,
+                    ingredient_name: '',
+                    ingredient_category: '',
+                    search: '',
+                    searchResults: [],
+                    qty: '1',
+                    unit: 'stuks',
+                    location: 'fridge',
+                },
                 items: window.__inventoryItems || [],
 
                 get fridgeItems()   { return this.items.filter(i => i.location === 'fridge') },
@@ -582,23 +623,47 @@
                     });
                 },
 
+                async searchIngredients() {
+                    const q = this.newItem.search.trim();
+                    if (!q) { this.newItem.searchResults = []; return; }
+                    const res = await fetch(`/mijn-voorraad/ingredients?q=${encodeURIComponent(q)}`);
+                    this.newItem.searchResults = await res.json();
+                },
+
+                selectIngredient(ingredient) {
+                    this.newItem.ingredient_id       = ingredient.id;
+                    this.newItem.ingredient_name     = ingredient.name;
+                    this.newItem.ingredient_category = ingredient.category;
+                    this.newItem.search              = '';
+                    this.newItem.searchResults       = [];
+                },
+
+                clearIngredient() {
+                    this.newItem.ingredient_id       = null;
+                    this.newItem.ingredient_name     = '';
+                    this.newItem.ingredient_category = '';
+                },
+
                 async addItem() {
-                    if (!this.newItem.name.trim()) return;
+                    if (!this.newItem.ingredient_id) return;
                     const res = await fetch('/mijn-voorraad/items', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': this.csrf() },
                         body: JSON.stringify({
-                            name:     this.newItem.name,
-                            quantity: this.newItem.qty,
-                            unit:     this.newItem.unit,
-                            location: this.newItem.location,
+                            ingredient_id: this.newItem.ingredient_id,
+                            quantity:      this.newItem.qty,
+                            unit:          this.newItem.unit,
+                            location:      this.newItem.location,
                         }),
                     });
                     if (res.ok) {
                         const item = await res.json();
                         this.items.push(item);
                     }
-                    this.newItem = { name: '', qty: '1', unit: 'stuks', location: 'fridge' };
+                    this.newItem = {
+                        ingredient_id: null, ingredient_name: '', ingredient_category: '',
+                        search: '', searchResults: [], qty: '1', unit: 'stuks', location: 'fridge',
+                    };
                     this.showAddModal = false;
                 },
             }

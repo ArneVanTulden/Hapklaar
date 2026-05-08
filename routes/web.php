@@ -10,6 +10,7 @@ Route::get('/mijn-keuken', fn() => view('mijn-keuken'))->name('mijn-keuken');
 Route::get('/boodschappen', fn() => view('boodschappen'))->name('boodschappen');
 Route::middleware('auth')->prefix('mijn-voorraad')->group(function () {
     Route::get('/', [InventoryController::class, 'index'])->name('mijn-voorraad');
+    Route::get('/ingredients', [InventoryController::class, 'ingredients'])->name('inventory.ingredients');
     Route::post('/items', [InventoryController::class, 'store'])->name('inventory.store');
     Route::delete('/items/{item}', [InventoryController::class, 'destroy'])->name('inventory.destroy');
     Route::patch('/items/{item}', [InventoryController::class, 'move'])->name('inventory.move');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ingredient;
 use App\Models\InventoryItem;
 use Illuminate\Http\Request;
 
@@ -13,37 +14,54 @@ class InventoryController extends Controller
 
         $items = $inventory->items()->with('ingredient')->get()->map(fn ($item) => [
             'id'       => $item->id,
-            'name'     => strtoupper($item->name),
+            'name'     => strtoupper($item->ingredient->canonical_name),
             'qty'      => rtrim(rtrim((string) $item->quantity, '0'), '.'),
             'unit'     => strtoupper($item->unit),
             'location' => $item->location,
-            'category' => strtoupper($item->ingredient?->category ?? 'overig'),
-            'catClass' => $this->catClass($item->ingredient?->category),
+            'category' => strtoupper($item->ingredient->category),
+            'catClass' => $this->catClass($item->ingredient->category),
         ]);
 
         return view('mijn-voorraad', compact('items'));
     }
 
+    public function ingredients(Request $request)
+    {
+        $q = trim($request->input('q', ''));
+
+        return Ingredient::when($q, fn ($query) => $query->where('canonical_name', 'like', "%{$q}%"))
+            ->orderBy('canonical_name')
+            ->limit(12)
+            ->get(['id', 'canonical_name as name', 'category']);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'     => 'required|string|max:255',
-            'quantity' => 'required|numeric|min:0',
-            'unit'     => 'required|string|max:50',
-            'location' => 'required|in:fridge,freezer,pantry',
+            'ingredient_id' => 'required|exists:ingredients,id',
+            'quantity'      => 'required|numeric|min:0',
+            'unit'          => 'required|string|max:50',
+            'location'      => 'required|in:fridge,freezer,pantry',
         ]);
 
-        $inventory = auth()->user()->inventory()->firstOrCreate([]);
-        $item = $inventory->items()->create($data);
+        $ingredient = Ingredient::find($data['ingredient_id']);
+        $inventory  = auth()->user()->inventory()->firstOrCreate([]);
+        $item       = $inventory->items()->create([
+            'ingredient_id' => $ingredient->id,
+            'name'          => $ingredient->canonical_name,
+            'quantity'      => $data['quantity'],
+            'unit'          => $data['unit'],
+            'location'      => $data['location'],
+        ]);
 
         return response()->json([
             'id'       => $item->id,
-            'name'     => strtoupper($item->name),
+            'name'     => strtoupper($ingredient->canonical_name),
             'qty'      => rtrim(rtrim((string) $item->quantity, '0'), '.'),
             'unit'     => strtoupper($item->unit),
             'location' => $item->location,
-            'category' => 'OVERIG',
-            'catClass' => 'bg-gray-100 text-gray-700 border-gray-300',
+            'category' => strtoupper($ingredient->category),
+            'catClass' => $this->catClass($ingredient->category),
         ], 201);
     }
 
@@ -63,7 +81,7 @@ class InventoryController extends Controller
         return response()->noContent();
     }
 
-    private function catClass(?string $category): string
+    private function catClass(string $category): string
     {
         return match ($category) {
             'zuivel'       => 'bg-sky-100 text-sky-700 border-sky-300',
