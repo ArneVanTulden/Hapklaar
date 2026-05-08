@@ -154,6 +154,11 @@ class MijnVoorraad extends Component
 
     public function render()
     {
-        return view('livewire.mijn-voorraad');
+        return view('livewire.mijn-voorraad', [
+            'items'        => $this->items,
+            'fridgeItems'  => $this->fridgeItems,
+            'freezerItems' => $this->freezerItems,
+            'pantryItems'  => $this->pantryItems,
+        ]);
     }
 }
