@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('canonical_name');
+            $table->enum('category', ['zuivel', 'groenten', 'vlees', 'vis', 'granen', 'kruiden', 'specerijen', 'peulvruchten', 'fruit', 'sauzen', 'diepvries', 'blik', 'dranken']);
             $table->timestamps();
         });
     }
