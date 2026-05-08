@@ -251,38 +251,7 @@
             </div>
         </main>
 
-        <x-ingredient-modal>
-            {{-- Search input --}}
-            <div class="flex items-center border-2 border-black px-4 py-3 mb-6 bg-white">
-                <svg class="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/>
-                </svg>
-                <input type="text"
-                       placeholder="ZOEK EEN INGREDIËNT..."
-                       class="w-full text-[11px] font-black uppercase tracking-widest placeholder-gray-400 outline-none">
-            </div>
-
-            {{-- Suggestions --}}
-            <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-3">SUGGESTIES</p>
-            <div class="flex flex-wrap gap-2 mb-8">
-                @foreach([
-                    ['label' => 'PAPRIKA',    'cls' => 'bg-[var(--lime)] text-black border-black'],
-                    ['label' => 'KNOFLOOK',   'cls' => 'bg-brand text-white border-brand'],
-                    ['label' => 'CITROEN',    'cls' => 'bg-[var(--lime)] text-black border-black'],
-                    ['label' => 'PETERSELIE', 'cls' => 'bg-brand text-white border-brand'],
-                    ['label' => 'OLIJFOLIE',  'cls' => 'bg-[var(--lime)] text-black border-black'],
-                ] as $sug)
-                    <button class="text-[10px] font-black uppercase tracking-widest px-4 py-2 border-2 shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 {{ $sug['cls'] }}">
-                        {{ $sug['label'] }}
-                    </button>
-                @endforeach
-            </div>
-
-            {{-- Add button --}}
-            <button class="w-full bg-brand text-white text-base font-black uppercase italic tracking-widest py-4 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
-                TOEVOEGEN
-            </button>
-        </x-ingredient-modal>
+        @livewire('ingredient-modal')
 
         <x-footer />
 
