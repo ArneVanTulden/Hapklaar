@@ -4,23 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Inventaris extends Model
+class Inventory extends Model
 {
-    protected $table = 'inventaris';
+    protected $table = 'inventory';
 
     protected $fillable = [
         'user_id',
         'ingredient_id',
-        'naam',
-        'hoeveelheid',
-        'eenheid',
-        'locatie',
+        'name',
+        'quantity',
+        'unit',
+        'location',
     ];
 
     protected function casts(): array
     {
         return [
-            'hoeveelheid' => 'decimal:2',
+            'quantity' => 'decimal:2',
         ];
     }
 
