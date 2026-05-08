@@ -45,6 +45,51 @@
                   get koelkastItems()   { return this.items.filter(i => i.location === 'koelkast') },
                   get vriezerItems()    { return this.items.filter(i => i.location === 'vriezer') },
                   get voorraadItems()   { return this.items.filter(i => i.location === 'voorraadkast') },
+                  dragId: null,
+                  dragOver: null,
+                  dragCounts: { koelkast: 0, vriezer: 0, voorraadkast: 0 },
+                  startDrag(id, event) {
+                      this.dragId = id;
+                      this.activeFilter = 'alles';
+                      event.dataTransfer.effectAllowed = 'move';
+                      this._dragY = event.clientY;
+                      this._dragMoveHandler = (e) => { this._dragY = e.clientY; };
+                      window.addEventListener('dragover', this._dragMoveHandler);
+                      this._scrollLoop = setInterval(() => {
+                          const threshold = 120;
+                          const y = this._dragY;
+                          const h = window.innerHeight;
+                          if (y > h - threshold) {
+                              window.scrollBy(0, Math.ceil(((y - (h - threshold)) / threshold) * 16));
+                          } else if (y < threshold) {
+                              window.scrollBy(0, -Math.ceil(((threshold - y) / threshold) * 16));
+                          }
+                      }, 16);
+                  },
+                  endDrag() {
+                      this.dragId = null;
+                      this.dragOver = null;
+                      this.dragCounts = { koelkast: 0, vriezer: 0, voorraadkast: 0 };
+                      clearInterval(this._scrollLoop);
+                      window.removeEventListener('dragover', this._dragMoveHandler);
+                  },
+                  onDragEnter(loc) {
+                      this.dragCounts[loc]++;
+                      this.dragOver = loc;
+                  },
+                  onDragLeave(loc) {
+                      this.dragCounts[loc] = Math.max(0, this.dragCounts[loc] - 1);
+                      if (this.dragCounts[loc] === 0 && this.dragOver === loc) this.dragOver = null;
+                  },
+                  onDrop(loc) {
+                      if (this.dragId !== null) {
+                          const item = this.items.find(i => i.id === this.dragId);
+                          if (item) item.location = loc;
+                      }
+                      this.dragId = null;
+                      this.dragOver = null;
+                      this.dragCounts = { koelkast: 0, vriezer: 0, voorraadkast: 0 };
+                  },
                   removeItem(id) {
                       this.items = this.items.filter(i => i.id !== id);
                   },
@@ -153,7 +198,14 @@
                              x-transition:enter="transition ease-out duration-150"
                              x-transition:enter-start="opacity-0 -translate-y-1"
                              x-transition:enter-end="opacity-100 translate-y-0">
-                            <div class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-5">
+                            <div class="bg-white border-2 p-5 transition-all duration-150"
+                                 :class="dragOver === 'koelkast' && dragId !== null
+                                     ? 'border-brand shadow-[4px_4px_0px_0px_var(--brand)]'
+                                     : 'border-black shadow-[4px_4px_0px_0px_#000]'"
+                                 @dragover.prevent
+                                 @dragenter.prevent="onDragEnter('koelkast')"
+                                 @dragleave="onDragLeave('koelkast')"
+                                 @drop.prevent="onDrop('koelkast')">
 
                                 {{-- Section label --}}
                                 <div class="flex items-center justify-between mb-4">
@@ -173,8 +225,17 @@
                                 {{-- Items --}}
                                 <div>
                                     <template x-for="item in koelkastItems" :key="item.id">
-                                        <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group">
+                                        <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
+                                             draggable="true"
+                                             @dragstart="startDrag(item.id, $event)"
+                                             @dragend="endDrag()"
+                                             :class="dragId === item.id ? 'opacity-30' : 'opacity-100'">
                                             <div class="flex items-center gap-3">
+                                                <svg class="w-3 h-4 text-gray-300 group-hover:text-gray-400 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
+                                                    <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                    <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                    <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                </svg>
                                                 <span x-text="item.category"
                                                       :class="['text-[8px] font-black uppercase tracking-widest px-2 py-1 border', item.catClass]"></span>
                                                 <div>
@@ -182,7 +243,7 @@
                                                     <p class="text-[9px] text-gray-400 font-bold uppercase" x-text="item.qty + ' ' + item.unit"></p>
                                                 </div>
                                             </div>
-                                            <button @click="removeItem(item.id)"
+                                            <button @click.stop="removeItem(item.id)"
                                                     class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
                                                 ✕
                                             </button>
@@ -190,8 +251,14 @@
                                     </template>
                                 </div>
 
-                                <div x-show="koelkastItems.length === 0" class="py-8 text-center">
+                                <div x-show="koelkastItems.length === 0 && dragId === null" class="py-8 text-center">
                                     <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">KOELKAST IS LEEG</p>
+                                </div>
+
+                                <div x-show="dragId !== null"
+                                     class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
+                                     :class="dragOver === 'koelkast' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
+                                    ❄ HIER NEERZETTEN
                                 </div>
 
                             </div>
@@ -202,7 +269,14 @@
                              x-transition:enter="transition ease-out duration-150"
                              x-transition:enter-start="opacity-0 -translate-y-1"
                              x-transition:enter-end="opacity-100 translate-y-0">
-                            <div class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-5">
+                            <div class="bg-white border-2 p-5 transition-all duration-150"
+                                 :class="dragOver === 'vriezer' && dragId !== null
+                                     ? 'border-brand shadow-[4px_4px_0px_0px_var(--brand)]'
+                                     : 'border-black shadow-[4px_4px_0px_0px_#000]'"
+                                 @dragover.prevent
+                                 @dragenter.prevent="onDragEnter('vriezer')"
+                                 @dragleave="onDragLeave('vriezer')"
+                                 @drop.prevent="onDrop('vriezer')">
 
                                 <div class="flex items-center justify-between mb-4">
                                     <div class="flex items-center gap-2">
@@ -218,8 +292,17 @@
 
                                 <div>
                                     <template x-for="item in vriezerItems" :key="item.id">
-                                        <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group">
+                                        <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
+                                             draggable="true"
+                                             @dragstart="startDrag(item.id, $event)"
+                                             @dragend="endDrag()"
+                                             :class="dragId === item.id ? 'opacity-30' : 'opacity-100'">
                                             <div class="flex items-center gap-3">
+                                                <svg class="w-3 h-4 text-gray-300 group-hover:text-gray-400 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
+                                                    <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                    <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                    <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                </svg>
                                                 <span x-text="item.category"
                                                       :class="['text-[8px] font-black uppercase tracking-widest px-2 py-1 border', item.catClass]"></span>
                                                 <div>
@@ -227,7 +310,7 @@
                                                     <p class="text-[9px] text-gray-400 font-bold uppercase" x-text="item.qty + ' ' + item.unit"></p>
                                                 </div>
                                             </div>
-                                            <button @click="removeItem(item.id)"
+                                            <button @click.stop="removeItem(item.id)"
                                                     class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
                                                 ✕
                                             </button>
@@ -235,8 +318,14 @@
                                     </template>
                                 </div>
 
-                                <div x-show="vriezerItems.length === 0" class="py-8 text-center">
+                                <div x-show="vriezerItems.length === 0 && dragId === null" class="py-8 text-center">
                                     <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">VRIEZER IS LEEG</p>
+                                </div>
+
+                                <div x-show="dragId !== null"
+                                     class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
+                                     :class="dragOver === 'vriezer' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
+                                    ❄❄ HIER NEERZETTEN
                                 </div>
 
                             </div>
@@ -247,7 +336,14 @@
                              x-transition:enter="transition ease-out duration-150"
                              x-transition:enter-start="opacity-0 -translate-y-1"
                              x-transition:enter-end="opacity-100 translate-y-0">
-                            <div class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-5">
+                            <div class="bg-white border-2 p-5 transition-all duration-150"
+                                 :class="dragOver === 'voorraadkast' && dragId !== null
+                                     ? 'border-brand shadow-[4px_4px_0px_0px_var(--brand)]'
+                                     : 'border-black shadow-[4px_4px_0px_0px_#000]'"
+                                 @dragover.prevent
+                                 @dragenter.prevent="onDragEnter('voorraadkast')"
+                                 @dragleave="onDragLeave('voorraadkast')"
+                                 @drop.prevent="onDrop('voorraadkast')">
 
                                 <div class="flex items-center justify-between mb-4">
                                     <div class="flex items-center gap-2">
@@ -265,8 +361,17 @@
 
                                 <div>
                                     <template x-for="item in voorraadItems" :key="item.id">
-                                        <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group">
+                                        <div class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
+                                             draggable="true"
+                                             @dragstart="startDrag(item.id, $event)"
+                                             @dragend="endDrag()"
+                                             :class="dragId === item.id ? 'opacity-30' : 'opacity-100'">
                                             <div class="flex items-center gap-3">
+                                                <svg class="w-3 h-4 text-gray-300 group-hover:text-gray-400 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
+                                                    <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                    <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                    <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                </svg>
                                                 <span x-text="item.category"
                                                       :class="['text-[8px] font-black uppercase tracking-widest px-2 py-1 border', item.catClass]"></span>
                                                 <div>
@@ -274,7 +379,7 @@
                                                     <p class="text-[9px] text-gray-400 font-bold uppercase" x-text="item.qty + ' ' + item.unit"></p>
                                                 </div>
                                             </div>
-                                            <button @click="removeItem(item.id)"
+                                            <button @click.stop="removeItem(item.id)"
                                                     class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
                                                 ✕
                                             </button>
@@ -282,8 +387,14 @@
                                     </template>
                                 </div>
 
-                                <div x-show="voorraadItems.length === 0" class="py-8 text-center">
+                                <div x-show="voorraadItems.length === 0 && dragId === null" class="py-8 text-center">
                                     <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">VOORRAADKAST IS LEEG</p>
+                                </div>
+
+                                <div x-show="dragId !== null"
+                                     class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
+                                     :class="dragOver === 'voorraadkast' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
+                                    HIER NEERZETTEN
                                 </div>
 
                             </div>
