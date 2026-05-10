@@ -97,13 +97,6 @@
                     </button>
                 </div>
 
-                <button @click="$dispatch('open-ingredient-modal')"
-                        class="bg-brand text-white text-[10px] font-black uppercase tracking-widest px-5 py-2.5 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75 flex items-center gap-2">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" d="M12 5v14M5 12h14"/>
-                    </svg>
-                    PRODUCT TOEVOEGEN
-                </button>
             </div>
 
             {{-- TWO-COLUMN LAYOUT --}}
