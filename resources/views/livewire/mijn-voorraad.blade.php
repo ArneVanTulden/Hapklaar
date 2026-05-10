@@ -152,10 +152,21 @@
                                                     <p class="text-[9px] text-gray-400 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
                                                 </div>
                                             </div>
-                                            <button wire:click.stop="removeItem({{ $item['id'] }})"
-                                                    class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                                ✕
-                                            </button>
+                                            @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
+                                            <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100">
+                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
+                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-gray-50 hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">
+                                                    −
+                                                </button>
+                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
+                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-gray-50 hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">
+                                                    +
+                                                </button>
+                                                <button wire:click.stop="removeItem({{ $item['id'] }})"
+                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center">
+                                                    ✕
+                                                </button>
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>
@@ -215,10 +226,21 @@
                                                     <p class="text-[9px] text-gray-400 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
                                                 </div>
                                             </div>
-                                            <button wire:click.stop="removeItem({{ $item['id'] }})"
-                                                    class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                                ✕
-                                            </button>
+                                            @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
+                                            <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100">
+                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
+                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-gray-50 hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">
+                                                    −
+                                                </button>
+                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
+                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-gray-50 hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">
+                                                    +
+                                                </button>
+                                                <button wire:click.stop="removeItem({{ $item['id'] }})"
+                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center">
+                                                    ✕
+                                                </button>
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>
@@ -278,10 +300,21 @@
                                                     <p class="text-[9px] text-gray-400 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
                                                 </div>
                                             </div>
-                                            <button wire:click.stop="removeItem({{ $item['id'] }})"
-                                                    class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                                ✕
-                                            </button>
+                                            @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
+                                            <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100">
+                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
+                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-gray-50 hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">
+                                                    −
+                                                </button>
+                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
+                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-gray-50 hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">
+                                                    +
+                                                </button>
+                                                <button wire:click.stop="removeItem({{ $item['id'] }})"
+                                                        class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center">
+                                                    ✕
+                                                </button>
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>

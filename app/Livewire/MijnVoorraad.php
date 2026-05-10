@@ -46,6 +46,19 @@ class MijnVoorraad extends Component
         return array_values(array_filter($this->items, fn ($i) => $i['location'] === 'pantry'));
     }
 
+    public function updateQuantity(int $id, int $delta): void
+    {
+        $item = InventoryItem::findOrFail($id);
+        abort_if($item->inventory->user_id !== auth()->id(), 403);
+
+        $newQty = $item->quantity + $delta;
+        if ($newQty <= 0) {
+            $item->delete();
+        } else {
+            $item->update(['quantity' => $newQty]);
+        }
+    }
+
     public function removeItem(int $id): void
     {
         $item = InventoryItem::findOrFail($id);

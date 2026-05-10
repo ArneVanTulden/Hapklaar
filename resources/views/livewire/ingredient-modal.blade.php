@@ -64,11 +64,11 @@
                  x-data="{
                      qty: $wire.entangle('qty'),
                      unit: $wire.entangle('unit'),
-                     get step() { return ['g', 'ml'].includes(this.unit) ? 5 : 1; },
+                     get step() { return ['g', 'ml'].includes(this.unit) ? 50 : 1; },
                      increment() { this.qty = String(Math.max(0, parseInt(this.qty || 0) + this.step)); },
                      decrement() { this.qty = String(Math.max(0, parseInt(this.qty || 0) - this.step)); },
                  }"
-                 x-init="$watch('unit', (val) => { qty = String(['g','ml'].includes(val) ? 5 : 1); })">
+                 x-init="$watch('unit', (val) => { qty = String(['g','ml'].includes(val) ? 50 : 1); })">
                 <div class="flex-1">
                     <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">HOEVEELHEID</label>
                     <div class="flex border-2 border-black">
