@@ -147,44 +147,11 @@
                                 </div>
                             </div>
 
-                            {{-- ╔══════════════════════════════════╗ --}}
-                            {{-- ║      MAIN FRIDGE DOOR           ║ --}}
-                            {{-- ╚══════════════════════════════════╝ --}}
-                            <div class="relative" style="background: linear-gradient(175deg, #f5f5f3 0%, #ebebe9 100%);">
-
-                                {{-- Brand badge (big, prominent, right side of door) --}}
-                                <div class="absolute right-4 top-4 z-20 flex flex-col items-end gap-1">
-                                    <div class="bg-black px-3 py-1 border-2 border-black shadow-[3px_3px_0px_0px_#000]">
-                                        <span class="text-[10px] font-black uppercase italic tracking-wider text-white">HAPKLAAR</span>
-                                    </div>
-                                    <span class="text-[6px] font-black uppercase tracking-widest text-gray-400">PRO COOLING™</span>
-                                </div>
-
-                                {{-- Water/ice dispenser (left top) --}}
-                                <div class="absolute left-4 top-4 z-20">
-                                    <div class="border-[3px] border-black overflow-hidden"
-                                         style="background: linear-gradient(180deg, #2a2a2a 0%, #0a0a0a 100%); border-radius: 6px; box-shadow: 3px 3px 0 0 #000;">
-                                        <div class="flex items-center gap-2 px-2.5 py-1.5">
-                                            <div class="w-3.5 h-3.5 rounded-full border border-blue-300/40 flex items-center justify-center"
-                                                 style="background: radial-gradient(circle at 35% 35%, #4a90c8, #1a3a5a);">
-                                                <div class="w-1 h-1 rounded-full bg-white/50"></div>
-                                            </div>
-                                            <span class="text-[6px] font-black uppercase tracking-widest text-blue-200/70">WATER</span>
-                                            <div class="w-px h-3 bg-white/20"></div>
-                                            <span class="text-[6px] font-black uppercase tracking-widest text-white/70">ICE ❄</span>
-                                        </div>
-                                        <div class="border-t border-white/10 h-2 flex items-center justify-center"
-                                             style="background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);">
-                                            <div class="w-8 h-0.5 bg-gray-500/50 rounded-full"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- KOELKAST compartment (the visible interior through door) --}}
+                            {{-- KOELKAST compartment --}}
                                 <div x-show="activeFilter === 'alles' || activeFilter === 'fridge'"
-                                     class="relative transition-all duration-150 mt-20 mx-4 mb-3 overflow-hidden border-[4px] border-gray-800"
-                                     :class="dragOver === 'fridge' && dragId !== null ? 'ring-2 ring-inset ring-brand/40' : ''"
-                                     style="border-radius: 4px; background: linear-gradient(150deg, #e0f3fa 0%, #cce8f4 50%, #b8dcee 100%); box-shadow: inset 0 4px 12px rgba(0,0,0,0.35), inset 0 -2px 8px rgba(0,0,0,0.2);"
+                                     class="relative transition-all duration-150"
+                                     :class="dragOver === 'fridge' && dragId !== null ? '' : ''"
+                                     style="background: linear-gradient(150deg, #e0f3fa 0%, #cce8f4 50%, #b8dcee 100%);"
                                      @dragover.prevent
                                      @dragenter.prevent="onDragEnter('fridge')"
                                      @dragleave="onDragLeave('fridge')"
@@ -252,7 +219,6 @@
                                     </div>
                                 </div>
 
-                            </div>{{-- end main door --}}
 
                             {{-- ╔══════════════════════════════════╗ --}}
                             {{-- ║   FREEZER DRAWER (pull-out)     ║ --}}
