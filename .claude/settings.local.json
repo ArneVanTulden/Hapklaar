@@ -17,7 +17,9 @@
       "Bash(Select-Object LineNumber, Line)",
       "Bash(Remove-Item \"c:\\\\Workspace\\\\Hapklaar\\\\app\\\\Models\\\\Inventaris.php\")",
       "Bash(Test-Path \"c:\\\\Workspace\\\\Hapklaar\\\\routes\\\\api.php\" -PathType Leaf)",
-      "Bash(grep -E \"\\\\.blade\\\\.php$\")"
+      "Bash(grep -E \"\\\\.blade\\\\.php$\")",
+      "Bash(Get-ChildItem -Path \"resources\" -Filter \"*.blade.php\" -Recurse)",
+      "Bash(Select-Object -ExpandProperty FullName)"
     ]
   }
 }

@@ -76,7 +76,7 @@
                                 ? 'bg-[var(--lime)] text-black border-black shadow-[3px_3px_0px_0px_#000]'
                                 : 'bg-white text-black border-black hover:bg-[var(--pink-soft)]'"
                             class="text-[10px] font-black uppercase tracking-widest px-4 py-2 border-2 transition-all duration-75">
-                        ❄ KOELKAST
+                        KOELKAST
                         <span class="ml-1 opacity-60">({{ count($fridgeItems) }})</span>
                     </button>
                     <button @click="activeFilter = 'freezer'"
@@ -84,7 +84,7 @@
                                 ? 'bg-gray-800 text-white border-gray-800 shadow-[3px_3px_0px_0px_#000]'
                                 : 'bg-white text-black border-black hover:bg-[var(--pink-soft)]'"
                             class="text-[10px] font-black uppercase tracking-widest px-4 py-2 border-2 transition-all duration-75">
-                        ❄❄ VRIEZER
+                        VRIEZER
                         <span class="ml-1 opacity-60">({{ count($freezerItems) }})</span>
                     </button>
                     <button @click="activeFilter = 'pantry'"
@@ -117,7 +117,7 @@
                          x-transition:enter="transition ease-out duration-150"
                          x-transition:enter-start="opacity-0 -translate-y-1"
                          x-transition:enter-end="opacity-100 translate-y-0">
-                        <div class="bg-white border-2 p-5 transition-all duration-150"
+                        <div class="bg-white border-2 overflow-hidden transition-all duration-150"
                              :class="dragOver === 'fridge' && dragId !== null
                                  ? 'border-brand shadow-[4px_4px_0px_0px_var(--brand)]'
                                  : 'border-black shadow-[4px_4px_0px_0px_#000]'"
@@ -126,55 +126,51 @@
                              @dragleave="onDragLeave('fridge')"
                              @drop.prevent="onDrop('fridge')">
 
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <rect x="5" y="2" width="14" height="20" rx="2"/>
-                                        <path stroke-linecap="round" d="M5 10h14M9 6v2M9 14v4"/>
-                                    </svg>
-                                    <span class="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 border-2 bg-[var(--lime)] text-black border-black">KOELKAST</span>
-                                </div>
-                                <span class="text-[9px] font-black uppercase tracking-widest text-gray-400">{{ count($fridgeItems) }} ITEMS</span>
+                            <div class="flex items-center justify-between px-5 py-3 bg-[var(--lime)] border-b-2 border-black">
+                                <span class="text-[11px] font-black uppercase tracking-widest text-black">KOELKAST</span>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-black opacity-50">{{ count($fridgeItems) }} ITEMS</span>
                             </div>
 
-                            <div>
-                                @foreach($fridgeItems as $item)
-                                    <div wire:key="fridge-{{ $item['id'] }}"
-                                         class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
-                                         draggable="true"
-                                         @dragstart="startDrag({{ $item['id'] }}, $event)"
-                                         @dragend="endDrag()"
-                                         :class="dragId === {{ $item['id'] }} ? 'opacity-30' : 'opacity-100'">
-                                        <div class="flex items-center gap-3">
-                                            <svg class="w-3 h-4 text-gray-300 group-hover:text-gray-400 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
-                                                <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
-                                                <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
-                                                <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
-                                            </svg>
-                                            <span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 border {{ $item['catClass'] }}">{{ $item['category'] }}</span>
-                                            <div>
-                                                <p class="text-[11px] font-black uppercase">{{ $item['name'] }}</p>
-                                                <p class="text-[9px] text-gray-400 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                            <div class="p-5">
+                                <div>
+                                    @foreach($fridgeItems as $item)
+                                        <div wire:key="fridge-{{ $item['id'] }}"
+                                             class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
+                                             draggable="true"
+                                             @dragstart="startDrag({{ $item['id'] }}, $event)"
+                                             @dragend="endDrag()"
+                                             :class="dragId === {{ $item['id'] }} ? 'opacity-30' : 'opacity-100'">
+                                            <div class="flex items-center gap-3">
+                                                <svg class="w-3 h-4 text-gray-300 group-hover:text-gray-400 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
+                                                    <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                    <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                    <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                </svg>
+                                                <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] {{ $item['catClass'] }}">{{ $item['category'] }}</span>
+                                                <div>
+                                                    <p class="text-[12px] font-black uppercase">{{ $item['name'] }}</p>
+                                                    <p class="text-[9px] text-gray-400 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                                                </div>
                                             </div>
+                                            <button wire:click.stop="removeItem({{ $item['id'] }})"
+                                                    class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                                ✕
+                                            </button>
                                         </div>
-                                        <button wire:click.stop="removeItem({{ $item['id'] }})"
-                                                class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                            ✕
-                                        </button>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            @if(count($fridgeItems) === 0)
-                                <div x-show="dragId === null" class="py-8 text-center">
-                                    <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">KOELKAST IS LEEG</p>
+                                    @endforeach
                                 </div>
-                            @endif
 
-                            <div x-show="dragId !== null"
-                                 class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
-                                 :class="dragOver === 'fridge' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
-                                ❄ HIER NEERZETTEN
+                                @if(count($fridgeItems) === 0)
+                                    <div x-show="dragId === null" class="py-8 text-center">
+                                        <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">KOELKAST IS LEEG</p>
+                                    </div>
+                                @endif
+
+                                <div x-show="dragId !== null"
+                                     class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
+                                     :class="dragOver === 'fridge' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
+                                    HIER NEERZETTEN
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -184,7 +180,7 @@
                          x-transition:enter="transition ease-out duration-150"
                          x-transition:enter-start="opacity-0 -translate-y-1"
                          x-transition:enter-end="opacity-100 translate-y-0">
-                        <div class="bg-white border-2 p-5 transition-all duration-150"
+                        <div class="bg-white border-2 overflow-hidden transition-all duration-150"
                              :class="dragOver === 'freezer' && dragId !== null
                                  ? 'border-brand shadow-[4px_4px_0px_0px_var(--brand)]'
                                  : 'border-black shadow-[4px_4px_0px_0px_#000]'"
@@ -193,54 +189,51 @@
                              @dragleave="onDragLeave('freezer')"
                              @drop.prevent="onDrop('freezer')">
 
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/>
-                                    </svg>
-                                    <span class="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 border-2 bg-gray-800 text-white border-gray-800">VRIEZER</span>
-                                </div>
-                                <span class="text-[9px] font-black uppercase tracking-widest text-gray-400">{{ count($freezerItems) }} ITEMS</span>
+                            <div class="flex items-center justify-between px-5 py-3 bg-black border-b-2 border-black">
+                                <span class="text-[11px] font-black uppercase tracking-widest text-white">VRIEZER</span>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-white opacity-50">{{ count($freezerItems) }} ITEMS</span>
                             </div>
 
-                            <div>
-                                @foreach($freezerItems as $item)
-                                    <div wire:key="freezer-{{ $item['id'] }}"
-                                         class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
-                                         draggable="true"
-                                         @dragstart="startDrag({{ $item['id'] }}, $event)"
-                                         @dragend="endDrag()"
-                                         :class="dragId === {{ $item['id'] }} ? 'opacity-30' : 'opacity-100'">
-                                        <div class="flex items-center gap-3">
-                                            <svg class="w-3 h-4 text-gray-300 group-hover:text-gray-400 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
-                                                <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
-                                                <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
-                                                <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
-                                            </svg>
-                                            <span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 border {{ $item['catClass'] }}">{{ $item['category'] }}</span>
-                                            <div>
-                                                <p class="text-[11px] font-black uppercase">{{ $item['name'] }}</p>
-                                                <p class="text-[9px] text-gray-400 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                            <div class="p-5">
+                                <div>
+                                    @foreach($freezerItems as $item)
+                                        <div wire:key="freezer-{{ $item['id'] }}"
+                                             class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
+                                             draggable="true"
+                                             @dragstart="startDrag({{ $item['id'] }}, $event)"
+                                             @dragend="endDrag()"
+                                             :class="dragId === {{ $item['id'] }} ? 'opacity-30' : 'opacity-100'">
+                                            <div class="flex items-center gap-3">
+                                                <svg class="w-3 h-4 text-gray-300 group-hover:text-gray-400 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
+                                                    <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                    <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                    <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                </svg>
+                                                <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] {{ $item['catClass'] }}">{{ $item['category'] }}</span>
+                                                <div>
+                                                    <p class="text-[12px] font-black uppercase">{{ $item['name'] }}</p>
+                                                    <p class="text-[9px] text-gray-400 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                                                </div>
                                             </div>
+                                            <button wire:click.stop="removeItem({{ $item['id'] }})"
+                                                    class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                                ✕
+                                            </button>
                                         </div>
-                                        <button wire:click.stop="removeItem({{ $item['id'] }})"
-                                                class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                            ✕
-                                        </button>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            @if(count($freezerItems) === 0)
-                                <div x-show="dragId === null" class="py-8 text-center">
-                                    <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">VRIEZER IS LEEG</p>
+                                    @endforeach
                                 </div>
-                            @endif
 
-                            <div x-show="dragId !== null"
-                                 class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
-                                 :class="dragOver === 'freezer' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
-                                ❄❄ HIER NEERZETTEN
+                                @if(count($freezerItems) === 0)
+                                    <div x-show="dragId === null" class="py-8 text-center">
+                                        <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">VRIEZER IS LEEG</p>
+                                    </div>
+                                @endif
+
+                                <div x-show="dragId !== null"
+                                     class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
+                                     :class="dragOver === 'freezer' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
+                                    HIER NEERZETTEN
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -250,7 +243,7 @@
                          x-transition:enter="transition ease-out duration-150"
                          x-transition:enter-start="opacity-0 -translate-y-1"
                          x-transition:enter-end="opacity-100 translate-y-0">
-                        <div class="bg-white border-2 p-5 transition-all duration-150"
+                        <div class="bg-white border-2 overflow-hidden transition-all duration-150"
                              :class="dragOver === 'pantry' && dragId !== null
                                  ? 'border-brand shadow-[4px_4px_0px_0px_var(--brand)]'
                                  : 'border-black shadow-[4px_4px_0px_0px_#000]'"
@@ -259,55 +252,51 @@
                              @dragleave="onDragLeave('pantry')"
                              @drop.prevent="onDrop('pantry')">
 
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 7H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1z"/>
-                                        <path stroke-linecap="round" d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2M12 12v.01"/>
-                                    </svg>
-                                    <span class="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 border-2 bg-[var(--yellow)] text-black border-black">VOORRAADKAST</span>
-                                </div>
-                                <span class="text-[9px] font-black uppercase tracking-widest text-gray-400">{{ count($pantryItems) }} ITEMS</span>
+                            <div class="flex items-center justify-between px-5 py-3 bg-[var(--yellow)] border-b-2 border-black">
+                                <span class="text-[11px] font-black uppercase tracking-widest text-black">VOORRAADKAST</span>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-black opacity-50">{{ count($pantryItems) }} ITEMS</span>
                             </div>
 
-                            <div>
-                                @foreach($pantryItems as $item)
-                                    <div wire:key="pantry-{{ $item['id'] }}"
-                                         class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
-                                         draggable="true"
-                                         @dragstart="startDrag({{ $item['id'] }}, $event)"
-                                         @dragend="endDrag()"
-                                         :class="dragId === {{ $item['id'] }} ? 'opacity-30' : 'opacity-100'">
-                                        <div class="flex items-center gap-3">
-                                            <svg class="w-3 h-4 text-gray-300 group-hover:text-gray-400 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
-                                                <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
-                                                <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
-                                                <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
-                                            </svg>
-                                            <span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 border {{ $item['catClass'] }}">{{ $item['category'] }}</span>
-                                            <div>
-                                                <p class="text-[11px] font-black uppercase">{{ $item['name'] }}</p>
-                                                <p class="text-[9px] text-gray-400 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                            <div class="p-5">
+                                <div>
+                                    @foreach($pantryItems as $item)
+                                        <div wire:key="pantry-{{ $item['id'] }}"
+                                             class="flex items-center justify-between py-3 border-b border-gray-100 last:border-0 group transition-opacity duration-100"
+                                             draggable="true"
+                                             @dragstart="startDrag({{ $item['id'] }}, $event)"
+                                             @dragend="endDrag()"
+                                             :class="dragId === {{ $item['id'] }} ? 'opacity-30' : 'opacity-100'">
+                                            <div class="flex items-center gap-3">
+                                                <svg class="w-3 h-4 text-gray-300 group-hover:text-gray-400 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
+                                                    <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                    <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                    <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                </svg>
+                                                <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] {{ $item['catClass'] }}">{{ $item['category'] }}</span>
+                                                <div>
+                                                    <p class="text-[12px] font-black uppercase">{{ $item['name'] }}</p>
+                                                    <p class="text-[9px] text-gray-400 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                                                </div>
                                             </div>
+                                            <button wire:click.stop="removeItem({{ $item['id'] }})"
+                                                    class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                                ✕
+                                            </button>
                                         </div>
-                                        <button wire:click.stop="removeItem({{ $item['id'] }})"
-                                                class="w-6 h-6 border border-gray-200 text-gray-400 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                            ✕
-                                        </button>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            @if(count($pantryItems) === 0)
-                                <div x-show="dragId === null" class="py-8 text-center">
-                                    <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">VOORRAADKAST IS LEEG</p>
+                                    @endforeach
                                 </div>
-                            @endif
 
-                            <div x-show="dragId !== null"
-                                 class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
-                                 :class="dragOver === 'pantry' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
-                                HIER NEERZETTEN
+                                @if(count($pantryItems) === 0)
+                                    <div x-show="dragId === null" class="py-8 text-center">
+                                        <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">VOORRAADKAST IS LEEG</p>
+                                    </div>
+                                @endif
+
+                                <div x-show="dragId !== null"
+                                     class="mt-3 py-2.5 border-2 border-dashed text-center text-[9px] font-black uppercase tracking-widest select-none pointer-events-none transition-all duration-100"
+                                     :class="dragOver === 'pantry' ? 'border-brand text-brand' : 'border-gray-200 text-gray-300'">
+                                    HIER NEERZETTEN
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -337,11 +326,11 @@
                                 <span class="text-[12px] font-black">{{ count($items) }} ITEMS</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">❄ KOELKAST</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">KOELKAST</span>
                                 <span class="text-[12px] font-black">{{ count($fridgeItems) }}</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">❄❄ VRIEZER</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">VRIEZER</span>
                                 <span class="text-[12px] font-black">{{ count($freezerItems) }}</span>
                             </div>
                             <div class="flex justify-between items-center">

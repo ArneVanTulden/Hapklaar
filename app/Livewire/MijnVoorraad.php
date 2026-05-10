@@ -67,20 +67,20 @@ class MijnVoorraad extends Component
     private function catClass(string $category): string
     {
         return match ($category) {
-            'zuivel'       => 'bg-sky-100 text-sky-700 border-sky-300',
-            'groenten'     => 'bg-emerald-100 text-emerald-700 border-emerald-300',
-            'vlees'        => 'bg-pink-100 text-pink-700 border-pink-300',
-            'vis'          => 'bg-cyan-100 text-cyan-700 border-cyan-300',
-            'granen'       => 'bg-amber-100 text-amber-700 border-amber-300',
-            'kruiden'      => 'bg-lime-100 text-lime-700 border-lime-300',
-            'specerijen'   => 'bg-orange-100 text-orange-700 border-orange-300',
-            'peulvruchten' => 'bg-orange-100 text-orange-700 border-orange-300',
-            'fruit'        => 'bg-yellow-100 text-yellow-700 border-yellow-300',
-            'sauzen'       => 'bg-red-100 text-red-700 border-red-300',
-            'diepvries'    => 'bg-indigo-100 text-indigo-700 border-indigo-300',
-            'blik'         => 'bg-gray-100 text-gray-700 border-gray-300',
-            'dranken'      => 'bg-purple-100 text-purple-700 border-purple-300',
-            default        => 'bg-gray-100 text-gray-700 border-gray-300',
+            'zuivel'       => 'bg-sky-200 text-sky-900',
+            'groenten'     => 'bg-lime-300 text-black',
+            'vlees'        => 'bg-pink-500 text-white',
+            'vis'          => 'bg-cyan-300 text-cyan-900',
+            'granen'       => 'bg-amber-300 text-black',
+            'kruiden'      => 'bg-lime-300 text-black',
+            'specerijen'   => 'bg-orange-300 text-black',
+            'peulvruchten' => 'bg-amber-300 text-black',
+            'fruit'        => 'bg-yellow-300 text-black',
+            'sauzen'       => 'bg-red-400 text-white',
+            'diepvries'    => 'bg-slate-800 text-white',
+            'blik'         => 'bg-gray-300 text-black',
+            'dranken'      => 'bg-purple-400 text-white',
+            default        => 'bg-gray-300 text-black',
         };
     }
 
