@@ -147,11 +147,56 @@
                                 </div>
                             </div>
 
-                            {{-- KOELKAST compartment --}}
+                            {{-- ╔══════════════════════════════════╗ --}}
+                            {{-- ║   FRIDGE DOOR — magnets, notes  ║ --}}
+                            {{-- ╚══════════════════════════════════╝ --}}
+                            <div x-show="activeFilter === 'alles' || activeFilter === 'fridge'"
+                                 class="relative px-5 pt-4 pb-2 flex items-center gap-2.5 flex-wrap"
+                                 style="background: linear-gradient(175deg, #f5f5f3 0%, #ebebe9 100%);">
+
+                                {{-- Magnet 1: lime smiley --}}
+                                <div class="border-2 border-black flex items-center justify-center font-black"
+                                     style="width: 32px; height: 32px; background: var(--lime); transform: rotate(-4deg); box-shadow: 2px 2px 0 0 #000; border-radius: 2px;">
+                                    <span class="text-[14px]">☺</span>
+                                </div>
+
+                                {{-- Magnet 2: hot-pink heart --}}
+                                <div class="border-2 border-black flex items-center justify-center font-black"
+                                     style="width: 30px; height: 30px; background: var(--hot-pink); transform: rotate(6deg); box-shadow: 2px 2px 0 0 #000; border-radius: 50%;">
+                                    <span class="text-[12px] text-white">♥</span>
+                                </div>
+
+                                {{-- Post-it note --}}
+                                <div class="border-2 border-black px-2 py-1 font-black"
+                                     style="background: var(--yellow); transform: rotate(-2deg); box-shadow: 3px 3px 0 0 #000;">
+                                    <span class="text-[8px] uppercase tracking-wider block leading-tight">EITJES</span>
+                                    <span class="text-[8px] uppercase tracking-wider block leading-tight">KOPEN!</span>
+                                </div>
+
+                                {{-- Photo polaroid --}}
+                                <div class="border-2 border-black p-1 pb-2"
+                                     style="background: #fafafa; transform: rotate(3deg); box-shadow: 2px 2px 0 0 #000;">
+                                    <div class="w-7 h-5" style="background: linear-gradient(135deg, #ff6b9d 0%, #c44ce6 50%, #4ce6c4 100%);"></div>
+                                </div>
+
+                                {{-- Hapklaar brand magnet --}}
+                                <div class="ml-auto border-2 border-black px-2 py-1"
+                                     style="background: black; transform: rotate(-2deg); box-shadow: 2px 2px 0 0 #000;">
+                                    <span class="text-[9px] font-black uppercase italic tracking-wider text-white">HAPKLAAR</span>
+                                </div>
+
+                                {{-- Recipe card --}}
+                                <div class="border-2 border-black px-2 py-1 font-black"
+                                     style="background: white; transform: rotate(2deg); box-shadow: 2px 2px 0 0 #000;">
+                                    <span class="text-[8px] uppercase tracking-wider">📋 RECEPT</span>
+                                </div>
+                            </div>
+
+                            {{-- KOELKAST compartment (interior visible through door opening) --}}
                                 <div x-show="activeFilter === 'alles' || activeFilter === 'fridge'"
-                                     class="relative transition-all duration-150"
-                                     :class="dragOver === 'fridge' && dragId !== null ? '' : ''"
-                                     style="background: linear-gradient(150deg, #e0f3fa 0%, #cce8f4 50%, #b8dcee 100%);"
+                                     class="relative transition-all duration-150 mx-5 mb-4 overflow-hidden border-[4px] border-gray-800"
+                                     :class="dragOver === 'fridge' && dragId !== null ? 'ring-2 ring-inset ring-brand/40' : ''"
+                                     style="border-radius: 4px; background: linear-gradient(150deg, #e0f3fa 0%, #cce8f4 50%, #b8dcee 100%); box-shadow: inset 0 4px 12px rgba(0,0,0,0.35), inset 0 -2px 8px rgba(0,0,0,0.2);"
                                      @dragover.prevent
                                      @dragenter.prevent="onDragEnter('fridge')"
                                      @dragleave="onDragLeave('fridge')"
@@ -344,17 +389,21 @@
                             <div class="absolute" style="left: 50%; top: 50%; transform: translate(-50%, -50%); width: 4px; height: 4px; border-radius: 50%; background: #2a2a2a; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);"></div>
                         </div>
 
-                        {{-- Big chrome handle (right side, prominent) --}}
+                        {{-- BIG chrome handle — fridge signature --}}
+                        {{-- Top mount bracket --}}
                         <div class="absolute border-[3px] border-black"
-                             style="right: -16px; top: 13%; height: 40%; min-height: 110px; width: 22px; border-radius: 11px; background: linear-gradient(90deg, #2a2a2a 0%, #6a6a6a 12%, #b8b8b8 30%, #f5f5f5 48%, #ffffff 52%, #e8e8e8 60%, #b0b0b0 78%, #5a5a5a 90%, #2a2a2a 100%); box-shadow: 5px 5px 0 0 #000;">
-                            {{-- Handle mounts (top + bottom brackets) --}}
-                            <div class="absolute" style="left: -6px; top: 6%; width: 10px; height: 10px; background: #444; border: 2px solid black; border-radius: 2px;"></div>
-                            <div class="absolute" style="left: -6px; bottom: 6%; width: 10px; height: 10px; background: #444; border: 2px solid black; border-radius: 2px;"></div>
-                            {{-- Grip details --}}
-                            <div class="absolute inset-x-1.5" style="top: 22%; height: 1px; background: rgba(0,0,0,0.25);"></div>
-                            <div class="absolute inset-x-1.5" style="top: 38%; height: 1px; background: rgba(0,0,0,0.25);"></div>
-                            <div class="absolute inset-x-1.5" style="top: 54%; height: 1px; background: rgba(0,0,0,0.25);"></div>
-                            <div class="absolute inset-x-1.5" style="top: 70%; height: 1px; background: rgba(0,0,0,0.25);"></div>
+                             style="right: 8px; top: 11%; width: 18px; height: 16px; background: linear-gradient(180deg, #5a5a5a 0%, #888 50%, #444 100%); box-shadow: 3px 3px 0 0 #000; z-index: 25;"></div>
+                        {{-- Bottom mount bracket --}}
+                        <div class="absolute border-[3px] border-black"
+                             style="right: 8px; top: calc(11% + 130px); width: 18px; height: 16px; background: linear-gradient(180deg, #5a5a5a 0%, #888 50%, #444 100%); box-shadow: 3px 3px 0 0 #000; z-index: 25;"></div>
+                        {{-- Handle bar --}}
+                        <div class="absolute border-[3px] border-black"
+                             style="right: -10px; top: calc(11% + 12px); height: 130px; width: 28px; border-radius: 14px; background: linear-gradient(90deg, #1a1a1a 0%, #4a4a4a 8%, #909090 22%, #d8d8d8 38%, #ffffff 50%, #ececec 62%, #a0a0a0 78%, #4a4a4a 92%, #1a1a1a 100%); box-shadow: 6px 6px 0 0 #000; z-index: 20;">
+                            <div class="absolute inset-x-2" style="top: 15%; height: 1.5px; background: rgba(0,0,0,0.3);"></div>
+                            <div class="absolute inset-x-2" style="top: 32%; height: 1.5px; background: rgba(0,0,0,0.3);"></div>
+                            <div class="absolute inset-x-2" style="top: 49%; height: 1.5px; background: rgba(0,0,0,0.3);"></div>
+                            <div class="absolute inset-x-2" style="top: 66%; height: 1.5px; background: rgba(0,0,0,0.3);"></div>
+                            <div class="absolute inset-x-2" style="top: 83%; height: 1.5px; background: rgba(0,0,0,0.3);"></div>
                         </div>
 
                         {{-- Freezer drawer pull bracket (right side, lower) --}}
