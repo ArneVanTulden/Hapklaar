@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn() => view('home'))->name('home');
 Route::get('/ontdekken', fn() => view('ontdekken'))->name('ontdekken');
 Route::get('/mijn-keuken', fn() => view('mijn-keuken'))->name('mijn-keuken');
-Route::get('/boodschappen', fn() => view('boodschappen'))->name('boodschappen');
+Route::get('/boodschappen', fn() => view('boodschappen'))->middleware('auth')->name('boodschappen');
 Route::get('/mijn-voorraad', fn () => view('mijn-voorraad'))->middleware('auth')->name('mijn-voorraad');
 Route::get('/profiel', fn() => view('profiel'))->middleware('auth')->name('profiel');
 
