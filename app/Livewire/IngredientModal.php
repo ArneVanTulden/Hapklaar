@@ -16,6 +16,7 @@ class IngredientModal extends Component
     public string $qty = '1';
     public string $unit = 'stuks';
     public string $location = 'fridge';
+    public string $mode = 'inventory';
 
     public function updatedSearch(): void
     {
@@ -50,22 +51,41 @@ class IngredientModal extends Component
 
     public function addItem(): void
     {
-        $this->validate([
+        $rules = [
             'ingredientId' => 'required|exists:ingredients,id',
             'qty'          => 'required|numeric|min:0',
             'unit'         => 'required|string|max:50',
-            'location'     => 'required|in:fridge,freezer,pantry',
-        ]);
+        ];
+
+        if ($this->mode === 'inventory') {
+            $rules['location'] = 'required|in:fridge,freezer,pantry';
+        }
+
+        $this->validate($rules);
 
         $ingredient = Ingredient::findOrFail($this->ingredientId);
-        $inventory  = auth()->user()->inventory()->firstOrCreate([]);
-        $inventory->items()->create([
-            'ingredient_id' => $ingredient->id,
-            'name'          => $ingredient->canonical_name,
-            'quantity'      => $this->qty,
-            'unit'          => $this->unit,
-            'location'      => $this->location,
-        ]);
+
+        if ($this->mode === 'shopping') {
+            $list = auth()->user()->shoppingLists()->firstOrCreate([]);
+            $list->items()->create([
+                'ingredient_id' => $ingredient->id,
+                'name'          => $ingredient->canonical_name,
+                'quantity'      => $this->qty,
+                'unit'          => $this->unit,
+                'category'      => $ingredient->category,
+            ]);
+            $this->dispatch('shopping-list-updated');
+        } else {
+            $inventory = auth()->user()->inventory()->firstOrCreate([]);
+            $inventory->items()->create([
+                'ingredient_id' => $ingredient->id,
+                'name'          => $ingredient->canonical_name,
+                'quantity'      => $this->qty,
+                'unit'          => $this->unit,
+                'location'      => $this->location,
+            ]);
+            $this->dispatch('inventory-updated');
+        }
 
         $this->ingredientId       = null;
         $this->ingredientName     = '';
@@ -75,9 +95,9 @@ class IngredientModal extends Component
         $this->qty                = '1';
         $this->unit               = 'stuks';
         $this->location           = 'fridge';
+        $this->mode               = 'inventory';
 
         $this->dispatch('close-ingredient-modal');
-        $this->dispatch('inventory-updated');
     }
 
     public function render()

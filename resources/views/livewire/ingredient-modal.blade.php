@@ -1,5 +1,5 @@
 <div x-data="{ open: false }"
-     @open-ingredient-modal.window="open = true"
+     @open-ingredient-modal.window="open = true; $wire.set('mode', $event.detail?.mode ?? 'inventory')"
      @close-ingredient-modal.window="open = false"
      x-show="open"
      class="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -97,6 +97,7 @@
                 </div>
             </div>
 
+            @if($mode === 'inventory')
             <div class="mb-8">
                 <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">BEWAARPLAATS</label>
                 <div class="flex gap-2">
@@ -114,6 +115,7 @@
                     </button>
                 </div>
             </div>
+            @endif
 
             <button wire:click="addItem"
                     class="w-full bg-brand text-white text-base font-black uppercase italic tracking-widest py-4 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">

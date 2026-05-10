@@ -115,7 +115,7 @@
 
                         {{-- Add item button --}}
                         <div class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000]">
-                            <button x-data @click="$dispatch('open-ingredient-modal')"
+                            <button x-data @click="$dispatch('open-ingredient-modal', { mode: 'shopping' })"
                                     class="w-full flex items-center justify-center gap-2 py-4 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:bg-[var(--pink-soft)] transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <circle cx="12" cy="12" r="9"/>
