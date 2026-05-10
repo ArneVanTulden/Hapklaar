@@ -208,7 +208,7 @@
 
                                     <div class="p-4 pt-3">
                                         <div class="flex items-center justify-between mb-4">
-                                            <span class="text-[9px] font-black uppercase tracking-widest bg-[var(--lime)] border-2 border-black px-2 py-0.5 shadow-[2px_2px_0px_0px_#000]">KOELKAST</span>
+                                            <span class="text-[9px] font-black uppercase tracking-widest bg-sky-300 text-black border-2 border-black px-2 py-0.5 shadow-[2px_2px_0px_0px_#000]">KOELKAST</span>
                                             <span class="text-[8px] font-black uppercase tracking-widest text-blue-600/50">{{ count($fridgeItems) }} ITEMS</span>
                                         </div>
 
@@ -300,7 +300,7 @@
 
                                     <div class="p-4 relative" style="z-index: 1;">
                                         <div class="flex items-center justify-between mb-4">
-                                            <span class="text-[9px] font-black uppercase tracking-widest bg-black text-white border-2 border-black px-2 py-0.5 shadow-[2px_2px_0px_0px_rgba(0,50,80,0.6)]">❄ VRIEZER</span>
+                                            <span class="text-[9px] font-black uppercase tracking-widest bg-blue-900 text-white border-2 border-black px-2 py-0.5 shadow-[2px_2px_0px_0px_rgba(0,50,80,0.6)]">❄ VRIEZER</span>
                                             <span class="text-[8px] font-black uppercase tracking-widest text-white/45">{{ count($freezerItems) }} ITEMS</span>
                                         </div>
 
