@@ -25,25 +25,34 @@
                 <div class="flex-1 min-w-0 space-y-4">
 
                     @forelse($sections as $section)
-                        <div class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-5">
+                        <div class="relative bg-[#fffef9] border-2 border-black shadow-[6px_6px_0px_0px_#000] p-6"
+                             style="background: repeating-linear-gradient(180deg, #fffef9 0px, #fffef9 26px, #eef2f7 26px, #eef2f7 27px);">
+                            <div class="absolute -top-3 left-10 h-6 w-24 bg-[var(--yellow)]/80 border-2 border-black"
+                                 style="transform: rotate(-2deg);"></div>
+                            <div class="absolute inset-y-0 left-7 w-px bg-red-400/60"></div>
+                            <div class="absolute left-2 top-7 flex flex-col gap-3">
+                                <span class="w-2 h-2 rounded-full border border-black/40 bg-white"></span>
+                                <span class="w-2 h-2 rounded-full border border-black/40 bg-white"></span>
+                                <span class="w-2 h-2 rounded-full border border-black/40 bg-white"></span>
+                            </div>
 
-                            <div class="inline-block mb-4">
+                            <div class="inline-block mb-4 ml-4">
                                 <span class="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 border-2 {{ $section['label_cls'] }}">
                                     {{ $section['label'] }}
                                 </span>
                             </div>
 
-                            <div class="space-y-0">
+                            <div class="space-y-0 ml-4">
                                 @foreach($section['items'] as $i => $item)
-                                    <div class="flex items-center justify-between py-3 group {{ $i < count($section['items']) - 1 ? 'border-b border-gray-200' : '' }}">
+                                    <div class="flex items-center justify-between py-2.5 group {{ $i < count($section['items']) - 1 ? 'border-b border-blue-100' : '' }}">
                                         <div class="flex items-center gap-3 flex-1 cursor-pointer" wire:click="toggleItem({{ $item->id }})">
                                             <span class="w-5 h-5 border-2 border-black flex items-center justify-center flex-shrink-0 {{ $item->is_checked ? 'bg-[var(--lime)]' : 'bg-white group-hover:bg-[var(--pink-soft)]' }} transition-colors">
                                                 @if($item->is_checked)
                                                     <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M2 6l3 3 5-5"/></svg>
                                                 @endif
                                             </span>
-                                            <span class="text-[11px] font-bold uppercase tracking-wide {{ $item->is_checked ? 'line-through text-gray-400' : '' }}">
-                                                @if($item->quantity){{ $item->quantity }} {{ $item->unit }} @endif{{ strtoupper($item->name) }}
+                                            <span class="text-[12px] font-bold tracking-wide {{ $item->is_checked ? 'line-through text-gray-400' : '' }}">
+                                                @if($item->quantity){{ $item->quantity }} {{ $item->unit }} @endif{{ $item->name }}
                                             </span>
                                         </div>
                                         <div class="flex items-center gap-3">
@@ -61,7 +70,8 @@
 
                         </div>
                     @empty
-                        <div class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-10 text-center">
+                        <div class="bg-[#fffef9] border-2 border-black shadow-[6px_6px_0px_0px_#000] p-10 text-center"
+                             style="background: repeating-linear-gradient(180deg, #fffef9 0px, #fffef9 26px, #eef2f7 26px, #eef2f7 27px);">
                             <p class="text-[11px] font-black uppercase tracking-widest text-gray-400">LIJST IS LEEG. VOEG EEN ITEM TOE.</p>
                         </div>
                     @endforelse
