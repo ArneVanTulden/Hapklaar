@@ -36,6 +36,7 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Rood kaas', 'category' => 'zuivel'],
             ['canonical_name' => 'Smeerkaas', 'category' => 'zuivel'],
             ['canonical_name' => 'Magere yoghurt', 'category' => 'zuivel'],
+            ['canonical_name' => 'Ei', 'category' => 'zuivel'],
 
             // Groenten (Vegetables) - 30
             ['canonical_name' => 'Aardappel', 'category' => 'groenten'],
@@ -66,8 +67,13 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Bieten', 'category' => 'groenten'],
             ['canonical_name' => 'Selderij', 'category' => 'groenten'],
             ['canonical_name' => 'Venkel', 'category' => 'groenten'],
-            ['canonical_name' => 'Witlof', 'category' => 'groenten'],
+            ['canonical_name' => 'Witloof', 'category' => 'groenten'],
             ['canonical_name' => 'Paksoi', 'category' => 'groenten'],
+            ['canonical_name' => 'Knolraap', 'category' => 'groenten'],
+            ['canonical_name' => 'Lente-ui', 'category' => 'groenten'],
+            ['canonical_name' => 'Maïs', 'category' => 'groenten'],
+            ['canonical_name' => 'Asperges', 'category' => 'groenten'],
+            ['canonical_name' => 'Pastinaak', 'category' => 'groenten'],
 
             // Vlees (Meat) - 25
             ['canonical_name' => 'Rundvlees', 'category' => 'vlees'],
@@ -139,6 +145,8 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Havermout', 'category' => 'granen'],
             ['canonical_name' => 'Gist', 'category' => 'granen'],
             ['canonical_name' => 'Bloem', 'category' => 'granen'],
+            ['canonical_name' => 'Koek', 'category' => 'granen'],
+            ['canonical_name' => 'Crackers', 'category' => 'granen'],
 
             // Kruiden (Herbs) - 15
             ['canonical_name' => 'Peterselie', 'category' => 'kruiden'],
@@ -219,6 +227,9 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Mayonaise', 'category' => 'sauzen'],
             ['canonical_name' => 'Sriracha', 'category' => 'sauzen'],
             ['canonical_name' => 'Tabasco saus', 'category' => 'sauzen'],
+            ['canonical_name' => 'Honing', 'category' => 'sauzen'],
+            ['canonical_name' => 'Jam', 'category' => 'sauzen'],
+            ['canonical_name' => 'Pindakaas', 'category' => 'sauzen'],
 
             // Diepvries (Frozen)  
             ['canonical_name' => 'Diepvrieserwtjes', 'category' => 'diepvries'],
@@ -250,7 +261,10 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Blik pijnboompitten', 'category' => 'blik'],
             ['canonical_name' => 'Blik kokosmelk', 'category' => 'blik'],
 
-            // Dranken (Drinks) 
+            // Dranken (Drinks)
+            ['canonical_name' => 'Water', 'category' => 'dranken'],
+            ['canonical_name' => 'Sinaasappelsap', 'category' => 'dranken'],
+            ['canonical_name' => 'Appelsap', 'category' => 'dranken'],
             ['canonical_name' => 'Bier', 'category' => 'dranken'],
             ['canonical_name' => 'Blonde bier', 'category' => 'dranken'],
             ['canonical_name' => 'Bruin bier', 'category' => 'dranken'],

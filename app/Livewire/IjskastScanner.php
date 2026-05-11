@@ -45,10 +45,6 @@ class IjskastScanner extends Component
             $imageData = base64_encode((string) $encoded);
             $mimeType = 'image/jpeg';
 
-            $knownNames = Cache::remember('ingredient_canonical_names', 3600, fn () =>
-                Ingredient::orderBy('canonical_name')->pluck('canonical_name')->implode(', ')
-            );
-
             $response = Http::withToken(config('services.openai.key'))
                 ->timeout(30)
                 ->post('https://api.openai.com/v1/chat/completions', [
@@ -65,12 +61,12 @@ class IjskastScanner extends Component
                                 ],
                                 [
                                     'type' => 'text',
-                                    'text' => "Identificeer alle voedselingrediënten die zichtbaar zijn in deze afbeelding. Gebruik ALLEEN namen uit deze lijst: {$knownNames}. Als een ingredient niet exact in de lijst staat, kies dan de dichtstbijzijnde match uit de lijst. Geef ALLEEN een JSON-array terug met objecten met de sleutels: \"name\" (exacte naam uit de lijst), \"qty\" (geschatte hoeveelheid als string, bijv. \"1\", \"200\"), \"unit\" (eenheid zoals \"stuks\", \"gram\", \"liter\", of lege string). Geef alleen de JSON-array terug, geen andere tekst.",
+                                    'text' => "Je bent een koelkast-scanner. Identificeer alle voedselingrediënten die zichtbaar zijn in deze afbeelding.\n\nRegels:\n- Gebruik altijd Nederlandse namen (\"wortel\" niet \"carrot\")\n- Scan alle schappen en vakken volledig\n- Neem alleen op wat je daadwerkelijk ziet, geen aannames\n- Vloeistoffen: identificeer op kleur/label (oranje sap = sinaasappelsap, transparant = water)\n\nGeef ALLEEN een JSON-array terug: [{\"name\":\"nederlandse naam\",\"qty\":\"hoeveelheid\",\"unit\":\"stuks|gram|liter|\"}]. Geen uitleg, geen markdown.",
                                 ],
                             ],
                         ],
                     ],
-                    'max_tokens' => 500,
+                    'max_tokens' => 800,
                 ]);
 
             if (! $response->successful()) {
@@ -88,17 +84,9 @@ class IjskastScanner extends Component
                 return;
             }
 
-            $validNames = collect($ingredients)
-                ->pluck('name')
-                ->filter()
-                ->map(fn ($n) => strtolower(trim($n)))
-                ->all();
-
-            $matched = ! empty($validNames)
-                ? Ingredient::whereRaw('LOWER(canonical_name) IN (' . implode(',', array_fill(0, count($validNames), '?')) . ')', $validNames)
-                    ->get()
-                    ->keyBy(fn ($i) => strtolower($i->canonical_name))
-                : collect();
+            $allIngredients = Cache::remember('ingredients_for_matching', 3600, fn () =>
+                Ingredient::all(['id', 'canonical_name'])->toArray()
+            );
 
             foreach ($ingredients as $item) {
                 $name = trim($item['name'] ?? '');
@@ -106,11 +94,15 @@ class IjskastScanner extends Component
                     continue;
                 }
 
-                $ingredient = $matched[strtolower($name)] ?? null;
+                $ingredient = $this->fuzzyMatch($name, $allIngredients);
+
+                if (! $ingredient) {
+                    continue;
+                }
 
                 $this->dispatch('scanner-ingredient-added',
-                    id: $ingredient?->id,
-                    name: $name,
+                    id: $ingredient['id'],
+                    name: $ingredient['canonical_name'],
                     qty: $item['qty'] ?? '1',
                     unit: $item['unit'] ?? 'stuks',
                 );
@@ -121,6 +113,39 @@ class IjskastScanner extends Component
         } finally {
             $this->isScanning = false;
         }
+    }
+
+    private function fuzzyMatch(string $name, array $ingredients): ?array
+    {
+        $needle = strtolower($name);
+
+        // 1. Exact match
+        foreach ($ingredients as $ing) {
+            if (strtolower($ing['canonical_name']) === $needle) {
+                return $ing;
+            }
+        }
+
+        // 2. Contains match (both directions)
+        foreach ($ingredients as $ing) {
+            $haystack = strtolower($ing['canonical_name']);
+            if (str_contains($haystack, $needle) || str_contains($needle, $haystack)) {
+                return $ing;
+            }
+        }
+
+        // 3. similar_text with 70% threshold
+        $best = null;
+        $bestScore = 0.0;
+        foreach ($ingredients as $ing) {
+            similar_text($needle, strtolower($ing['canonical_name']), $percent);
+            if ($percent > 70 && $percent > $bestScore) {
+                $bestScore = $percent;
+                $best = $ing;
+            }
+        }
+
+        return $best;
     }
 
     public function clearPhoto(): void
