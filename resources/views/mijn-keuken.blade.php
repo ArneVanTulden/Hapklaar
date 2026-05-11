@@ -42,53 +42,7 @@
                 <div class="grid grid-cols-2 gap-6 mb-12">
 
                     {{-- Left: Upload box --}}
-                    <div class="relative">
-                        {{-- GEEN STRESS badge --}}
-                        <div class="absolute -top-3 -left-2 z-10 bg-[var(--lime)] border-2 border-black px-3 py-1 text-[9px] font-black uppercase tracking-widest shadow-[2px_2px_0px_0px_#000]">
-                            GEEN STRESS!
-                        </div>
-
-                        <div class="bg-white border-2 border-black shadow-[5px_5px_0px_0px_#000]">
-                            {{-- Step label --}}
-                            <div class="bg-[var(--lime)] border-b-2 border-black px-4 py-2">
-                                <span class="text-[9px] font-black uppercase tracking-widest">STAP 1: TREK DIE DEUR OPEN</span>
-                            </div>
-
-                            {{-- Drop zone --}}
-                            <div class="flex flex-col items-center justify-center py-14 px-8">
-                                <div class="relative mb-6">
-                                    {{-- Dashed circle --}}
-                                    <div class="w-44 h-44 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center">
-                                        {{-- Camera button --}}
-                                        <button class="w-28 h-28 rounded-full bg-brand border-2 border-black shadow-[4px_4px_0px_0px_#000] flex items-center justify-center hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-75">
-                                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                                <p class="text-[11px] font-black uppercase tracking-widest text-gray-500 mb-6">DROP JE FOTO HIER</p>
-
-                                {{-- Buttons --}}
-                                <div class="flex gap-3 w-full">
-                                    <button class="flex-1 bg-brand text-white text-[11px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-                                        MAAK FOTO
-                                    </button>
-                                    <button class="flex-1 bg-[var(--lime)] text-black text-[11px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-                                        UPLOAD
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- SCAN-IT badge bottom-right --}}
-                        <div class="absolute -bottom-3 -right-3 z-10">
-                            <button class="bg-brand text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 border-2 border-black shadow-[3px_3px_0px_0px_#000]">
-                                SCAN-IT
-                            </button>
-                        </div>
-                    </div>
+                    @livewire('ijskast-scanner')
 
                     {{-- Right: Detected ingredients --}}
                     @livewire('scanner-results')

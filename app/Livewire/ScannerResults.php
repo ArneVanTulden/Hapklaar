@@ -19,7 +19,7 @@ class ScannerResults extends Component
     }
 
     #[On('scanner-ingredient-added')]
-    public function addIngredient(int $id, string $name, string $qty, string $unit): void
+    public function addIngredient(?int $id, string $name, string $qty, string $unit): void
     {
         $this->items[] = [
             'label'         => strtoupper($name),
