@@ -48,7 +48,8 @@ class MijnVoorraad extends Component
 
     public function updateQuantity(int $id, int $delta): void
     {
-        $item = InventoryItem::findOrFail($id);
+        $item = InventoryItem::find($id);
+        if (!$item) return;
         abort_if($item->inventory->user_id !== auth()->id(), 403);
 
         $newQty = $item->quantity + $delta;
@@ -61,7 +62,8 @@ class MijnVoorraad extends Component
 
     public function removeItem(int $id): void
     {
-        $item = InventoryItem::findOrFail($id);
+        $item = InventoryItem::find($id);
+        if (!$item) return;
         abort_if($item->inventory->user_id !== auth()->id(), 403);
         $item->delete();
     }
