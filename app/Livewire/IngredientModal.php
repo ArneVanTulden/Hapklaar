@@ -65,7 +65,14 @@ class IngredientModal extends Component
 
         $ingredient = Ingredient::findOrFail($this->ingredientId);
 
-        if ($this->mode === 'shopping') {
+        if ($this->mode === 'scanner') {
+            $this->dispatch('scanner-ingredient-added',
+                id:   $ingredient->id,
+                name: $ingredient->canonical_name,
+                qty:  $this->qty,
+                unit: $this->unit,
+            );
+        } elseif ($this->mode === 'shopping') {
             $list = auth()->user()->shoppingLists()->firstOrCreate([]);
             $list->items()->create([
                 'ingredient_id' => $ingredient->id,

@@ -91,39 +91,7 @@
                     </div>
 
                     {{-- Right: Detected ingredients --}}
-                    <div class="bg-white border-2 border-black shadow-[5px_5px_0px_0px_#000] p-6">
-                        <div class="flex items-center gap-2 mb-5">
-                            <h2 class="text-xl font-black uppercase italic">WIJ ZAGEN...</h2>
-                            <svg class="w-5 h-5 text-brand" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                            </svg>
-                        </div>
-
-                        {{-- Tags --}}
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            @php
-                                $ingredients = [
-                                    ['label' => 'HALF PAK KIP', 'class' => 'bg-brand text-white border-brand'],
-                                    ['label' => 'SLA',          'class' => 'bg-[var(--lime)] text-black border-black'],
-                                    ['label' => 'OUDE KAAS',   'class' => 'bg-gray-800 text-white border-gray-800'],
-                                    ['label' => 'MAISBLIK',    'class' => 'bg-brand text-white border-brand'],
-                                    ['label' => 'UI',          'class' => 'bg-white text-black border-black'],
-                                ];
-                            @endphp
-                            @foreach($ingredients as $ing)
-                                <span class="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 {{ $ing['class'] }}">
-                                    {{ $ing['label'] }}
-                                    <button class="font-black hover:opacity-70 transition-opacity">×</button>
-                                </span>
-                            @endforeach
-                        </div>
-
-                        {{-- Not recognised --}}
-                        <button onclick="window.dispatchEvent(new CustomEvent('open-ingredient-modal'))"
-                                class="w-full border-2 border-black py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:bg-[var(--pink-soft)] transition-colors">
-                            + NIET HERKEND?
-                        </button>
-                    </div>
+                    @livewire('scanner-results')
 
                 </div>
 
