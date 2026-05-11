@@ -40,7 +40,7 @@ class IngredientSeeder extends Seeder
 
             // Groenten (Vegetables) - 30
             ['canonical_name' => 'Aardappel', 'category' => 'groenten'],
-            ['canonical_name' => 'Uien', 'category' => 'groenten'],
+            ['canonical_name' => 'Ajuin', 'category' => 'groenten'],
             ['canonical_name' => 'Knoflook', 'category' => 'groenten'],
             ['canonical_name' => 'Wortelen', 'category' => 'groenten'],
             ['canonical_name' => 'Tomaat', 'category' => 'groenten'],
