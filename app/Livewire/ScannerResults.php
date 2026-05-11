@@ -32,6 +32,10 @@ class ScannerResults extends Component
 
     public function addAllToInventory(): void
     {
+        if (! auth()->check()) {
+            return;
+        }
+
         $saveable = array_filter($this->items, fn($i) => $i['ingredient_id'] !== null);
 
         if (empty($saveable)) {
@@ -43,13 +47,15 @@ class ScannerResults extends Component
         $inventory = $user->inventory()->firstOrCreate([]);
 
         foreach ($saveable as $item) {
-            $inventory->items()->create([
-                'ingredient_id' => $item['ingredient_id'],
-                'name'          => strtolower($item['label']),
-                'quantity'      => $item['qty'],
-                'unit'          => $item['unit'],
-                'location'      => 'fridge',
-            ]);
+            $inventory->items()->firstOrCreate(
+                ['ingredient_id' => $item['ingredient_id']],
+                [
+                    'name'     => strtolower($item['label']),
+                    'quantity' => $item['qty'],
+                    'unit'     => $item['unit'],
+                    'location' => 'fridge',
+                ]
+            );
         }
 
         $count = count($saveable);

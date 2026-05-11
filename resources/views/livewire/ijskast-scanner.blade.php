@@ -14,23 +14,29 @@
         <div class="flex flex-col items-center justify-center py-14 px-8">
             <div class="relative mb-6">
                 {{-- Dashed circle --}}
-                <div class="w-44 h-44 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden">
+                <div class="w-44 h-44 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden relative">
                     @if($photo)
-                        <img src="{{ $photo->temporaryUrl() }}" alt="Preview" class="w-full h-full object-cover rounded-full">
-                    @else
-                        <label for="scanner-photo-upload"
-                               class="w-28 h-28 rounded-full bg-brand border-2 border-black shadow-[4px_4px_0px_0px_#000] flex items-center justify-center hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-75 cursor-pointer">
-                            @if($isScanning)
-                                <svg class="w-10 h-10 text-white animate-spin" fill="none" viewBox="0 0 24 24">
+                        <img src="{{ $photo->temporaryUrl() }}" alt="Preview" class="w-full h-full object-cover rounded-full {{ $isScanning ? 'opacity-40' : '' }}">
+                        @if($isScanning)
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <svg class="w-10 h-10 text-brand animate-spin" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
                                 </svg>
-                            @else
-                                <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                </svg>
-                            @endif
+                            </div>
+                        @else
+                            <button wire:click="clearPhoto"
+                                    class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity rounded-full">
+                                <span class="text-white text-[10px] font-black uppercase tracking-widest">WISSEN</span>
+                            </button>
+                        @endif
+                    @else
+                        <label for="scanner-photo-upload"
+                               class="w-28 h-28 rounded-full bg-brand border-2 border-black shadow-[4px_4px_0px_0px_#000] flex items-center justify-center hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-75 cursor-pointer">
+                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
                         </label>
                     @endif
                 </div>
@@ -43,8 +49,10 @@
             </div>
 
             {{-- Error --}}
-            @if($error)
-                <p class="text-[10px] font-black uppercase text-red-600 mb-3 text-center tracking-widest">{{ $error }}</p>
+            @if($error || $errors->has('photo'))
+                <p class="text-[10px] font-black uppercase text-red-600 mb-3 text-center tracking-widest">
+                    {{ $error ?? $errors->first('photo') }}
+                </p>
             @else
                 <p class="text-[11px] font-black uppercase tracking-widest text-gray-500 mb-6">
                     {{ $photo ? 'FOTO KLAAR! HIT SCAN-IT →' : 'DROP JE FOTO HIER' }}
