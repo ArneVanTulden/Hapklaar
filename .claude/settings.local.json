@@ -20,7 +20,8 @@
       "Bash(grep -E \"\\\\.blade\\\\.php$\")",
       "Bash(Get-ChildItem -Path \"resources\" -Filter \"*.blade.php\" -Recurse)",
       "Bash(Select-Object -ExpandProperty FullName)",
-      "Bash(xargs grep -l \"password_reset_tokens\")"
+      "Bash(xargs grep -l \"password_reset_tokens\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\Workspace\\\\Hapklaar\\\\app\\\\Filament\\\\Resources\\\\RecipeResource\\\\Pages\")"
     ]
   }
 }
