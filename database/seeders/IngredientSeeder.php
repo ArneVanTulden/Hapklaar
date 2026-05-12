@@ -10,7 +10,7 @@ class IngredientSeeder extends Seeder
     public function run(): void
     {
         $ingredients = [
-            // Zuivel (Dairy) - 25
+            // Zuivel (Dairy)
             ['canonical_name' => 'Boter', 'category' => 'zuivel'],
             ['canonical_name' => 'Slagroom', 'category' => 'zuivel'],
             ['canonical_name' => 'Melk', 'category' => 'zuivel'],
@@ -23,22 +23,18 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Mozzarella', 'category' => 'zuivel'],
             ['canonical_name' => 'Cheddar', 'category' => 'zuivel'],
             ['canonical_name' => 'Gouda', 'category' => 'zuivel'],
-            ['canonical_name' => 'Edammer', 'category' => 'zuivel'],
             ['canonical_name' => 'Camembert', 'category' => 'zuivel'],
             ['canonical_name' => 'Brie', 'category' => 'zuivel'],
             ['canonical_name' => 'Gorgonzola', 'category' => 'zuivel'],
             ['canonical_name' => 'Blauwe kaas', 'category' => 'zuivel'],
             ['canonical_name' => 'Parmezaan', 'category' => 'zuivel'],
             ['canonical_name' => 'Roomkaas', 'category' => 'zuivel'],
-            ['canonical_name' => 'Hüttenkäse', 'category' => 'zuivel'],
             ['canonical_name' => 'Feta', 'category' => 'zuivel'],
             ['canonical_name' => 'Boursin', 'category' => 'zuivel'],
-            ['canonical_name' => 'Rood kaas', 'category' => 'zuivel'],
             ['canonical_name' => 'Smeerkaas', 'category' => 'zuivel'],
-            ['canonical_name' => 'Magere yoghurt', 'category' => 'zuivel'],
             ['canonical_name' => 'Ei', 'category' => 'zuivel'],
 
-            // Groenten (Vegetables) - 30
+            // Groenten (Vegetables)
             ['canonical_name' => 'Aardappel', 'category' => 'groenten'],
             ['canonical_name' => 'Ajuin', 'category' => 'groenten'],
             ['canonical_name' => 'Knoflook', 'category' => 'groenten'],
@@ -54,28 +50,28 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Rode kool', 'category' => 'groenten'],
             ['canonical_name' => 'Prei', 'category' => 'groenten'],
             ['canonical_name' => 'Spinazie', 'category' => 'groenten'],
-            ['canonical_name' => 'Slabonen', 'category' => 'groenten'],
             ['canonical_name' => 'Snijbonen', 'category' => 'groenten'],
             ['canonical_name' => 'Witte bonen', 'category' => 'groenten'],
             ['canonical_name' => 'Champignons', 'category' => 'groenten'],
-            ['canonical_name' => 'Ossenhart', 'category' => 'groenten'],
             ['canonical_name' => 'Aubergine', 'category' => 'groenten'],
             ['canonical_name' => 'Courgette', 'category' => 'groenten'],
             ['canonical_name' => 'Sla', 'category' => 'groenten'],
             ['canonical_name' => 'Rucola', 'category' => 'groenten'],
             ['canonical_name' => 'Radijs', 'category' => 'groenten'],
             ['canonical_name' => 'Bieten', 'category' => 'groenten'],
-            ['canonical_name' => 'Selderij', 'category' => 'groenten'],
+            ['canonical_name' => 'Selder', 'category' => 'groenten'],
             ['canonical_name' => 'Venkel', 'category' => 'groenten'],
             ['canonical_name' => 'Witloof', 'category' => 'groenten'],
-            ['canonical_name' => 'Paksoi', 'category' => 'groenten'],
             ['canonical_name' => 'Knolraap', 'category' => 'groenten'],
             ['canonical_name' => 'Lente-ui', 'category' => 'groenten'],
             ['canonical_name' => 'Maïs', 'category' => 'groenten'],
             ['canonical_name' => 'Asperges', 'category' => 'groenten'],
             ['canonical_name' => 'Pastinaak', 'category' => 'groenten'],
+            ['canonical_name' => 'Augurk', 'category' => 'groenten'],
+            ['canonical_name' => 'Kerstomaten', 'category' => 'groenten'],
+            ['canonical_name' => 'Rode ui', 'category' => 'groenten'],
 
-            // Vlees (Meat) - 25
+            // Vlees (Meat)
             ['canonical_name' => 'Rundvlees', 'category' => 'vlees'],
             ['canonical_name' => 'Varkensvlees', 'category' => 'vlees'],
             ['canonical_name' => 'Kippenvlees', 'category' => 'vlees'],
@@ -88,23 +84,15 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Pancetta', 'category' => 'vlees'],
             ['canonical_name' => 'Worst', 'category' => 'vlees'],
             ['canonical_name' => 'Rookworst', 'category' => 'vlees'],
-            ['canonical_name' => 'Gehakt worst', 'category' => 'vlees'],
-            ['canonical_name' => 'Kalkoenvlees', 'category' => 'vlees'],
-            ['canonical_name' => 'Eendvlees', 'category' => 'vlees'],
-            ['canonical_name' => 'Lamsvlees', 'category' => 'vlees'],
             ['canonical_name' => 'Runder steak', 'category' => 'vlees'],
             ['canonical_name' => 'Kipfilet', 'category' => 'vlees'],
             ['canonical_name' => 'Kipbout', 'category' => 'vlees'],
             ['canonical_name' => 'Schnitzel', 'category' => 'vlees'],
-            ['canonical_name' => 'Carbonade', 'category' => 'vlees'],
-            ['canonical_name' => 'Varkensschnitzel', 'category' => 'vlees'],
-            ['canonical_name' => 'Ossenstaart', 'category' => 'vlees'],
             ['canonical_name' => 'Runderribbetjes', 'category' => 'vlees'],
             ['canonical_name' => 'Kippenbouten', 'category' => 'vlees'],
 
-            // Vis (Fish) - 20
+            // Vis (Fish)
             ['canonical_name' => 'Kabeljauw', 'category' => 'vis'],
-            ['canonical_name' => 'Schol', 'category' => 'vis'],
             ['canonical_name' => 'Zeebaars', 'category' => 'vis'],
             ['canonical_name' => 'Zalm', 'category' => 'vis'],
             ['canonical_name' => 'Forel', 'category' => 'vis'],
@@ -112,32 +100,21 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Haring', 'category' => 'vis'],
             ['canonical_name' => 'Paling', 'category' => 'vis'],
             ['canonical_name' => 'Tong', 'category' => 'vis'],
-            ['canonical_name' => 'Heilbot', 'category' => 'vis'],
             ['canonical_name' => 'Mosselen', 'category' => 'vis'],
             ['canonical_name' => 'Oesters', 'category' => 'vis'],
             ['canonical_name' => 'Garnalen', 'category' => 'vis'],
             ['canonical_name' => 'Scampi', 'category' => 'vis'],
             ['canonical_name' => 'Inktvis', 'category' => 'vis'],
-            ['canonical_name' => 'Pijlinktvis', 'category' => 'vis'],
-            ['canonical_name' => 'Roodbaars', 'category' => 'vis'],
-            ['canonical_name' => 'Seabream', 'category' => 'vis'],
-            ['canonical_name' => 'Tarbot', 'category' => 'vis'],
-            ['canonical_name' => 'Pladijs', 'category' => 'vis'],
+            ['canonical_name' => 'Tonijn', 'category' => 'vis'],
 
-            // Granen (Grains) - 20
+            // Granen (Grains)
             ['canonical_name' => 'Brood', 'category' => 'granen'],
             ['canonical_name' => 'Witbrood', 'category' => 'granen'],
             ['canonical_name' => 'Bruin brood', 'category' => 'granen'],
             ['canonical_name' => 'Volkorenbrood', 'category' => 'granen'],
-            ['canonical_name' => 'Roggebrood', 'category' => 'granen'],
-            ['canonical_name' => 'Sourdough', 'category' => 'granen'],
             ['canonical_name' => 'Ciabatta', 'category' => 'granen'],
             ['canonical_name' => 'Meergranenbrood', 'category' => 'granen'],
             ['canonical_name' => 'Rijst', 'category' => 'granen'],
-            ['canonical_name' => 'Lange graanrijst', 'category' => 'granen'],
-            ['canonical_name' => 'Ronde rijst', 'category' => 'granen'],
-            ['canonical_name' => 'Arborio rijst', 'category' => 'granen'],
-            ['canonical_name' => 'Paella rijst', 'category' => 'granen'],
             ['canonical_name' => 'Pasta', 'category' => 'granen'],
             ['canonical_name' => 'Spaghetti', 'category' => 'granen'],
             ['canonical_name' => 'Tagliatelle', 'category' => 'granen'],
@@ -147,8 +124,12 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Bloem', 'category' => 'granen'],
             ['canonical_name' => 'Koek', 'category' => 'granen'],
             ['canonical_name' => 'Crackers', 'category' => 'granen'],
+            ['canonical_name' => 'Tortilla', 'category' => 'granen'],
+            ['canonical_name' => 'Wrap', 'category' => 'granen'],
+            ['canonical_name' => 'Couscous', 'category' => 'granen'],
+            ['canonical_name' => 'Croutons', 'category' => 'granen'],
 
-            // Kruiden (Herbs) - 15
+            // Kruiden (Herbs)
             ['canonical_name' => 'Peterselie', 'category' => 'kruiden'],
             ['canonical_name' => 'Bieslook', 'category' => 'kruiden'],
             ['canonical_name' => 'Dille', 'category' => 'kruiden'],
@@ -162,7 +143,8 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Tamme kervel', 'category' => 'kruiden'],
             ['canonical_name' => 'Munt', 'category' => 'kruiden'],
             ['canonical_name' => 'Laurier', 'category' => 'kruiden'],
-            // Specerijen (Spices) - 20
+
+            // Specerijen (Spices)
             ['canonical_name' => 'Peper', 'category' => 'specerijen'],
             ['canonical_name' => 'Zwarte peper', 'category' => 'specerijen'],
             ['canonical_name' => 'Witte peper', 'category' => 'specerijen'],
@@ -179,6 +161,11 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Vanille', 'category' => 'specerijen'],
             ['canonical_name' => 'Saffraanzaad', 'category' => 'specerijen'],
             ['canonical_name' => 'Venkelzaad', 'category' => 'specerijen'],
+            ['canonical_name' => 'Zout', 'category' => 'specerijen'],
+            ['canonical_name' => 'Chilivlokken', 'category' => 'specerijen'],
+            ['canonical_name' => 'Lookpoeder', 'category' => 'specerijen'],
+            ['canonical_name' => 'Sesamzaad', 'category' => 'specerijen'],
+            ['canonical_name' => 'Pittenmix', 'category' => 'specerijen'],
 
             // Peulvruchten (Legumes)
             ['canonical_name' => 'Linzen', 'category' => 'peulvruchten'],
@@ -189,6 +176,7 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Bruine bonen', 'category' => 'peulvruchten'],
             ['canonical_name' => 'Erwten', 'category' => 'peulvruchten'],
             ['canonical_name' => 'Sojabonen', 'category' => 'peulvruchten'],
+            ['canonical_name' => 'Falafel', 'category' => 'peulvruchten'],
 
             // Fruit
             ['canonical_name' => 'Appel', 'category' => 'fruit'],
@@ -206,7 +194,6 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Sinaasappel', 'category' => 'fruit'],
             ['canonical_name' => 'Citroen', 'category' => 'fruit'],
             ['canonical_name' => 'Limoen', 'category' => 'fruit'],
-            ['canonical_name' => 'Grapefruit', 'category' => 'fruit'],
             ['canonical_name' => 'Druif', 'category' => 'fruit'],
             ['canonical_name' => 'Abrikoos', 'category' => 'fruit'],
             ['canonical_name' => 'Pruim', 'category' => 'fruit'],
@@ -228,10 +215,11 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Sriracha', 'category' => 'sauzen'],
             ['canonical_name' => 'Tabasco saus', 'category' => 'sauzen'],
             ['canonical_name' => 'Honing', 'category' => 'sauzen'],
-            ['canonical_name' => 'Jam', 'category' => 'sauzen'],
+            ['canonical_name' => 'Confituur', 'category' => 'sauzen'],
             ['canonical_name' => 'Pindakaas', 'category' => 'sauzen'],
+            ['canonical_name' => 'Hummus', 'category' => 'sauzen'],
 
-            // Diepvries (Frozen)  
+            // Diepvries (Frozen)
             ['canonical_name' => 'Diepvrieserwtjes', 'category' => 'diepvries'],
             ['canonical_name' => 'Diepvriesbonen', 'category' => 'diepvries'],
             ['canonical_name' => 'Diepvriesgroenten mengsel', 'category' => 'diepvries'],
@@ -242,9 +230,9 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Diepvriesgarnaaltjes', 'category' => 'diepvries'],
             ['canonical_name' => 'Diepvriesvisburger', 'category' => 'diepvries'],
             ['canonical_name' => 'Diepvriesfrikandel', 'category' => 'diepvries'],
-            ['canonical_name' => 'Diepvriesaardbei', 'category' => 'diepvries'],
+            ['canonical_name' => 'Diepvriesfruit', 'category' => 'diepvries'],
 
-            // Blik (Canned)  
+            // Blik (Canned)
             ['canonical_name' => 'Blik tomatenpuree', 'category' => 'blik'],
             ['canonical_name' => 'Blik gehakte tomaten', 'category' => 'blik'],
             ['canonical_name' => 'Blik tomatensaus', 'category' => 'blik'],
