@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Wachtwoord Vergeten - Hapklaar</title>
+        <title>Nieuw Wachtwoord - Hapklaar</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700,800,900&display=swap" rel="stylesheet" />
@@ -14,12 +14,9 @@
     </head>
     <body class="m-0 h-screen overflow-hidden flex">
 
-        {{-- ============================================================
-             LEFT PANEL
-        ============================================================ --}}
+        {{-- LEFT PANEL --}}
         <div class="w-1/2 bg-brand flex flex-col relative overflow-hidden">
 
-            {{-- Back button --}}
             <a href="{{ route('home') }}" class="absolute top-6 left-6">
                 <div class="w-9 h-9 bg-black flex items-center justify-center hover:bg-gray-900 transition-colors">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -28,23 +25,18 @@
                 </div>
             </a>
 
-            {{-- Main content --}}
             <div class="flex flex-col justify-center flex-1 px-14 pb-32">
-
-                {{-- Logo badge --}}
                 <div class="inline-block mb-8">
                     <div class="bg-black px-6 py-4 inline-block">
                         <span class="text-[3.2rem] font-black uppercase italic text-white leading-none tracking-tight">HAPKLAAR</span>
                     </div>
                 </div>
 
-                {{-- Tagline --}}
                 <h2 class="text-[3rem] font-black uppercase italic text-white leading-[1.05]">
-                    JE<br>WACHTWOORD?<br>KWIJT.<br>JE HONGER?<br>NOG NIET.
+                    NIEUW<br>WACHTWOORD.<br>VERSE<br>START.
                 </h2>
             </div>
 
-            {{-- Hamburger illustration bottom-left --}}
             <div class="absolute bottom-0 left-0 pointer-events-none"
                  style="transform: translate(-10%, 15%);">
                 <svg viewBox="0 0 200 160" width="280" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,14 +49,18 @@
 
         </div>
 
-        {{-- ============================================================
-             RIGHT PANEL
-        ============================================================ --}}
+        {{-- RIGHT PANEL --}}
         <div class="w-1/2 bg-[var(--pink-soft)] flex items-center justify-center">
 
             <div class="w-full max-w-md bg-white border-2 border-black shadow-[8px_8px_0px_0px_#000] p-10 mx-8">
 
-                <livewire:auth.forgot-password />
+                <h1 class="text-4xl font-black uppercase mb-4 leading-tight">NIEUW<br>WACHTWOORD</h1>
+
+                <p class="text-sm text-gray-500 mb-7 leading-relaxed">
+                    Kies een nieuw wachtwoord van minimaal 8 tekens.
+                </p>
+
+                <livewire:auth.reset-password :token="$token" />
 
             </div>
 

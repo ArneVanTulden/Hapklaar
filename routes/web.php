@@ -14,6 +14,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', fn() => view('login'))->name('login');
     Route::get('/register', fn() => view('register'))->name('register');
     Route::get('/forgot-password', fn() => view('forgot-password'))->name('forgot-password');
+    Route::get('/reset-password/{token}', fn(string $token) => view('reset-password', compact('token')))->name('password.reset');
 });
 
 Route::get('/recepten/{slug}', fn(string $slug) => view('recept', compact('slug')))->name('recept');
