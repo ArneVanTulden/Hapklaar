@@ -3,7 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RecipeResource\Pages;
+use App\Filament\Resources\RecipeResource\RelationManagers\IngredientsRelationManager;
 use App\Models\Category;
+use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\User;
 use BackedEnum;
@@ -71,6 +73,38 @@ class RecipeResource extends Resource
                         5 => '5',
                     ])
                     ->nullable(),
+                Forms\Components\Repeater::make('recipeIngredients')
+                    ->label('Ingrediënten')
+                    ->relationship('recipeIngredients')
+                    ->schema([
+                        Forms\Components\Select::make('ingredients_id')
+                            ->label('Ingrediënt')
+                            ->options(Ingredient::orderBy('canonical_name')->pluck('canonical_name', 'id'))
+                            ->searchable()
+                            ->required()
+                            ->columnSpanFull(),
+                        Forms\Components\TextInput::make('quantity')
+                            ->label('Hoeveelheid')
+                            ->numeric()
+                            ->default(1)
+                            ->minValue(0),
+                        Forms\Components\Select::make('unit')
+                            ->label('Eenheid')
+                            ->options([
+                                'stuks'   => 'Stuks',
+                                'g'       => 'G',
+                                'kg'      => 'KG',
+                                'ml'      => 'ML',
+                                'l'       => 'L',
+                                'blikken' => 'Blikken',
+                                'zakjes'  => 'Zakjes',
+                            ])
+                            ->default('stuks')
+                            ->required(),
+                    ])
+                    ->columns(2)
+                    ->addActionLabel('Ingrediënt toevoegen')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -121,7 +155,9 @@ class RecipeResource extends Resource
 
     public static function getRelationManagers(): array
     {
-        return [];
+        return [
+            IngredientsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
