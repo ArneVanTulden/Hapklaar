@@ -121,24 +121,26 @@
                                class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] flex flex-col no-underline text-inherit hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
 
                                 {{-- Image --}}
-                                <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
-                                    @if($recipe->image_path)
-                                        <img src="{{ asset('storage/' . $recipe->image_path) }}"
-                                             alt="{{ $recipe->title }}"
-                                             class="w-full h-full object-cover">
-                                    @else
-                                        <div class="w-full h-full bg-gray-100 flex items-center justify-center">
-                                            <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 21h18M3.75 3h16.5M5.25 21V6.75A2.25 2.25 0 017.5 4.5h9a2.25 2.25 0 012.25 2.25V21"/>
-                                            </svg>
-                                        </div>
-                                    @endif
+                                <div class="relative border-b-2 border-black" style="aspect-ratio:4/3;">
+                                    <div class="overflow-hidden w-full h-full absolute inset-0">
+                                        @if($recipe->image_path)
+                                            <img src="{{ asset('storage/' . $recipe->image_path) }}"
+                                                 alt="{{ $recipe->title }}"
+                                                 class="w-full h-full object-cover">
+                                        @else
+                                            <div class="w-full h-full bg-gray-100 flex items-center justify-center">
+                                                <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 21h18M3.75 3h16.5M5.25 21V6.75A2.25 2.25 0 017.5 4.5h9a2.25 2.25 0 012.25 2.25V21"/>
+                                                </svg>
+                                            </div>
+                                        @endif
+                                    </div>
                                     @if($recipe->badge)
-                                        <span class="absolute top-2 left-2 text-[8px] font-black uppercase tracking-widest px-2 py-1 {{ $badgeClass }}">
+                                        <span class="absolute top-3 -left-[2px] z-10 text-[8px] font-black uppercase tracking-widest px-3 py-1.5 border-2 border-black shadow-[2px_2px_0px_0px_#000] {{ $badgeClass }}">
                                             {{ strtoupper($recipe->badge) }}
                                         </span>
                                     @endif
-                                    <button class="absolute top-2 right-2 w-7 h-7 bg-white border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000] hover:bg-[var(--pink-soft)] transition-colors">
+                                    <button class="absolute top-2 right-2 z-10 w-7 h-7 bg-white border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000] hover:bg-[var(--pink-soft)] transition-colors">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                                         </svg>

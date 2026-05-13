@@ -56,6 +56,9 @@ class RecipeSeeder extends Seeder
                     'Vouw dicht en serveer meteen.',
                 ],
             ],
+
+
+
             [
                 'data' => [
                     'title'                => 'Gezonde McWrap Caesar',
@@ -90,6 +93,9 @@ class RecipeSeeder extends Seeder
                     'Snij middendoor.',
                 ],
             ],
+
+
+
             [
                 'data' => [
                     'title'                => 'Viral Baked Feta Pasta met Spinazie',
@@ -124,6 +130,9 @@ class RecipeSeeder extends Seeder
                     'Meng de saus onder de pasta.',
                 ],
             ],
+
+
+
             [
                 'data' => [
                     'title'                => 'Streetfood Falafel Bowl',
@@ -157,6 +166,9 @@ class RecipeSeeder extends Seeder
                     'Werk af met hummus, saus en peterselie.',
                 ],
             ],
+
+
+
             [
                 'data' => [
                     'title'                => 'Avocado Crunch Toast Deluxe',
@@ -165,7 +177,7 @@ class RecipeSeeder extends Seeder
                     'calories_per_portion' => 390,
                     'afwas_score'          => 1,
                     'image_path'           => 'recepten/avocado-toast.jpg',
-                    'badge'                => 'Gezonde Keuze',
+                    'badge'                => 'Super Snel',
                     'created_by'           => $userId,
                 ],
                 'diet_tags' => [$vegTag?->id],
@@ -190,6 +202,9 @@ class RecipeSeeder extends Seeder
                     'Werk af met pittenmix en chilivlokken.',
                 ],
             ],
+
+
+
             [
                 'data' => [
                     'title'                => 'Sushi Bowl met Balls & Glory Challenge',
@@ -198,7 +213,7 @@ class RecipeSeeder extends Seeder
                     'calories_per_portion' => 550,
                     'afwas_score'          => 3,
                     'image_path'           => 'recepten/sushi-bowl.jpg',
-                    'badge'                => 'Viral Hit',
+                    'badge'                => 'Comfort Food',
                     'created_by'           => $userId,
                 ],
                 'diet_tags' => [],
