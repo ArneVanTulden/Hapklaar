@@ -35,7 +35,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/reset-password/{token}', fn(string $token) => view('reset-password', compact('token')))->name('password.reset');
 });
 
-Route::get('/recepten/{id}', fn(int $id) => view('recept', compact('id')))->name('recept');
+Route::get('/recepten/{id}', function (int $id) {
+    $recipe = \App\Models\Recipe::with(['ingredients', 'nutritionInfo'])->findOrFail($id);
+    return view('recept', compact('recipe'));
+})->name('recept');
 
 Route::post('/logout', function () {
     Auth::logout();

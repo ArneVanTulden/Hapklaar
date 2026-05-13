@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 #[Fillable(['recipe_id', 'calories', 'protein', 'carbs', 'fat', 'sugar', 'vitamin_a', 'vitamin_c', 'iron', 'sodium', 'potassium', 'fiber'])]
 class NutritionInfo extends Model
 {
+    protected $table = 'nutrition_info';
     public $timestamps = false;
 
     protected function casts(): array

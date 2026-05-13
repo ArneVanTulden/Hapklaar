@@ -23,12 +23,12 @@
                      RECIPE HEADER
                 ============================================================ --}}
                 <div class="mb-5">
-                    <h1 class="text-4xl font-black uppercase italic leading-tight mb-1">ULTIEME KATER RAMEN</h1>
-                    <p class="text-brand font-bold italic text-sm mb-3">De fix die je brein terug aanzet.</p>
+                    <h1 class="text-4xl font-black uppercase italic leading-tight mb-1">{{ $recipe->title }}</h1>
+                    <p class="text-brand font-bold italic text-sm mb-3">{{ $recipe->description }}</p>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1.5 border-2 border-black bg-white shadow-[2px_2px_0px_0px_#000]">15 MIN</span>
-                        <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1.5 border-2 border-black bg-white shadow-[2px_2px_0px_0px_#000]">650 KCAL</span>
-                        <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1.5 border-2 border-black bg-violet-200 shadow-[2px_2px_0px_0px_#000]">AFWAS-SCORE 1</span>
+                        <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1.5 border-2 border-black bg-white shadow-[2px_2px_0px_0px_#000]">{{ $recipe->prep_time_minutes }} MIN</span>
+                        <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1.5 border-2 border-black bg-white shadow-[2px_2px_0px_0px_#000]">{{ (int) $recipe->calories_per_portion }} KCAL</span>
+                        <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1.5 border-2 border-black bg-violet-200 shadow-[2px_2px_0px_0px_#000]">AFWAS-SCORE {{ $recipe->afwas_score }}</span>
                     </div>
                 </div>
 
@@ -42,8 +42,8 @@
 
                         {{-- Recipe image --}}
                         <div class="relative border-2 border-black overflow-hidden mb-4" style="aspect-ratio: 16/10;">
-                            <img src="{{ asset('images/kater_pasta.png') }}"
-                                 alt="Ultieme Kater Ramen"
+                            <img src="{{ asset($recipe->image_path) }}"
+                                 alt="{{ $recipe->title }}"
                                  class="w-full h-full object-cover">
                             <button class="absolute inset-0 flex items-center justify-center group">
                                 <span class="w-16 h-16 rounded-full bg-brand flex items-center justify-center shadow-[3px_3px_0px_0px_#000] group-hover:scale-105 transition-transform duration-100">
@@ -121,48 +121,46 @@
                             </div>
 
                             {{-- Ingredients list --}}
-                            @php
-                                $ingredients = [
-                                    '2 Pakjes Instant Ramen (Kip smaak)',
-                                    '1/2 EL Sambal Oelek (voor die kick)',
-                                    '2 Eieren (6 minuutjes koken)',
-                                    'Handje Verse Spinazie',
-                                    '1 TL Sesamolie',
-                                    'Lente-ui (voor de vitaminen)',
-                                ];
-                            @endphp
                             <ul class="divide-y divide-gray-100">
-                                @foreach($ingredients as $ingredient)
+                                @foreach($recipe->ingredients as $ingredient)
                                     <li class="flex items-center gap-3 py-2.5">
                                         <svg class="w-3 h-3 flex-shrink-0 text-brand" fill="currentColor" viewBox="0 0 12 12">
                                             <path d="M6 0L7.5 4.5L12 6L7.5 7.5L6 12L4.5 7.5L0 6L4.5 4.5Z"/>
                                         </svg>
-                                        <span class="text-[12px] font-medium leading-snug">{{ $ingredient }}</span>
+                                        <span class="text-[12px] font-medium leading-snug">
+                                            @if($ingredient->pivot->quantity){{ $ingredient->pivot->quantity }} @endif
+                                            @if($ingredient->pivot->unit && $ingredient->pivot->unit !== 'stuks'){{ $ingredient->pivot->unit }} @endif
+                                            {{ $ingredient->canonical_name }}
+                                            @if($ingredient->pivot->notes) ({{ $ingredient->pivot->notes }})@endif
+                                        </span>
                                     </li>
                                 @endforeach
                             </ul>
 
                             {{-- Nutrition bars --}}
+                            @if($recipe->nutritionInfo)
+                            @php
+                                $nutrition = $recipe->nutritionInfo;
+                                $nutrients = [
+                                    ['label' => 'EIWITTEN',     'value' => (int)$nutrition->protein, 'max' => 82,  'color' => 'bg-brand'],
+                                    ['label' => 'KOOLHYDRATEN', 'value' => (int)$nutrition->carbs,   'max' => 130, 'color' => 'bg-[var(--lime)]'],
+                                    ['label' => 'VETTEN',       'value' => (int)$nutrition->fat,     'max' => 78,  'color' => 'bg-violet-400'],
+                                ];
+                            @endphp
                             <div class="border-t-2 border-black mt-4 pt-4 space-y-3">
-                                @php
-                                    $nutrients = [
-                                        ['label' => 'EIWITTEN',      'value' => '28G', 'pct' => 34, 'color' => 'bg-brand'],
-                                        ['label' => 'KOOLHYDRATEN',  'value' => '84G', 'pct' => 65, 'color' => 'bg-[var(--lime)]'],
-                                        ['label' => 'VETTEN',        'value' => '22G', 'pct' => 27, 'color' => 'bg-violet-400'],
-                                    ];
-                                @endphp
                                 @foreach($nutrients as $n)
                                     <div>
                                         <div class="flex justify-between items-center mb-1">
                                             <span class="text-[9px] font-black uppercase tracking-widest text-gray-500">{{ $n['label'] }}</span>
-                                            <span class="text-[9px] font-black uppercase">{{ $n['value'] }}</span>
+                                            <span class="text-[9px] font-black uppercase">{{ $n['value'] }}G</span>
                                         </div>
                                         <div class="h-3 bg-gray-100 border border-black overflow-hidden">
-                                            <div class="h-full {{ $n['color'] }}" style="width: {{ $n['pct'] }}%"></div>
+                                            <div class="h-full {{ $n['color'] }}" style="width: {{ min(100, round($n['value'] / $n['max'] * 100)) }}%"></div>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
+                            @endif
 
                         </div>
                     </div>
