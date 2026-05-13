@@ -4,8 +4,24 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn() => view('home'))->name('home');
-Route::get('/ontdekken', function () {
-    $recipes = \App\Models\Recipe::with(['dietTags', 'creator'])->orderByDesc('avg_rating')->get();
+Route::get('/ontdekken', function (Illuminate\Http\Request $request) {
+    $query = \App\Models\Recipe::with(['dietTags', 'creator']);
+
+    foreach ($request->input('diets', []) as $diet) {
+        $query->whereHas('dietTags', fn($q) => $q->where('name', $diet));
+    }
+
+    $maxCal = $request->integer('max_calories', 2000);
+    if ($maxCal < 2000) {
+        $query->where('calories_per_portion', '<=', $maxCal);
+    }
+
+    $maxAfwas = $request->integer('max_afwas', 5);
+    if ($maxAfwas < 5) {
+        $query->where('afwas_score', '<=', $maxAfwas);
+    }
+
+    $recipes = $query->orderByDesc('avg_rating')->get();
     return view('ontdekken', compact('recipes'));
 })->name('ontdekken');
 Route::get('/mijn-keuken', fn() => view('mijn-keuken'))->name('mijn-keuken');

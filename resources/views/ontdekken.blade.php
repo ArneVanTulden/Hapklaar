@@ -22,59 +22,92 @@
                 {{-- ============================================================
                      FILTER SIDEBAR
                 ============================================================ --}}
-                <aside class="w-64 flex-shrink-0 bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-6">
+                @php
+                    $dietOptions      = [
+                        ['label' => 'VEGETARISCH', 'value' => 'Vegetarisch'],
+                        ['label' => 'HALAL',       'value' => 'Halal'],
+                        ['label' => 'LACTOSEVRIJ', 'value' => 'Lactosevrij'],
+                        ['label' => 'GLUTENVRIJ',  'value' => 'Glutenvrij'],
+                    ];
+                    $activeDiets      = request('diets', []);
+                    $activeMaxCal     = request('max_calories', 2000);
+                    $activeMaxAfwas   = request('max_afwas', 5);
+                @endphp
 
+                <aside
+                    x-data="{
+                        diets:    {{ json_encode($activeDiets) }},
+                        maxCal:   {{ (int) $activeMaxCal }},
+                        maxAfwas: {{ (int) $activeMaxAfwas }},
+                        submit()      { this.$refs.form.submit(); },
+                        toggleDiet(v) {
+                            const i = this.diets.indexOf(v);
+                            i === -1 ? this.diets.push(v) : this.diets.splice(i, 1);
+                            this.submit();
+                        },
+                        setAfwas(v)   { this.maxAfwas = v; this.submit(); }
+                    }"
+                    class="w-64 flex-shrink-0 bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-6"
+                >
                     <h2 class="text-4xl font-black uppercase italic mb-6 leading-none">FILTERS</h2>
 
-                    {{-- Dieetwensen --}}
-                    <div class="mb-6">
-                        <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-3">DIEETWENSEN</p>
-                        <div class="space-y-3">
-                            @php
-                                $diets = [
-                                    ['label' => 'VEGETARISCH', 'checked' => false],
-                                    ['label' => 'HALAL',       'checked' => false],
-                                    ['label' => 'LACTOSEVRIJ', 'checked' => true],
-                                    ['label' => 'GLUTENVRIJ',  'checked' => false],
-                                ];
-                            @endphp
-                            @foreach($diets as $diet)
-                                <label class="flex items-center gap-3 cursor-pointer select-none">
-                                    <span class="w-5 h-5 border-2 border-black flex items-center justify-center flex-shrink-0 bg-white">
-                                        @if($diet['checked'])
-                                            <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M2 6l3 3 5-5"/></svg>
-                                        @endif
-                                    </span>
-                                    <span class="text-[11px] font-bold uppercase tracking-wide">{{ $diet['label'] }}</span>
-                                </label>
-                            @endforeach
+                    <form x-ref="form" method="GET" action="{{ route('ontdekken') }}">
+                        <template x-for="d in diets" :key="d">
+                            <input type="hidden" name="diets[]" :value="d">
+                        </template>
+                        <input type="hidden" name="max_calories" :value="maxCal">
+                        <input type="hidden" name="max_afwas" :value="maxAfwas">
+
+                        {{-- Dieetwensen --}}
+                        <div class="mb-6">
+                            <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-3">DIEETWENSEN</p>
+                            <div class="space-y-3">
+                                @foreach($dietOptions as $diet)
+                                    <label @click.prevent="toggleDiet('{{ $diet['value'] }}')" class="flex items-center gap-3 cursor-pointer select-none">
+                                        <span class="w-5 h-5 border-2 border-black flex items-center justify-center flex-shrink-0 bg-white">
+                                            <svg x-show="diets.includes('{{ $diet['value'] }}')" class="w-3 h-3" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                                <path d="M2 6l3 3 5-5"/>
+                                            </svg>
+                                        </span>
+                                        <span class="text-[11px] font-bold uppercase tracking-wide">{{ $diet['label'] }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
 
-                    {{-- Calorieën --}}
-                    <div class="mb-6">
-                        <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-3">CALORIEËN</p>
-                        <input type="range" min="0" max="2000" value="800"
-                               class="w-full h-1.5 accent-black cursor-pointer mb-2.5">
-                        <span class="inline-block bg-[var(--lime)] border-2 border-black px-2 py-0.5 text-[9px] font-black uppercase tracking-widest">MAX 800 KCAL</span>
-                    </div>
-
-                    {{-- Afwas-score --}}
-                    <div class="mb-7">
-                        <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-3">MAX AFWAS-SCORE</p>
-                        <div class="flex gap-1.5">
-                            @for($i = 1; $i <= 5; $i++)
-                                <button class="w-9 h-9 border-2 border-black font-black text-sm transition-colors {{ $i === 1 ? 'bg-[var(--lime)]' : 'bg-white hover:bg-[var(--pink-soft)]' }}">
-                                    {{ $i }}
-                                </button>
-                            @endfor
+                        {{-- Calorieën --}}
+                        <div class="mb-6">
+                            <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-3">CALORIEËN</p>
+                            <input type="range" min="0" max="2000" step="50"
+                                   x-model="maxCal"
+                                   @change="submit()"
+                                   class="w-full h-1.5 accent-black cursor-pointer mb-2.5">
+                            <span class="inline-block bg-[var(--lime)] border-2 border-black px-2 py-0.5 text-[9px] font-black uppercase tracking-widest">
+                                MAX <span x-text="maxCal"></span> KCAL
+                            </span>
                         </div>
-                    </div>
 
-                    {{-- Reset --}}
-                    <button class="w-full bg-brand text-white text-[11px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-                        FILTERS WISSEN
-                    </button>
+                        {{-- Afwas-score --}}
+                        <div class="mb-7">
+                            <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-3">MAX AFWAS-SCORE</p>
+                            <div class="flex gap-1.5">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <button type="button"
+                                            @click="setAfwas({{ $i }})"
+                                            :class="maxAfwas === {{ $i }} ? 'bg-[var(--lime)]' : 'bg-white hover:bg-[var(--pink-soft)]'"
+                                            class="w-9 h-9 border-2 border-black font-black text-sm transition-colors">
+                                        {{ $i }}
+                                    </button>
+                                @endfor
+                            </div>
+                        </div>
+
+                        {{-- Reset --}}
+                        <a href="{{ route('ontdekken') }}"
+                           class="block w-full text-center bg-brand text-white text-[11px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                            FILTERS WISSEN
+                        </a>
+                    </form>
 
                 </aside>
 
@@ -199,7 +232,14 @@
                                 </div>
                             </a>
                         @empty
-                            <p class="col-span-3 text-center text-gray-400 font-bold uppercase text-sm py-12">Nog geen recepten toegevoegd.</p>
+                            <div class="col-span-3 py-10 flex flex-col items-center gap-3 border-2 border-dashed border-gray-300">
+                                <p class="text-lg font-black uppercase leading-none">Geen recepten gevonden</p>
+                                <p class="text-xs text-gray-400">Pas de filters aan of wis ze om meer te zien.</p>
+                                <a href="{{ route('ontdekken') }}"
+                                   class="mt-1 text-[11px] font-black uppercase tracking-widest px-6 py-3 border-2 border-black bg-[var(--lime)] shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                    FILTERS WISSEN
+                                </a>
+                            </div>
                         @endforelse
                     </div>
 

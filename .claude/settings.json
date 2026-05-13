@@ -7,7 +7,8 @@
       "PowerShell(php artisan migrate:fresh --seed)",
       "PowerShell(php artisan make:migration create_recipe_badges_table)",
       "PowerShell(php artisan make:model RecipeBadge)",
-      "PowerShell(Rename-Item \"C:\\\\Workspace\\\\Hapklaar\\\\database\\\\migrations\\\\2026_05_13_192044_create_recipe_badges_table.php\" \"2026_05_05_121136_create_recipe_badges_table.php\")"
+      "PowerShell(Rename-Item \"C:\\\\Workspace\\\\Hapklaar\\\\database\\\\migrations\\\\2026_05_13_192044_create_recipe_badges_table.php\" \"2026_05_05_121136_create_recipe_badges_table.php\")",
+      "Bash(Select-String -Pattern -NotMatch vendor)"
     ]
   }
 }
