@@ -11,8 +11,8 @@ Route::get('/ontdekken', function (Illuminate\Http\Request $request) {
         $query->whereHas('dietTags', fn($q) => $q->where('name', $diet));
     }
 
-    $maxCal = $request->integer('max_calories', 2000);
-    if ($maxCal < 2000) {
+    $maxCal = $request->integer('max_calories', 1000);
+    if ($maxCal < 1000) {
         $query->where('calories_per_portion', '<=', $maxCal);
     }
 
