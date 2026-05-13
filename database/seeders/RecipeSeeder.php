@@ -278,7 +278,7 @@ class RecipeSeeder extends Seeder
             $recipe->load('ingredients');
             $totals = $service->calculateForRecipe($recipe);
 
-            NutritionInfo::create(array_merge(['recipe_id' => $recipe->id], $totals));
+            NutritionInfo::updateOrCreate(['recipe_id' => $recipe->id], $totals);
 
             $recipe->update(['calories_per_portion' => round($totals['calories'])]);
         }
