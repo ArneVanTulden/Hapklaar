@@ -105,6 +105,21 @@ class RecipeResource extends Resource
                     ->columns(2)
                     ->addActionLabel('Ingrediënt toevoegen')
                     ->columnSpanFull(),
+                Forms\Components\Repeater::make('steps')
+                    ->label('Stappen')
+                    ->relationship('steps')
+                    ->schema([
+                        Forms\Components\Hidden::make('step_number'),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Uitleg')
+                            ->required()
+                            ->rows(3)
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(1)
+                    ->orderColumn('step_number')
+                    ->addActionLabel('Stap toevoegen')
+                    ->columnSpanFull(),
             ]);
     }
 
