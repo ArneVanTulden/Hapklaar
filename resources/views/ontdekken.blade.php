@@ -142,6 +142,8 @@
                         $avatarCycle = ['bg-purple-500', 'bg-indigo-400', 'bg-teal-400', 'bg-orange-400', 'bg-pink-500', 'bg-blue-400'];
                     @endphp
 
+                    <div x-data="{ expanded: false }">
+
                     <div class="grid grid-cols-3 gap-5">
                         @forelse($recipes as $i => $recipe)
                             @php
@@ -150,7 +152,9 @@
                                 $avatarColor = $avatarCycle[($recipe->created_by ?? 0) % count($avatarCycle)];
                                 $initial     = strtoupper(substr($recipe->creator?->username ?? '?', 0, 1));
                             @endphp
-                            <a href="{{ route('recept', $recipe->id) }}"
+                            <a data-recipe-card
+                               href="{{ route('recept', $recipe->id) }}"
+                               @if($i >= 6) x-show="expanded" style="display:none" @endif
                                class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] flex flex-col no-underline text-inherit hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
 
                                 {{-- Image --}}
@@ -243,12 +247,19 @@
                         @endforelse
                     </div>
 
-                    {{-- Load more --}}
+                    {{-- Load more / collapse --}}
+                    @if($recipes->count() > 6)
                     <div class="flex justify-center mt-10 mb-4">
-                        <button class="text-[11px] font-black uppercase tracking-widest px-16 py-4 border-2 border-black bg-white shadow-[4px_4px_0px_0px_var(--pink)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--pink)] transition-all duration-75">
-                            MEER <span class="font-normal">RECEPTEN LADEN</span>
+                        <button type="button"
+                                @click="expanded = !expanded"
+                                class="text-[11px] font-black uppercase tracking-widest px-16 py-4 border-2 border-black bg-white shadow-[4px_4px_0px_0px_var(--pink)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--pink)] transition-all duration-75">
+                            <span x-show="!expanded">MEER <span class="font-normal">RECEPTEN LADEN</span></span>
+                            <span x-show="expanded" style="display:none">MINDER <span class="font-normal">RECEPTEN TONEN</span></span>
                         </button>
                     </div>
+                    @endif
+
+                    </div>{{-- /x-data wrapper --}}
 
                 </div>
 

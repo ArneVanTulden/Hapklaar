@@ -25,7 +25,7 @@ class RecipeSeeder extends Seeder
                     'title'                => 'Healthy Smash Burger Tacos',
                     'description'          => 'Smash burger tacos werden viraal omdat ze snel, crunchy en heel satisfying zijn. De gezondere versie met gehakt.',
                     'prep_time_minutes'    => 15,
-                    'calories_per_portion' => 480,
+                    'calories_per_portion' => 650,
                     'afwas_score'          => 2,
                     'image_path'           => 'recepten/smash-burger-tacos.jpg',
                     'badge'                => 'Student Favoriet',
@@ -166,7 +166,39 @@ class RecipeSeeder extends Seeder
                     'Werk af met hummus, saus en peterselie.',
                 ],
             ],
-
+[
+                'data' => [
+                    'title'                => 'Avocado Crunch Toast Deluxe',
+                    'description'          => 'Avocado toast met crunchy toppings en een mooi eitje. Voelt veel exclusiever dan de standaard versie.',
+                    'prep_time_minutes'    => 10,
+                    'calories_per_portion' => 390,
+                    'afwas_score'          => 1,
+                    'image_path'           => 'recepten/avocado-toast.jpg',
+                    'badge'                => 'Super Snel',
+                    'created_by'           => $userId,
+                ],
+                'diet_tags' => [$vegTag?->id],
+                'ingredients' => [
+                    ['canonical_name' => 'Brood',        'category' => 'granen',     'quantity' => 2,   'unit' => 'stuks', 'notes' => 'sneetjes'],
+                    ['canonical_name' => 'Avocado',      'category' => 'fruit',      'quantity' => 1,   'unit' => 'stuks'],
+                    ['canonical_name' => 'Ei',           'category' => 'zuivel',     'quantity' => 1,   'unit' => 'stuks'],
+                    ['canonical_name' => 'Kerstomaten',  'category' => 'groenten',   'quantity' => 50,  'unit' => 'g'],
+                    ['canonical_name' => 'Chilivlokken', 'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
+                    ['canonical_name' => 'Citroen',      'category' => 'fruit',      'quantity' => null, 'unit' => 'stuks', 'notes' => 'scheutje sap'],
+                    ['canonical_name' => 'Pittenmix',    'category' => 'kruiden',    'quantity' => null, 'unit' => 'stuks', 'notes' => 'handje'],
+                    ['canonical_name' => 'Peper',        'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
+                    ['canonical_name' => 'Zout',         'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
+                ],
+                'steps' => [
+                    'Toast het brood.',
+                    'Plet de avocado met citroensap, peper en zout.',
+                    'Snij de tomaatjes.',
+                    'Bak of pocheer een ei.',
+                    'Besmeer de toast met avocado.',
+                    'Leg het ei en de tomaatjes erop.',
+                    'Werk af met pittenmix en chilivlokken.',
+                ],
+            ],
 
 
             [
