@@ -8,7 +8,8 @@
       "PowerShell(php artisan make:migration create_recipe_badges_table)",
       "PowerShell(php artisan make:model RecipeBadge)",
       "PowerShell(Rename-Item \"C:\\\\Workspace\\\\Hapklaar\\\\database\\\\migrations\\\\2026_05_13_192044_create_recipe_badges_table.php\" \"2026_05_05_121136_create_recipe_badges_table.php\")",
-      "Bash(Select-String -Pattern -NotMatch vendor)"
+      "Bash(Select-String -Pattern -NotMatch vendor)",
+      "PowerShell(cd \"c:\\\\Workspace\\\\Hapklaar\"; php artisan tinker --execute=\"use App\\\\Models\\\\Recipe; use App\\\\Models\\\\NutritionInfo; use App\\\\Services\\\\USDANutritionService; \\\\$service = app\\(USDANutritionService::class\\); Recipe::with\\('ingredients'\\)->each\\(function\\(\\\\$recipe\\) use \\(\\\\$service\\) { \\\\$totals = \\\\$service->calculateForRecipe\\(\\\\$recipe\\); NutritionInfo::updateOrCreate\\(['recipe_id' => \\\\$recipe->id], \\\\$totals\\); \\\\$recipe->update\\(['calories_per_portion' => round\\(\\\\$totals['calories']\\)]\\); echo \\\\$recipe->title . ': ' . round\\(\\\\$totals['calories']\\) . ' kcal, ' . round\\(\\\\$totals['protein']\\) . 'g eiwit' . PHP_EOL; }\\);\" 2>&1)"
     ]
   }
 }

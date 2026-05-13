@@ -4,20 +4,21 @@ namespace Database\Seeders;
 
 use App\Models\DietTag;
 use App\Models\Ingredient;
+use App\Models\NutritionInfo;
 use App\Models\Recipe;
 use App\Models\RecipeIngredient;
 use App\Models\RecipeStep;
 use App\Models\User;
+use App\Services\USDANutritionService;
 use Illuminate\Database\Seeder;
 
 class RecipeSeeder extends Seeder
 {
     public function run(): void
     {
-        $userId = User::first()?->id ?? 1;
-
-        $vegTag = DietTag::where('name', 'Vegetarisch')->first();
-
+        $userId  = User::first()?->id ?? 1;
+        $vegTag  = DietTag::where('name', 'Vegetarisch')->first();
+        $service = app(USDANutritionService::class);
 
         $recipes = [
             [
@@ -31,19 +32,19 @@ class RecipeSeeder extends Seeder
                     'badge'                => 'Student Favoriet',
                     'created_by'           => $userId,
                 ],
-                'diet_tags' => [],
+                'diet_tags'   => [],
                 'ingredients' => [
-                    ['canonical_name' => 'Tortilla',        'category' => 'granen',     'quantity' => 2,   'unit' => 'stuks', 'notes' => 'kleine'],
-                    ['canonical_name' => 'Gehakt',          'category' => 'vlees',      'quantity' => 150, 'unit' => 'g',     'notes' => 'rund of varken'],
-                    ['canonical_name' => 'Ui',              'category' => 'groenten',   'quantity' => 20,  'unit' => 'g'],
-                    ['canonical_name' => 'Sla',             'category' => 'groenten',   'quantity' => 30,  'unit' => 'g'],
-                    ['canonical_name' => 'Augurk',          'category' => 'groenten',   'quantity' => 20,  'unit' => 'g',     'notes' => '2 à 4 schijfjes'],
-                    ['canonical_name' => 'Griekse yoghurt', 'category' => 'zuivel',     'quantity' => 2,   'unit' => 'stuks', 'notes' => 'eetlepels'],
-                    ['canonical_name' => 'Ketchup',         'category' => 'sauzen',     'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
-                    ['canonical_name' => 'Mosterd',         'category' => 'sauzen',     'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
-                    ['canonical_name' => 'Olie',            'category' => 'sauzen',     'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
-                    ['canonical_name' => 'Peper',           'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
-                    ['canonical_name' => 'Zout',            'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'snufje'],
+                    ['canonical_name' => 'Tortilla',        'quantity' => 2,   'unit' => 'stuks', 'notes' => 'kleine'],
+                    ['canonical_name' => 'Gemengd gehakt',  'quantity' => 150, 'unit' => 'g',     'notes' => 'rund of varken'],
+                    ['canonical_name' => 'Ajuin',           'quantity' => 20,  'unit' => 'g'],
+                    ['canonical_name' => 'Sla',             'quantity' => 30,  'unit' => 'g'],
+                    ['canonical_name' => 'Augurk',          'quantity' => 20,  'unit' => 'g',     'notes' => '2 à 4 schijfjes'],
+                    ['canonical_name' => 'Griekse yoghurt', 'quantity' => 2,   'unit' => 'stuks', 'notes' => 'eetlepels'],
+                    ['canonical_name' => 'Tomatenketsjup',  'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
+                    ['canonical_name' => 'Mosterd',         'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
+                    ['canonical_name' => 'Olijfolie',       'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
+                    ['canonical_name' => 'Peper',           'quantity' => null,'unit' => 'stuks', 'notes' => 'naar smaak'],
+                    ['canonical_name' => 'Zout',            'quantity' => null,'unit' => 'stuks', 'notes' => 'snufje'],
                 ],
                 'steps' => [
                     'Meng yoghurt, ketchup en mosterd tot saus.',
@@ -57,8 +58,6 @@ class RecipeSeeder extends Seeder
                 ],
             ],
 
-
-
             [
                 'data' => [
                     'title'                => 'Gezonde McWrap Caesar',
@@ -70,18 +69,18 @@ class RecipeSeeder extends Seeder
                     'badge'                => 'Gezonde Keuze',
                     'created_by'           => $userId,
                 ],
-                'diet_tags' => [],
+                'diet_tags'   => [],
                 'ingredients' => [
-                    ['canonical_name' => 'Wrap',            'category' => 'granen',     'quantity' => 2,   'unit' => 'stuks'],
-                    ['canonical_name' => 'Kipfilet',        'category' => 'vlees',      'quantity' => 120, 'unit' => 'g'],
-                    ['canonical_name' => 'Sla',             'category' => 'groenten',   'quantity' => 40,  'unit' => 'g'],
-                    ['canonical_name' => 'Griekse yoghurt', 'category' => 'zuivel',     'quantity' => 2,   'unit' => 'stuks', 'notes' => 'eetlepels'],
-                    ['canonical_name' => 'Parmezaan',       'category' => 'zuivel',     'quantity' => 10,  'unit' => 'g',     'notes' => 'of geraspte kaas'],
-                    ['canonical_name' => 'Citroensap',      'category' => 'fruit',      'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
-                    ['canonical_name' => 'Lookpoeder',      'category' => 'specerijen', 'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
-                    ['canonical_name' => 'Croutons',        'category' => 'granen',     'quantity' => 15,  'unit' => 'g'],
-                    ['canonical_name' => 'Peper',           'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
-                    ['canonical_name' => 'Zout',            'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'snufje'],
+                    ['canonical_name' => 'Wrap',            'quantity' => 2,   'unit' => 'stuks'],
+                    ['canonical_name' => 'Kipfilet',        'quantity' => 120, 'unit' => 'g'],
+                    ['canonical_name' => 'Sla',             'quantity' => 40,  'unit' => 'g'],
+                    ['canonical_name' => 'Griekse yoghurt', 'quantity' => 2,   'unit' => 'stuks', 'notes' => 'eetlepels'],
+                    ['canonical_name' => 'Parmezaan',       'quantity' => 10,  'unit' => 'g',     'notes' => 'of geraspte kaas'],
+                    ['canonical_name' => 'Citroensap',      'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
+                    ['canonical_name' => 'Lookpoeder',      'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
+                    ['canonical_name' => 'Croutons',        'quantity' => 15,  'unit' => 'g'],
+                    ['canonical_name' => 'Peper',           'quantity' => null,'unit' => 'stuks', 'notes' => 'naar smaak'],
+                    ['canonical_name' => 'Zout',            'quantity' => null,'unit' => 'stuks', 'notes' => 'snufje'],
                 ],
                 'steps' => [
                     'Bak de kip goudbruin en kruid licht.',
@@ -94,8 +93,6 @@ class RecipeSeeder extends Seeder
                 ],
             ],
 
-
-
             [
                 'data' => [
                     'title'                => 'Viral Baked Feta Pasta met Spinazie',
@@ -107,20 +104,20 @@ class RecipeSeeder extends Seeder
                     'badge'                => 'Viral Hit',
                     'created_by'           => $userId,
                 ],
-                'diet_tags' => [$vegTag?->id],
+                'diet_tags'   => [$vegTag?->id],
                 'ingredients' => [
-                    ['canonical_name' => 'Pasta',         'category' => 'granen',     'quantity' => 100, 'unit' => 'g'],
-                    ['canonical_name' => 'Feta',          'category' => 'zuivel',     'quantity' => 75,  'unit' => 'g'],
-                    ['canonical_name' => 'Kerstomaten',   'category' => 'groenten',   'quantity' => 150, 'unit' => 'g',     'notes' => '10 à 12 stuks'],
-                    ['canonical_name' => 'Spinazie',      'category' => 'groenten',   'quantity' => 40,  'unit' => 'g'],
-                    ['canonical_name' => 'Look',          'category' => 'groenten',   'quantity' => 1,   'unit' => 'stuks', 'notes' => 'teentje'],
-                    ['canonical_name' => 'Olijfolie',     'category' => 'sauzen',     'quantity' => 15,  'unit' => 'ml'],
-                    ['canonical_name' => 'Chilivlokken',  'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'optioneel'],
-                    ['canonical_name' => 'Peper',         'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
+                    ['canonical_name' => 'Pasta',        'quantity' => 100, 'unit' => 'g'],
+                    ['canonical_name' => 'Feta',         'quantity' => 75,  'unit' => 'g'],
+                    ['canonical_name' => 'Kerstomaten',  'quantity' => 150, 'unit' => 'g',     'notes' => '10 à 12 stuks'],
+                    ['canonical_name' => 'Spinazie',     'quantity' => 40,  'unit' => 'g'],
+                    ['canonical_name' => 'Knoflook',     'quantity' => 1,   'unit' => 'stuks', 'notes' => 'teentje'],
+                    ['canonical_name' => 'Olijfolie',    'quantity' => 15,  'unit' => 'ml'],
+                    ['canonical_name' => 'Chilivlokken', 'quantity' => null,'unit' => 'stuks', 'notes' => 'optioneel'],
+                    ['canonical_name' => 'Peper',        'quantity' => null,'unit' => 'stuks', 'notes' => 'naar smaak'],
                 ],
                 'steps' => [
                     'Verwarm de oven/airfryer voor op 200°C.',
-                    'Doe de kerstomaten en look in een ovenschaal.',
+                    'Doe de kerstomaten en knoflook in een ovenschaal.',
                     'Leg de feta in het midden.',
                     'Giet er een beetje olijfolie over en kruid met peper en chilivlokken.',
                     'Bak 20 à 25 minuten tot de tomaten openbarsten.',
@@ -130,8 +127,6 @@ class RecipeSeeder extends Seeder
                     'Meng de saus onder de pasta.',
                 ],
             ],
-
-
 
             [
                 'data' => [
@@ -144,17 +139,17 @@ class RecipeSeeder extends Seeder
                     'badge'                => 'Vega Winner',
                     'created_by'           => $userId,
                 ],
-                'diet_tags' => [$vegTag?->id],
+                'diet_tags'   => [$vegTag?->id],
                 'ingredients' => [
-                    ['canonical_name' => 'Couscous',        'category' => 'granen',     'quantity' => 80,  'unit' => 'g',     'notes' => 'of 100g rijst'],
-                    ['canonical_name' => 'Falafel',         'category' => 'peulvruchten', 'quantity' => 5, 'unit' => 'stuks'],
-                    ['canonical_name' => 'Hummus',          'category' => 'peulvruchten', 'quantity' => 30, 'unit' => 'g'],
-                    ['canonical_name' => 'Komkommer',       'category' => 'groenten',   'quantity' => 50,  'unit' => 'g'],
-                    ['canonical_name' => 'Tomaat',          'category' => 'groenten',   'quantity' => 60,  'unit' => 'g'],
-                    ['canonical_name' => 'Rode ui',         'category' => 'groenten',   'quantity' => 20,  'unit' => 'g'],
-                    ['canonical_name' => 'Griekse yoghurt', 'category' => 'zuivel',     'quantity' => 2,   'unit' => 'stuks', 'notes' => 'eetlepels'],
-                    ['canonical_name' => 'Citroensap',      'category' => 'fruit',      'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
-                    ['canonical_name' => 'Peterselie',      'category' => 'kruiden',    'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel fijngehakt'],
+                    ['canonical_name' => 'Couscous',        'quantity' => 80,  'unit' => 'g',     'notes' => 'of 100g rijst'],
+                    ['canonical_name' => 'Falafel',         'quantity' => 5,   'unit' => 'stuks'],
+                    ['canonical_name' => 'Hummus',          'quantity' => 30,  'unit' => 'g'],
+                    ['canonical_name' => 'Komkommer',       'quantity' => 50,  'unit' => 'g'],
+                    ['canonical_name' => 'Tomaat',          'quantity' => 60,  'unit' => 'g'],
+                    ['canonical_name' => 'Rode ui',         'quantity' => 20,  'unit' => 'g'],
+                    ['canonical_name' => 'Griekse yoghurt', 'quantity' => 2,   'unit' => 'stuks', 'notes' => 'eetlepels'],
+                    ['canonical_name' => 'Citroensap',      'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
+                    ['canonical_name' => 'Peterselie',      'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel fijngehakt'],
                 ],
                 'steps' => [
                     'Maak couscous of rijst klaar.',
@@ -166,40 +161,6 @@ class RecipeSeeder extends Seeder
                     'Werk af met hummus, saus en peterselie.',
                 ],
             ],
-[
-                'data' => [
-                    'title'                => 'Avocado Crunch Toast Deluxe',
-                    'description'          => 'Avocado toast met crunchy toppings en een mooi eitje. Voelt veel exclusiever dan de standaard versie.',
-                    'prep_time_minutes'    => 10,
-                    'calories_per_portion' => 390,
-                    'afwas_score'          => 1,
-                    'image_path'           => 'recepten/avocado-toast.jpg',
-                    'badge'                => 'Super Snel',
-                    'created_by'           => $userId,
-                ],
-                'diet_tags' => [$vegTag?->id],
-                'ingredients' => [
-                    ['canonical_name' => 'Brood',        'category' => 'granen',     'quantity' => 2,   'unit' => 'stuks', 'notes' => 'sneetjes'],
-                    ['canonical_name' => 'Avocado',      'category' => 'fruit',      'quantity' => 1,   'unit' => 'stuks'],
-                    ['canonical_name' => 'Ei',           'category' => 'zuivel',     'quantity' => 1,   'unit' => 'stuks'],
-                    ['canonical_name' => 'Kerstomaten',  'category' => 'groenten',   'quantity' => 50,  'unit' => 'g'],
-                    ['canonical_name' => 'Chilivlokken', 'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
-                    ['canonical_name' => 'Citroen',      'category' => 'fruit',      'quantity' => null, 'unit' => 'stuks', 'notes' => 'scheutje sap'],
-                    ['canonical_name' => 'Pittenmix',    'category' => 'kruiden',    'quantity' => null, 'unit' => 'stuks', 'notes' => 'handje'],
-                    ['canonical_name' => 'Peper',        'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
-                    ['canonical_name' => 'Zout',         'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
-                ],
-                'steps' => [
-                    'Toast het brood.',
-                    'Plet de avocado met citroensap, peper en zout.',
-                    'Snij de tomaatjes.',
-                    'Bak of pocheer een ei.',
-                    'Besmeer de toast met avocado.',
-                    'Leg het ei en de tomaatjes erop.',
-                    'Werk af met pittenmix en chilivlokken.',
-                ],
-            ],
-
 
             [
                 'data' => [
@@ -212,17 +173,17 @@ class RecipeSeeder extends Seeder
                     'badge'                => 'Super Snel',
                     'created_by'           => $userId,
                 ],
-                'diet_tags' => [$vegTag?->id],
+                'diet_tags'   => [$vegTag?->id],
                 'ingredients' => [
-                    ['canonical_name' => 'Brood',        'category' => 'granen',     'quantity' => 2,   'unit' => 'stuks', 'notes' => 'sneetjes'],
-                    ['canonical_name' => 'Avocado',      'category' => 'fruit',      'quantity' => 1,   'unit' => 'stuks'],
-                    ['canonical_name' => 'Ei',           'category' => 'zuivel',     'quantity' => 1,   'unit' => 'stuks'],
-                    ['canonical_name' => 'Kerstomaten',  'category' => 'groenten',   'quantity' => 50,  'unit' => 'g'],
-                    ['canonical_name' => 'Chilivlokken', 'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
-                    ['canonical_name' => 'Citroen',      'category' => 'fruit',      'quantity' => null, 'unit' => 'stuks', 'notes' => 'scheutje sap'],
-                    ['canonical_name' => 'Pittenmix',    'category' => 'kruiden',    'quantity' => null, 'unit' => 'stuks', 'notes' => 'handje'],
-                    ['canonical_name' => 'Peper',        'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
-                    ['canonical_name' => 'Zout',         'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
+                    ['canonical_name' => 'Brood',        'quantity' => 2,   'unit' => 'stuks', 'notes' => 'sneetjes'],
+                    ['canonical_name' => 'Avocado',      'quantity' => 1,   'unit' => 'stuks'],
+                    ['canonical_name' => 'Ei',           'quantity' => 1,   'unit' => 'stuks'],
+                    ['canonical_name' => 'Kerstomaten',  'quantity' => 50,  'unit' => 'g'],
+                    ['canonical_name' => 'Chilivlokken', 'quantity' => null,'unit' => 'stuks', 'notes' => 'naar smaak'],
+                    ['canonical_name' => 'Citroensap',   'quantity' => 1,   'unit' => 'stuks', 'notes' => 'scheutje'],
+                    ['canonical_name' => 'Pittenmix',    'quantity' => 1,   'unit' => 'stuks', 'notes' => 'handje'],
+                    ['canonical_name' => 'Peper',        'quantity' => null,'unit' => 'stuks', 'notes' => 'naar smaak'],
+                    ['canonical_name' => 'Zout',         'quantity' => null,'unit' => 'stuks', 'notes' => 'naar smaak'],
                 ],
                 'steps' => [
                     'Toast het brood.',
@@ -234,8 +195,6 @@ class RecipeSeeder extends Seeder
                     'Werk af met pittenmix en chilivlokken.',
                 ],
             ],
-
-
 
             [
                 'data' => [
@@ -248,24 +207,24 @@ class RecipeSeeder extends Seeder
                     'badge'                => 'Comfort Food',
                     'created_by'           => $userId,
                 ],
-                'diet_tags' => [],
+                'diet_tags'   => [],
                 'ingredients' => [
-                    ['canonical_name' => 'Rijst',           'category' => 'granen',     'quantity' => 100, 'unit' => 'g'],
-                    ['canonical_name' => 'Kipfilet',        'category' => 'vlees',      'quantity' => 120, 'unit' => 'g',     'notes' => 'of 100g tonijn'],
-                    ['canonical_name' => 'Komkommer',       'category' => 'groenten',   'quantity' => 50,  'unit' => 'g'],
-                    ['canonical_name' => 'Wortel',          'category' => 'groenten',   'quantity' => 40,  'unit' => 'g'],
-                    ['canonical_name' => 'Avocado',         'category' => 'fruit',      'quantity' => null, 'unit' => 'stuks', 'notes' => 'halve'],
-                    ['canonical_name' => 'Sojasaus',        'category' => 'sauzen',     'quantity' => 1,   'unit' => 'stuks', 'notes' => 'eetlepel'],
-                    ['canonical_name' => 'Griekse yoghurt', 'category' => 'zuivel',     'quantity' => 2,   'unit' => 'stuks', 'notes' => 'eetlepels'],
-                    ['canonical_name' => 'Sriracha',        'category' => 'sauzen',     'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
-                    ['canonical_name' => 'Sesamzaad',       'category' => 'kruiden',    'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
-                    ['canonical_name' => 'Gehakt',          'category' => 'vlees',      'quantity' => 150, 'unit' => 'g',     'notes' => 'voor de gehaktbal'],
-                    ['canonical_name' => 'Ei',              'category' => 'zuivel',     'quantity' => 1,   'unit' => 'stuks', 'notes' => 'voor de gehaktbal'],
-                    ['canonical_name' => 'Paneermeel',      'category' => 'granen',     'quantity' => 2,   'unit' => 'stuks', 'notes' => 'eetlepels'],
-                    ['canonical_name' => 'Lookpoeder',      'category' => 'specerijen', 'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
-                    ['canonical_name' => 'Peper',           'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
-                    ['canonical_name' => 'Zout',            'category' => 'specerijen', 'quantity' => null, 'unit' => 'stuks', 'notes' => 'naar smaak'],
-                    ['canonical_name' => 'Olie',            'category' => 'sauzen',     'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
+                    ['canonical_name' => 'Rijst',           'quantity' => 100, 'unit' => 'g'],
+                    ['canonical_name' => 'Kipfilet',        'quantity' => 120, 'unit' => 'g',     'notes' => 'of 100g tonijn'],
+                    ['canonical_name' => 'Komkommer',       'quantity' => 50,  'unit' => 'g'],
+                    ['canonical_name' => 'Wortelen',        'quantity' => 40,  'unit' => 'g'],
+                    ['canonical_name' => 'Avocado',         'quantity' => 1,   'unit' => 'stuks', 'notes' => 'halve'],
+                    ['canonical_name' => 'Soja saus',       'quantity' => 1,   'unit' => 'stuks', 'notes' => 'eetlepel'],
+                    ['canonical_name' => 'Griekse yoghurt', 'quantity' => 2,   'unit' => 'stuks', 'notes' => 'eetlepels'],
+                    ['canonical_name' => 'Sriracha',        'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
+                    ['canonical_name' => 'Sesamzaad',       'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
+                    ['canonical_name' => 'Gemengd gehakt',  'quantity' => 150, 'unit' => 'g',     'notes' => 'voor de gehaktbal'],
+                    ['canonical_name' => 'Ei',              'quantity' => 1,   'unit' => 'stuks', 'notes' => 'voor de gehaktbal'],
+                    ['canonical_name' => 'Paneermeel',      'quantity' => 2,   'unit' => 'stuks', 'notes' => 'eetlepels'],
+                    ['canonical_name' => 'Lookpoeder',      'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
+                    ['canonical_name' => 'Peper',           'quantity' => null,'unit' => 'stuks', 'notes' => 'naar smaak'],
+                    ['canonical_name' => 'Zout',            'quantity' => null,'unit' => 'stuks', 'notes' => 'snufje'],
+                    ['canonical_name' => 'Olijfolie',       'quantity' => 1,   'unit' => 'stuks', 'notes' => 'theelepel'],
                 ],
                 'steps' => [
                     'Kook de rijst volgens de verpakking.',
@@ -292,10 +251,11 @@ class RecipeSeeder extends Seeder
             }
 
             foreach ($recipeData['ingredients'] as $order => $ingredientData) {
-                $ingredient = Ingredient::firstOrCreate(
-                    ['canonical_name' => $ingredientData['canonical_name']],
-                    ['category' => $ingredientData['category']]
-                );
+                $ingredient = Ingredient::where('canonical_name', $ingredientData['canonical_name'])->first();
+
+                if (!$ingredient) {
+                    continue;
+                }
 
                 RecipeIngredient::create([
                     'recipe_id'      => $recipe->id,
@@ -314,6 +274,13 @@ class RecipeSeeder extends Seeder
                     'description' => $description,
                 ]);
             }
+
+            $recipe->load('ingredients');
+            $totals = $service->calculateForRecipe($recipe);
+
+            NutritionInfo::create(array_merge(['recipe_id' => $recipe->id], $totals));
+
+            $recipe->update(['calories_per_portion' => round($totals['calories'])]);
         }
     }
 }

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(DietTagSeeder::class);
         $this->call(IngredientSeeder::class);
+        \Illuminate\Support\Facades\Artisan::call('ingredients:fetch-nutrition');
         $this->call(RecipeSeeder::class);
         $this->call(InventorySeeder::class);
     }
