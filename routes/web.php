@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn() => view('home'))->name('home');
 Route::get('/ontdekken', function () {
-    $recipes = \App\Models\Recipe::with('dietTags')->orderByDesc('avg_rating')->get();
+    $recipes = \App\Models\Recipe::with(['dietTags', 'creator'])->orderByDesc('avg_rating')->get();
     return view('ontdekken', compact('recipes'));
 })->name('ontdekken');
 Route::get('/mijn-keuken', fn() => view('mijn-keuken'))->name('mijn-keuken');

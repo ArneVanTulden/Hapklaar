@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['title', 'description', 'video_url', 'image_path', 'prep_time_minutes', 'calories_per_portion', 'afwas_score', 'avg_rating', 'review_count', 'category_id', 'created_by'])]
+#[Fillable(['title', 'description', 'video_url', 'image_path', 'badge', 'prep_time_minutes', 'calories_per_portion', 'afwas_score', 'avg_rating', 'review_count', 'category_id', 'created_by'])]
 class Recipe extends Model
 {
     protected function casts(): array

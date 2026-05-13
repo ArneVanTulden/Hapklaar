@@ -18,6 +18,7 @@ class RecipeSeeder extends Seeder
 
         $vegTag = DietTag::where('name', 'Vegetarisch')->first();
 
+
         $recipes = [
             [
                 'data' => [
@@ -27,7 +28,7 @@ class RecipeSeeder extends Seeder
                     'calories_per_portion' => 480,
                     'afwas_score'          => 2,
                     'image_path'           => 'recepten/smash-burger-tacos.jpg',
-
+                    'badge'                => 'Student Favoriet',
                     'created_by'           => $userId,
                 ],
                 'diet_tags' => [],
@@ -63,7 +64,7 @@ class RecipeSeeder extends Seeder
                     'calories_per_portion' => 470,
                     'afwas_score'          => 2,
                     'image_path'           => 'recepten/mcwrap-caesar.jpg',
-
+                    'badge'                => 'Gezonde Keuze',
                     'created_by'           => $userId,
                 ],
                 'diet_tags' => [],
@@ -97,7 +98,7 @@ class RecipeSeeder extends Seeder
                     'calories_per_portion' => 520,
                     'afwas_score'          => 2,
                     'image_path'           => 'recepten/baked-feta-pasta.jpg',
-
+                    'badge'                => 'Viral Hit',
                     'created_by'           => $userId,
                 ],
                 'diet_tags' => [$vegTag?->id],
@@ -131,7 +132,7 @@ class RecipeSeeder extends Seeder
                     'calories_per_portion' => 500,
                     'afwas_score'          => 2,
                     'image_path'           => 'recepten/falafel-bowl.jpg',
-
+                    'badge'                => 'Vega Winner',
                     'created_by'           => $userId,
                 ],
                 'diet_tags' => [$vegTag?->id],
@@ -164,7 +165,7 @@ class RecipeSeeder extends Seeder
                     'calories_per_portion' => 390,
                     'afwas_score'          => 1,
                     'image_path'           => 'recepten/avocado-toast.jpg',
-
+                    'badge'                => 'Gezonde Keuze',
                     'created_by'           => $userId,
                 ],
                 'diet_tags' => [$vegTag?->id],
@@ -197,7 +198,7 @@ class RecipeSeeder extends Seeder
                     'calories_per_portion' => 550,
                     'afwas_score'          => 3,
                     'image_path'           => 'recepten/sushi-bowl.jpg',
-
+                    'badge'                => 'Viral Hit',
                     'created_by'           => $userId,
                 ],
                 'diet_tags' => [],

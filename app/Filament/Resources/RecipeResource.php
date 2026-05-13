@@ -45,6 +45,10 @@ class RecipeResource extends Resource
                     ->label('Beschrijving')
                     ->maxLength(65535)
                     ->columnSpanFull(),
+                Forms\Components\TextInput::make('badge')
+                    ->label('Badge')
+                    ->maxLength(100)
+                    ->placeholder('bv. Student Favoriet'),
                 Forms\Components\TextInput::make('video_url')
                     ->label('Video URL')
                     ->url()

@@ -104,13 +104,18 @@
                     </div>
 
                     {{-- Recipe cards --}}
-                    @php $badgeClasses = ['bg-brand text-white', 'bg-[var(--lime)] text-black']; @endphp
+                    @php
+                        $badgeCycle  = ['bg-brand text-white', 'bg-purple-600 text-white', 'bg-[var(--lime)] text-black'];
+                        $avatarCycle = ['bg-purple-500', 'bg-indigo-400', 'bg-teal-400', 'bg-orange-400', 'bg-pink-500', 'bg-blue-400'];
+                    @endphp
 
                     <div class="grid grid-cols-3 gap-5">
                         @forelse($recipes as $i => $recipe)
                             @php
-                                $tag = $recipe->dietTags->first()?->name;
-                                $badgeClass = $badgeClasses[$i % 2];
+                                $tag         = $recipe->dietTags->first()?->name;
+                                $badgeClass  = $badgeCycle[$i % 3];
+                                $avatarColor = $avatarCycle[($recipe->created_by ?? 0) % count($avatarCycle)];
+                                $initial     = strtoupper(substr($recipe->creator?->username ?? '?', 0, 1));
                             @endphp
                             <a href="{{ route('recept', $recipe->id) }}"
                                class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] flex flex-col no-underline text-inherit hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
@@ -128,9 +133,9 @@
                                             </svg>
                                         </div>
                                     @endif
-                                    @if($tag)
+                                    @if($recipe->badge)
                                         <span class="absolute top-2 left-2 text-[8px] font-black uppercase tracking-widest px-2 py-1 {{ $badgeClass }}">
-                                            {{ strtoupper($tag) }}
+                                            {{ strtoupper($recipe->badge) }}
                                         </span>
                                     @endif
                                     <button class="absolute top-2 right-2 w-7 h-7 bg-white border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000] hover:bg-[var(--pink-soft)] transition-colors">
@@ -144,7 +149,7 @@
                                 <div class="p-4 flex flex-col flex-1">
 
                                     {{-- Title --}}
-                                    <div class="mb-2">
+                                    <div class="flex items-start justify-between gap-2 mb-2">
                                         <h3 class="font-black uppercase text-sm leading-snug">{{ strtoupper($recipe->title) }}</h3>
                                     </div>
 
@@ -176,8 +181,16 @@
 
                                     <div class="border-t border-gray-200 mb-2"></div>
 
-                                    {{-- Rating --}}
-                                    <div class="flex items-center justify-end">
+                                    {{-- Avatar + rating --}}
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-1.5">
+                                            <div class="w-6 h-6 rounded-full {{ $avatarColor }} border-2 border-white flex items-center justify-center">
+                                                <span class="text-[8px] font-black text-white leading-none">{{ $initial }}</span>
+                                            </div>
+                                            @if($recipe->review_count > 0)
+                                                <span class="text-[8px] font-black bg-[var(--lime)] border border-black px-1 py-0.5 leading-none">+{{ $recipe->review_count }}</span>
+                                            @endif
+                                        </div>
                                         <span class="text-[11px] font-black">★ {{ number_format($recipe->avg_rating, 1) }}</span>
                                     </div>
 
