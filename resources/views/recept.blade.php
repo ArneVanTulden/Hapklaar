@@ -16,7 +16,7 @@
 
         <x-navbar />
 
-        <main class="flex-1 py-8" x-data="{ tab: 'stappen', portions: 2 }">
+        <main class="flex-1 py-8" x-data="{ tab: 'stappen', portions: 1 }">
             <div class="max-w-6xl mx-auto px-6">
 
                 {{-- ============================================================
@@ -114,7 +114,7 @@
                                 <div class="flex items-center border-2 border-black">
                                     <button @click="portions = Math.max(1, portions - 1)"
                                             class="w-8 h-8 flex items-center justify-center font-black text-base border-r-2 border-black hover:bg-[var(--pink-soft)] transition-colors">−</button>
-                                    <span class="w-8 h-8 flex items-center justify-center font-black text-sm bg-[var(--lime)]" x-text="portions">2</span>
+                                    <span class="w-8 h-8 flex items-center justify-center font-black text-sm bg-[var(--lime)]" x-text="portions">1</span>
                                     <button @click="portions++"
                                             class="w-8 h-8 flex items-center justify-center font-black text-base border-l-2 border-black hover:bg-[var(--pink-soft)] transition-colors">+</button>
                                 </div>
@@ -128,8 +128,10 @@
                                             <path d="M6 0L7.5 4.5L12 6L7.5 7.5L6 12L4.5 7.5L0 6L4.5 4.5Z"/>
                                         </svg>
                                         <span class="text-[12px] font-medium leading-snug">
-                                            @if($ingredient->pivot->quantity){{ $ingredient->pivot->quantity }} @endif
-                                            @if($ingredient->pivot->unit && $ingredient->pivot->unit !== 'stuks'){{ $ingredient->pivot->unit }} @endif
+                                            @if($ingredient->pivot->quantity)
+                                                <span x-text="({{ $ingredient->pivot->quantity }} * portions) % 1 === 0 ? ({{ $ingredient->pivot->quantity }} * portions) : ({{ $ingredient->pivot->quantity }} * portions).toFixed(1)"></span>
+                                            @endif
+                                            @if($ingredient->pivot->unit && $ingredient->pivot->unit !== 'stuks') {{ $ingredient->pivot->unit }} @endif
                                             {{ $ingredient->canonical_name }}
                                             @if($ingredient->pivot->notes) ({{ $ingredient->pivot->notes }})@endif
                                         </span>
