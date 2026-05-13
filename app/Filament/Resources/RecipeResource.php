@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\RecipeResource\Pages;
 use App\Filament\Resources\RecipeResource\RelationManagers\IngredientsRelationManager;
-use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\User;
@@ -143,9 +142,6 @@ class RecipeResource extends Resource
                     ->label('Titel')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('category.name')
-                    ->label('Categorie')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('creator.username')
                     ->label('Maker')
                     ->sortable(),
@@ -164,11 +160,7 @@ class RecipeResource extends Resource
                     ->dateTime('d/m/Y')
                     ->sortable(),
             ])
-            ->filters([
-                Tables\Filters\SelectFilter::make('category_id')
-                    ->label('Categorie')
-                    ->options(Category::pluck('name', 'id')),
-            ])
+            ->filters([])
             ->recordActions([
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),

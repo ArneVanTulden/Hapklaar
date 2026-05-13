@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"C:\\\\Workspace\\\\Hapklaar\\\\storage\\\\app\\\\public\\\\recepten\")",
+      "PowerShell(Invoke-WebRequest -Uri \"https://images.unsplash.com/photo-1603046891744-1f7b9e7c2e5d?w=800&q=80\" -OutFile \"C:\\\\Workspace\\\\Hapklaar\\\\storage\\\\app\\\\public\\\\recepten\\\\avocado-toast.jpg\" -TimeoutSec 30)",
+      "PowerShell(Invoke-WebRequest -Uri \"https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&q=80\" -OutFile \"C:\\\\Workspace\\\\Hapklaar\\\\storage\\\\app\\\\public\\\\recepten\\\\avocado-toast.jpg\" -TimeoutSec 30)",
+      "PowerShell(php artisan migrate:fresh --seed)"
+    ]
+  }
+}
