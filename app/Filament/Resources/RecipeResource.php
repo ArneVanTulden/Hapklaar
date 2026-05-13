@@ -55,7 +55,7 @@ class RecipeResource extends Resource
                     ->image()
                     ->disk('public')
                     ->directory('recepten')
-                    ->imagePreviewHeight('200')
+                    ->maxSize(4096)
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('prep_time_minutes')
                     ->label('Bereidingstijd (min)')
