@@ -37,11 +37,6 @@ class RecipeResource extends Resource
                     ->label('Titel')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('category_id')
-                    ->label('Categorie')
-                    ->options(Category::pluck('name', 'id'))
-                    ->searchable()
-                    ->nullable(),
                 Forms\Components\Select::make('created_by')
                     ->label('Maker')
                     ->options(User::pluck('username', 'id'))
@@ -73,6 +68,11 @@ class RecipeResource extends Resource
                         5 => '5',
                     ])
                     ->nullable(),
+                Forms\Components\CheckboxList::make('dietTags')
+                    ->label('Categorieën')
+                    ->relationship('dietTags', 'name')
+                    ->columns(4)
+                    ->columnSpanFull(),
                 Forms\Components\Repeater::make('recipeIngredients')
                     ->label('Ingrediënten')
                     ->relationship('recipeIngredients')
@@ -126,6 +126,7 @@ class RecipeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->deferLoading()
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label('Titel')
