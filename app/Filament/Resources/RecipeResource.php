@@ -50,6 +50,13 @@ class RecipeResource extends Resource
                     ->label('Video URL')
                     ->url()
                     ->maxLength(255),
+                Forms\Components\FileUpload::make('image_path')
+                    ->label('Afbeelding')
+                    ->image()
+                    ->disk('public')
+                    ->directory('recepten')
+                    ->imagePreviewHeight('200')
+                    ->columnSpanFull(),
                 Forms\Components\TextInput::make('prep_time_minutes')
                     ->label('Bereidingstijd (min)')
                     ->numeric()
@@ -128,6 +135,10 @@ class RecipeResource extends Resource
         return $table
             ->deferLoading()
             ->columns([
+                Tables\Columns\ImageColumn::make('image_path')
+                    ->label('Foto')
+                    ->disk('public')
+                    ->square(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Titel')
                     ->searchable()

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('video_url')->nullable();
+            $table->string('image_path')->nullable();
             $table->unsignedInteger('prep_time_minutes')->nullable();
             $table->decimal('calories_per_portion', 8, 2)->nullable();
             $table->unsignedTinyInteger('afwas_score')->nullable();
