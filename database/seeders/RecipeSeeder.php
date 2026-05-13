@@ -65,7 +65,7 @@ class RecipeSeeder extends Seeder
                     'description'          => 'Heel herkenbaar voor studenten, maar dan de lichtere versie. Dat maakt het slim én aantrekkelijk.',
                     'prep_time_minutes'    => 15,
                     'calories_per_portion' => 470,
-                    'afwas_score'          => 2,
+                    'afwas_score'          => 4,
                     'image_path'           => 'recepten/mcwrap-caesar.jpg',
                     'badge'                => 'Gezonde Keuze',
                     'created_by'           => $userId,

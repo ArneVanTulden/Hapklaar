@@ -16,9 +16,8 @@ Route::get('/ontdekken', function (Illuminate\Http\Request $request) {
         $query->where('calories_per_portion', '<=', $maxCal);
     }
 
-    $maxAfwas = $request->integer('max_afwas', 5);
-    if ($maxAfwas < 5) {
-        $query->where('afwas_score', '<=', $maxAfwas);
+    if ($request->filled('max_afwas')) {
+        $query->where('afwas_score', '<=', $request->integer('max_afwas'));
     }
 
     $recipes = $query->orderByDesc('avg_rating')->get();

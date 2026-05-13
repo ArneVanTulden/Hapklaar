@@ -31,21 +31,21 @@
                     ];
                     $activeDiets      = request('diets', []);
                     $activeMaxCal     = request('max_calories', 1000);
-                    $activeMaxAfwas   = request('max_afwas', 5);
+                    $activeMaxAfwas   = request()->has('max_afwas') ? (int) request('max_afwas') : null;
                 @endphp
 
                 <aside
                     x-data="{
                         diets:    {{ json_encode($activeDiets) }},
                         maxCal:   {{ (int) $activeMaxCal }},
-                        maxAfwas: {{ (int) $activeMaxAfwas }},
-                        submit()      { this.$refs.form.submit(); },
+                        maxAfwas: {{ $activeMaxAfwas ?? 'null' }},
+                        submit()      { this.$nextTick(() => this.$refs.form.submit()); },
                         toggleDiet(v) {
                             const i = this.diets.indexOf(v);
                             i === -1 ? this.diets.push(v) : this.diets.splice(i, 1);
                             this.submit();
                         },
-                        setAfwas(v)   { this.maxAfwas = v; this.submit(); }
+                        setAfwas(v)   { this.maxAfwas = (this.maxAfwas === v) ? null : v; this.submit(); }
                     }"
                     class="w-64 flex-shrink-0 bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-6"
                 >
@@ -56,7 +56,9 @@
                             <input type="hidden" name="diets[]" :value="d">
                         </template>
                         <input type="hidden" name="max_calories" :value="maxCal">
-                        <input type="hidden" name="max_afwas" :value="maxAfwas">
+                        <template x-if="maxAfwas !== null">
+                            <input type="hidden" name="max_afwas" :value="maxAfwas">
+                        </template>
 
                         {{-- Dieetwensen --}}
                         <div class="mb-6">
@@ -94,7 +96,7 @@
                                 @for($i = 1; $i <= 5; $i++)
                                     <button type="button"
                                             @click="setAfwas({{ $i }})"
-                                            :class="maxAfwas === {{ $i }} ? 'bg-[var(--lime)]' : 'bg-white hover:bg-[var(--pink-soft)]'"
+                                            :class="maxAfwas !== null && {{ $i }} <= maxAfwas ? 'bg-[var(--lime)]' : 'bg-white hover:bg-[var(--pink-soft)]'"
                                             class="w-9 h-9 border-2 border-black font-black text-sm transition-colors">
                                         {{ $i }}
                                     </button>
