@@ -89,7 +89,7 @@
                             POPULAIRE<br>RECEPTEN
                         </h1>
                         <div class="bg-[var(--lime)] border-2 border-black shadow-[3px_3px_0px_0px_#000] px-4 py-2 text-center">
-                            <div class="text-lg font-black leading-none">128</div>
+                            <div class="text-lg font-black leading-none">{{ $recipes->count() }}</div>
                             <div class="text-[9px] font-black uppercase tracking-widest leading-none mt-0.5">RESULTATEN</div>
                         </div>
                     </div>
@@ -104,108 +104,35 @@
                     </div>
 
                     {{-- Recipe cards --}}
-                    @php
-                        $cards = [
-                            [
-                                'badge'          => 'STUDENT FAVORIET',
-                                'badge_class'    => 'bg-brand text-white',
-                                'title'          => 'ULTIEME KATER PASTA',
-                                'price'          => '€1.50',
-                                'time'           => '15 MIN',
-                                'kcal'           => '650 KCAL',
-                                'tag'            => 'LACTOSEVRIJ',
-                                'rating'         => '4.8',
-                                'img'            => 'kater_pasta',
-                                'avatars'        => ['bg-purple-500', 'bg-indigo-400', 'bg-teal-400'],
-                                'extra_users'    => 12,
-                                'slug'           => 'ultieme-kater-pasta',
-                            ],
-                            [
-                                'badge'          => 'GEZONDE KEUZE',
-                                'badge_class'    => 'bg-[var(--lime)] text-black',
-                                'title'          => 'STUDEREN SALADE',
-                                'price'          => '€2.10',
-                                'time'           => '10 MIN',
-                                'kcal'           => '420 KCAL',
-                                'tag'            => 'HALAL',
-                                'rating'         => '4.5',
-                                'img'            => 'brakke_bowl',
-                                'avatars'        => ['bg-purple-500', 'bg-blue-400'],
-                                'extra_users'    => 4,
-                                'slug'           => 'studeren-salade',
-                            ],
-                            [
-                                'badge'          => 'SUPER GOEDKOOP',
-                                'badge_class'    => 'bg-[var(--lime)] text-black',
-                                'title'          => 'CHEEKY BURGER',
-                                'price'          => '€3.50',
-                                'time'           => '25 MIN',
-                                'kcal'           => '890 KCAL',
-                                'tag'            => 'WEEKEND',
-                                'rating'         => '5.0',
-                                'img'            => 'budget_nachos',
-                                'avatars'        => ['bg-purple-500', 'bg-orange-400'],
-                                'extra_users'    => 42,
-                                'slug'           => 'cheeky-burger',
-                            ],
-                            [
-                                'badge'          => 'COMFORT FOOD',
-                                'badge_class'    => 'bg-brand text-white',
-                                'title'          => 'HONEY PIZZA',
-                                'price'          => '€2.80',
-                                'time'           => '45 MIN',
-                                'kcal'           => '780 KCAL',
-                                'tag'            => 'VEGETARISCH',
-                                'rating'         => '4.7',
-                                'img'            => 'kater_bowl',
-                                'avatars'        => ['bg-purple-500', 'bg-blue-400'],
-                                'extra_users'    => 8,
-                                'slug'           => 'honey-pizza',
-                            ],
-                            [
-                                'badge'          => 'ULTRA SNEL',
-                                'badge_class'    => 'bg-[var(--lime)] text-black',
-                                'title'          => 'GEBAKKEN NOODLES',
-                                'price'          => '€0.90',
-                                'time'           => '5 MIN',
-                                'kcal'           => '310 KCAL',
-                                'tag'            => 'GLUTENVRIJ',
-                                'rating'         => '4.2',
-                                'img'            => 'brakke_bowl',
-                                'avatars'        => ['bg-indigo-500'],
-                                'extra_users'    => 0,
-                                'slug'           => 'gebakken-noodles',
-                            ],
-                            [
-                                'badge'          => 'VEGA WINNER',
-                                'badge_class'    => 'bg-[var(--lime)] text-black',
-                                'title'          => 'POMPOEN SOEP',
-                                'price'          => '€1.20',
-                                'time'           => '20 MIN',
-                                'kcal'           => '410 KCAL',
-                                'tag'            => 'VEGAN',
-                                'rating'         => '4.9',
-                                'img'            => 'kater_bowl',
-                                'avatars'        => ['bg-purple-500', 'bg-teal-500'],
-                                'extra_users'    => 0,
-                                'slug'           => 'pompoen-soep',
-                            ],
-                        ];
-                    @endphp
+                    @php $badgeClasses = ['bg-brand text-white', 'bg-[var(--lime)] text-black']; @endphp
 
                     <div class="grid grid-cols-3 gap-5">
-                        @foreach($cards as $card)
-                            <a href="{{ route('recept', $card['slug']) }}"
+                        @forelse($recipes as $i => $recipe)
+                            @php
+                                $tag = $recipe->dietTags->first()?->name;
+                                $badgeClass = $badgeClasses[$i % 2];
+                            @endphp
+                            <a href="{{ route('recept', $recipe->id) }}"
                                class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] flex flex-col no-underline text-inherit hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
 
                                 {{-- Image --}}
                                 <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
-                                    <img src="{{ asset('images/' . $card['img'] . '.png') }}"
-                                         alt="{{ $card['title'] }}"
-                                         class="w-full h-full object-cover">
-                                    <span class="absolute top-2 left-2 text-[8px] font-black uppercase tracking-widest px-2 py-1 {{ $card['badge_class'] }}">
-                                        {{ $card['badge'] }}
-                                    </span>
+                                    @if($recipe->image_path)
+                                        <img src="{{ asset('storage/' . $recipe->image_path) }}"
+                                             alt="{{ $recipe->title }}"
+                                             class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-gray-100 flex items-center justify-center">
+                                            <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 21h18M3.75 3h16.5M5.25 21V6.75A2.25 2.25 0 017.5 4.5h9a2.25 2.25 0 012.25 2.25V21"/>
+                                            </svg>
+                                        </div>
+                                    @endif
+                                    @if($tag)
+                                        <span class="absolute top-2 left-2 text-[8px] font-black uppercase tracking-widest px-2 py-1 {{ $badgeClass }}">
+                                            {{ strtoupper($tag) }}
+                                        </span>
+                                    @endif
                                     <button class="absolute top-2 right-2 w-7 h-7 bg-white border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000] hover:bg-[var(--pink-soft)] transition-colors">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
@@ -216,52 +143,49 @@
                                 {{-- Card body --}}
                                 <div class="p-4 flex flex-col flex-1">
 
-                                    {{-- Title + price --}}
-                                    <div class="flex items-start justify-between gap-2 mb-2">
-                                        <h3 class="font-black uppercase text-sm leading-snug">{{ $card['title'] }}</h3>
-                                        <span class="text-brand font-black text-sm flex-shrink-0">{{ $card['price'] }}</span>
+                                    {{-- Title --}}
+                                    <div class="mb-2">
+                                        <h3 class="font-black uppercase text-sm leading-snug">{{ strtoupper($recipe->title) }}</h3>
                                     </div>
 
                                     <div class="border-t border-gray-200 mb-2"></div>
 
                                     {{-- Meta --}}
                                     <div class="flex items-center gap-2 flex-wrap mb-2">
-                                        <span class="flex items-center gap-1 text-[9px] font-bold uppercase text-gray-500">
-                                            <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <circle cx="12" cy="12" r="10"/>
-                                                <path stroke-linecap="round" d="M12 6v6l4 2"/>
-                                            </svg>
-                                            {{ $card['time'] }}
-                                        </span>
-                                        <span class="flex items-center gap-1 text-[9px] font-bold uppercase text-gray-500">
-                                            <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                            </svg>
-                                            {{ $card['kcal'] }}
-                                        </span>
-                                        <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border border-black">{{ $card['tag'] }}</span>
+                                        @if($recipe->prep_time_minutes)
+                                            <span class="flex items-center gap-1 text-[9px] font-bold uppercase text-gray-500">
+                                                <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="12" r="10"/>
+                                                    <path stroke-linecap="round" d="M12 6v6l4 2"/>
+                                                </svg>
+                                                {{ $recipe->prep_time_minutes }} MIN
+                                            </span>
+                                        @endif
+                                        @if($recipe->calories_per_portion)
+                                            <span class="flex items-center gap-1 text-[9px] font-bold uppercase text-gray-500">
+                                                <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                                </svg>
+                                                {{ round($recipe->calories_per_portion) }} KCAL
+                                            </span>
+                                        @endif
+                                        @if($tag)
+                                            <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border border-black">{{ strtoupper($tag) }}</span>
+                                        @endif
                                     </div>
 
                                     <div class="border-t border-gray-200 mb-2"></div>
 
-                                    {{-- Avatars + rating --}}
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-1.5">
-                                            <div class="flex -space-x-1.5">
-                                                @foreach($card['avatars'] as $color)
-                                                    <div class="w-6 h-6 rounded-full {{ $color }} border-2 border-white"></div>
-                                                @endforeach
-                                            </div>
-                                            @if($card['extra_users'] > 0)
-                                                <span class="text-[8px] font-black bg-[var(--lime)] border border-black px-1 py-0.5 leading-none">+{{ $card['extra_users'] }}</span>
-                                            @endif
-                                        </div>
-                                        <span class="text-[11px] font-black">★ {{ $card['rating'] }}</span>
+                                    {{-- Rating --}}
+                                    <div class="flex items-center justify-end">
+                                        <span class="text-[11px] font-black">★ {{ number_format($recipe->avg_rating, 1) }}</span>
                                     </div>
 
                                 </div>
                             </a>
-                        @endforeach
+                        @empty
+                            <p class="col-span-3 text-center text-gray-400 font-bold uppercase text-sm py-12">Nog geen recepten toegevoegd.</p>
+                        @endforelse
                     </div>
 
                     {{-- Load more --}}
