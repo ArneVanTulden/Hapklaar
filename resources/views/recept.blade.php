@@ -144,43 +144,16 @@
                                 @endforeach
                             </ul>
 
-                            {{-- Nutrition bars --}}
-                            @if($recipe->nutritionInfo)
-                            @php
-                                $nutrition = $recipe->nutritionInfo;
-                                $nutrients = [
-                                    ['label' => 'EIWITTEN',     'value' => (int)$nutrition->protein, 'max' => 82,  'color' => 'bg-brand'],
-                                    ['label' => 'KOOLHYDRATEN', 'value' => (int)$nutrition->carbs,   'max' => 130, 'color' => 'bg-[var(--lime)]'],
-                                    ['label' => 'VETTEN',       'value' => (int)$nutrition->fat,     'max' => 78,  'color' => 'bg-violet-400'],
-                                ];
-                            @endphp
-                            <div class="border-t-2 border-black mt-4 pt-4 space-y-3">
-                                @foreach($nutrients as $n)
-                                    <div>
-                                        <div class="flex justify-between items-center mb-1">
-                                            <span class="text-[9px] font-black uppercase tracking-widest text-gray-500">{{ $n['label'] }}</span>
-                                            <span class="text-[9px] font-black uppercase">{{ $n['value'] }}G</span>
-                                        </div>
-                                        <div class="h-3 bg-gray-100 border border-black overflow-hidden">
-                                            <div class="h-full {{ $n['color'] }}" style="width: {{ min(100, round($n['value'] / $n['max'] * 100)) }}%"></div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                            {{-- Shopping list button --}}
+                            <div class="border-t-2 border-black mt-4 pt-4">
+                                <button class="w-full text-[11px] font-black uppercase tracking-widest px-4 py-4 border-2 border-black bg-brand text-white shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
+                                    VOEG TOE AAN BOODSCHAPPENLIJST
+                                </button>
                             </div>
-                            @endif
 
                         </div>
                     </div>
 
-                </div>
-
-                {{-- ============================================================
-                     ADD TO SHOPPING LIST
-                ============================================================ --}}
-                <div class="flex justify-center mt-10 mb-4">
-                    <button class="text-[11px] font-black uppercase tracking-widest px-16 py-5 border-2 border-black bg-brand text-white shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
-                        VOEG TOE AAN BOODSCHAPPENLIJST
-                    </button>
                 </div>
 
             </div>
