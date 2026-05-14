@@ -47,6 +47,27 @@ Route::get('/recepten/{id}', function (int $id) {
     return view('recept', compact('recipe'));
 })->name('recept');
 
+Route::post('/recepten/{id}/boodschappen', function (Illuminate\Http\Request $request, int $id) {
+    $recipe   = \App\Models\Recipe::with('ingredients')->findOrFail($id);
+    $portions = max(1, (int) $request->input('portions', 1));
+    $list     = auth()->user()->shoppingLists()->firstOrCreate([]);
+
+    foreach ($recipe->ingredients as $ingredient) {
+        $qty = $ingredient->pivot->quantity ? round($ingredient->pivot->quantity * $portions, 2) : null;
+
+        $list->items()->create([
+            'ingredient_id' => $ingredient->id,
+            'name'          => $ingredient->canonical_name,
+            'quantity'      => $qty,
+            'unit'          => $ingredient->pivot->unit,
+            'category'      => $ingredient->category,
+            'sort_order'    => $list->items()->max('sort_order') + 1,
+        ]);
+    }
+
+    return back()->with('boodschappen_success', 'Ingrediënten toegevoegd aan boodschappenlijst.');
+})->middleware('auth')->name('recept.boodschappen');
+
 Route::post('/logout', function () {
     Auth::logout();
     session()->invalidate();

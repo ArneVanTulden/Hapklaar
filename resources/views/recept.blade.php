@@ -146,9 +146,22 @@
 
                             {{-- Shopping list button --}}
                             <div class="border-t-2 border-black mt-4 pt-4">
-                                <button class="w-full text-[11px] font-black uppercase tracking-widest px-4 py-4 border-2 border-black bg-brand text-white shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
-                                    VOEG TOE AAN BOODSCHAPPENLIJST
-                                </button>
+                                @auth
+                                    <form method="POST" action="{{ route('recept.boodschappen', $recipe->id) }}">
+                                        @csrf
+                                        <input type="hidden" name="portions" :value="portions">
+                                        <button type="submit" class="w-full text-[11px] font-black uppercase tracking-widest px-4 py-4 border-2 border-black bg-brand text-white shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
+                                            VOEG TOE AAN BOODSCHAPPENLIJST
+                                        </button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login') }}" class="block w-full text-center text-[11px] font-black uppercase tracking-widest px-4 py-4 border-2 border-black bg-brand text-white shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
+                                        VOEG TOE AAN BOODSCHAPPENLIJST
+                                    </a>
+                                @endauth
+                                @if(session('boodschappen_success'))
+                                    <p class="mt-2 text-[10px] font-black text-green-700 uppercase tracking-widest">{{ session('boodschappen_success') }}</p>
+                                @endif
                             </div>
 
                         </div>
