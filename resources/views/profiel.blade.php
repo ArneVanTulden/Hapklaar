@@ -24,6 +24,7 @@
                      PROFILE HERO CARD
                 ============================================================ --}}
                 @php
+                    use Illuminate\Support\Facades\Storage;
                     $user = auth()->user();
                     $initial = strtoupper(mb_substr($user->username, 0, 1));
                     $memberYear = $user->created_at?->format('Y') ?: now()->format('Y');
@@ -57,13 +58,17 @@
                                 <div class="absolute -top-4 right-4 text-xl select-none z-10" style="transform: rotate(15deg);">✨</div>
 
                                 <div class="w-36 h-36 rounded-full bg-gradient-to-br from-brand to-[var(--hot-pink)] border-[3px] border-black flex items-center justify-center shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
-                                    {{-- inner ring --}}
                                     <div class="absolute inset-2 rounded-full border border-white/40"></div>
-                                    <span class="text-white text-7xl font-black italic leading-none select-none relative" style="text-shadow: 3px 3px 0px rgba(0,0,0,0.25);">{{ $initial }}</span>
+                                    @if($user->avatar_url)
+                                        <img src="{{ Storage::url($user->avatar_url) }}" alt="Avatar" class="w-full h-full object-cover absolute inset-0">
+                                    @else
+                                        <span class="text-white text-7xl font-black italic leading-none select-none relative" style="text-shadow: 3px 3px 0px rgba(0,0,0,0.25);">{{ $initial }}</span>
+                                    @endif
                                 </div>
                                 {{-- photo upload button --}}
                                 <button type="button"
                                         aria-label="Profielfoto uploaden"
+                                        onclick="document.getElementById('avatar-input').click()"
                                         class="absolute -bottom-1 -right-1 w-10 h-10 rounded-full bg-[var(--lime)] border-[3px] border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_#000] transition-all duration-75 cursor-pointer">
                                     <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>

@@ -5,11 +5,15 @@ namespace App\Livewire;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class UpdateProfile extends Component
 {
+    use WithFileUploads;
+
     public string $username = '';
     public string $bio = '';
+    public $avatar;
 
     public function mount(): void
     {
@@ -17,6 +21,18 @@ class UpdateProfile extends Component
         $user = Auth::user();
         $this->username = $user->username;
         $this->bio = $user->bio ?? '';
+    }
+
+    public function updatedAvatar(): void
+    {
+        $this->validate(['avatar' => 'image|max:2048']);
+
+        /** @var User $user */
+        $user = Auth::user();
+        $path = $this->avatar->store('avatars', 'public');
+        $user->update(['avatar_url' => $path]);
+
+        $this->redirect(route('profiel'));
     }
 
     public function save(): void

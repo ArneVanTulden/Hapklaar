@@ -1,9 +1,15 @@
 <div>
     <h3 class="text-sm font-black uppercase tracking-widest mb-5">JOUW PROFIEL</h3>
 
-    <button type="button" class="w-full bg-[var(--lime)] text-black text-[10px] font-black uppercase tracking-widest py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 mb-5">
+    <input type="file" id="avatar-input" wire:model="avatar" accept="image/*" class="hidden">
+
+    <button type="button"
+            onclick="document.getElementById('avatar-input').click()"
+            class="w-full bg-[var(--lime)] text-black text-[10px] font-black uppercase tracking-widest py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 mb-5">
         PROFIELFOTO WIJZIGEN
     </button>
+
+    @error('avatar') <p class="text-brand text-[9px] font-black uppercase mb-3">{{ $message }}</p> @enderror
 
     <form wire:submit="save">
         <div class="mb-4">
