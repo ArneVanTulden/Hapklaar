@@ -29,7 +29,11 @@ Route::get('/ontdekken', function (Illuminate\Http\Request $request) {
 Route::get('/mijn-keuken', fn() => view('mijn-keuken'))->name('mijn-keuken');
 Route::get('/boodschappen', fn() => view('boodschappen'))->middleware('auth')->name('boodschappen');
 Route::get('/mijn-voorraad', fn () => view('mijn-voorraad'))->middleware('auth')->name('mijn-voorraad');
-Route::get('/profiel', fn() => view('profiel'))->middleware('auth')->name('profiel');
+Route::get('/profiel', function () {
+    $user = auth()->user();
+    $favorieten = $user->favoriteRecipes()->with('category')->latest('favorites.created_at')->get();
+    return view('profiel', compact('favorieten'));
+})->middleware('auth')->name('profiel');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', fn() => view('login'))->name('login');

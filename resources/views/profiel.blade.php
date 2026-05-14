@@ -141,7 +141,7 @@
                                 </svg>
                             </div>
                             <div class="leading-tight">
-                                <div class="text-xl font-black leading-none">247</div>
+                                <div class="text-xl font-black leading-none">{{ $favorieten->count() }}</div>
                                 <div class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-0.5">FAVORIETEN</div>
                             </div>
                         </div>
@@ -188,92 +188,62 @@
                 <div x-show="tab === 'favorieten'" x-cloak>
                 <h2 class="text-sm font-black uppercase tracking-widest mb-5">JE BEST BEWAARDE GEHEIMEN</h2>
 
-                @php
-                    $favorieten = [
-                        [
-                            'title'  => 'GEZONDE POKÉ BOWL VAN DE ALDI',
-                            'time'   => '15 MIN',
-                            'afwas'  => 'AFWAS-SCORE: LAAG',
-                            'price'  => '€3.50 P.P.',
-                            'img'    => 'brakke_bowl',
-                        ],
-                        [
-                            'title'  => 'THE ULTIMATE HANGOVER BURGER',
-                            'time'   => '25 MIN',
-                            'afwas'  => 'AFWAS-SCORE: HOOG',
-                            'price'  => '€4.50 P.P.',
-                            'img'    => 'budget_nachos',
-                        ],
-                        [
-                            'title'  => 'SPICY VODKA PASTA ZONDER VODKA',
-                            'time'   => '12 MIN',
-                            'afwas'  => 'AFWAS-SCORE: GEMIDDELD',
-                            'price'  => '€2.50 P.P.',
-                            'img'    => 'kater_pasta',
-                        ],
-                        [
-                            'title'  => 'DE "IK HEB NOG 3 EURO" OMELET',
-                            'time'   => '5 MIN',
-                            'afwas'  => 'AFWAS-SCORE: LAAG',
-                            'price'  => '€1.80 P.P.',
-                            'img'    => 'kater_bowl',
-                        ],
-                    ];
-                @endphp
-
+                @if($favorieten->isEmpty())
+                    <p class="text-sm text-gray-500 italic">Nog geen favorieten. Ga recepten ontdekken!</p>
+                @else
                 <div class="grid grid-cols-2 gap-4 mb-8">
                     @foreach($favorieten as $fav)
-                        <div class="relative border-2 border-black shadow-[4px_4px_0px_0px_#000] overflow-hidden bg-black cursor-pointer group">
+                        <a href="{{ route('recept', $fav->id) }}"
+                           class="relative border-2 border-black shadow-[4px_4px_0px_0px_#000] overflow-hidden bg-black cursor-pointer group block">
 
-                            {{-- Image --}}
                             <div class="relative overflow-hidden" style="aspect-ratio:4/3;">
-                                <img src="{{ asset('images/' . $fav['img'] . '.png') }}"
-                                     alt="{{ $fav['title'] }}"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                @if($fav->image_path)
+                                    <img src="{{ asset('storage/' . $fav->image_path) }}"
+                                         alt="{{ $fav->title }}"
+                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                @else
+                                    <div class="w-full h-full bg-gray-800"></div>
+                                @endif
 
-                                {{-- Dark gradient overlay --}}
                                 <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
 
-                                {{-- FAVORIET badge top-left --}}
                                 <span class="absolute top-3 left-3 bg-[var(--lime)] text-black text-[8px] font-black uppercase tracking-widest px-2 py-1 border border-black">
                                     FAVORIET
                                 </span>
 
-                                {{-- Price badge top-right --}}
-                                <span class="absolute top-3 right-3 bg-brand text-white text-[8px] font-black uppercase tracking-widest px-2 py-1 border border-black">
-                                    {{ $fav['price'] }}
-                                </span>
+                                @if($fav->badge)
+                                    <span class="absolute top-3 right-3 bg-brand text-white text-[8px] font-black uppercase tracking-widest px-2 py-1 border border-black">
+                                        {{ $fav->badge }}
+                                    </span>
+                                @endif
 
-                                {{-- Text overlay bottom --}}
                                 <div class="absolute bottom-0 left-0 right-0 p-4">
-                                    <h3 class="text-white font-black uppercase text-sm leading-snug mb-2">{{ $fav['title'] }}</h3>
+                                    <h3 class="text-white font-black uppercase text-sm leading-snug mb-2">{{ $fav->title }}</h3>
                                     <div class="flex items-center gap-4">
+                                        @if($fav->prep_time_minutes)
                                         <span class="flex items-center gap-1 text-[9px] font-bold uppercase text-gray-300">
                                             <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/>
                                             </svg>
-                                            {{ $fav['time'] }}
+                                            {{ $fav->prep_time_minutes }} MIN
                                         </span>
+                                        @endif
+                                        @if($fav->afwas_score)
                                         <span class="flex items-center gap-1 text-[9px] font-bold uppercase text-gray-300">
                                             <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                             </svg>
-                                            {{ $fav['afwas'] }}
+                                            AFWAS {{ $fav->afwas_score }}
                                         </span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
 
-                        </div>
+                        </a>
                     @endforeach
                 </div>
-
-                {{-- Show all button --}}
-                <div class="flex justify-center mb-4">
-                    <button class="text-[11px] font-black uppercase tracking-widest px-14 py-4 border-2 border-black bg-white shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
-                        + TOON ALLE 69 FAVORIETEN
-                    </button>
-                </div>
+                @endif
                 </div>{{-- end favorieten --}}
 
                 {{-- ============================================================
