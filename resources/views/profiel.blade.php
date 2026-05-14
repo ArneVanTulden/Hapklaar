@@ -21,63 +21,124 @@
             <div class="max-w-5xl mx-auto px-6">
 
                 {{-- ============================================================
-                     PAGE HEADER
+                     PROFILE HERO CARD
                 ============================================================ --}}
-                <div class="mb-6">
-                    <h1 class="text-[3.5rem] font-black uppercase italic leading-none mb-1">MIJN ACCOUNT</h1>
-                    <p class="text-brand font-black uppercase italic text-base">JOUW EIGEN VRETPLEK OP HET INTERNET.</p>
-                </div>
+                @php
+                    $user = auth()->user();
+                    $initial = strtoupper(mb_substr($user->username, 0, 1));
+                    $memberYear = $user->created_at?->format('Y') ?: now()->format('Y');
+                @endphp
 
-                {{-- ============================================================
-                     USERNAME BAR
-                ============================================================ --}}
-                <div class="flex items-center justify-between bg-white border-2 border-black shadow-[4px_4px_0px_0px_var(--hot-pink)] px-5 py-4 mb-5">
-                    <div>
-                        <p class="text-[8px] font-black uppercase tracking-widest text-gray-400 mb-0.5">GEBRUIKERSNAAM</p>
-                        <p class="text-2xl font-black uppercase leading-none">{{ auth()->user()->username }}</p>
-                    </div>
-                    <button class="flex items-center gap-1.5 bg-brand text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                        </svg>
-                        PROFIEL BEWERKEN
-                    </button>
-                </div>
+                <div class="relative bg-white border-2 border-black shadow-[6px_6px_0px_0px_var(--hot-pink)] mb-8 overflow-visible">
 
-                {{-- ============================================================
-                     PROFILE GRID: avatar | bio + stats
-                ============================================================ --}}
-                <div class="grid mb-6" style="grid-template-columns: 2fr 3fr; gap: 0;">
-
-                    {{-- Avatar --}}
-                    <div class="border-2 border-black border-r-0" style="box-shadow: 5px 5px 0px 0px var(--hot-pink);">
-                        <div class="bg-[#E8453C] flex items-end justify-center overflow-hidden" style="min-height: 320px;">
-                            <div class="text-[10rem] leading-none select-none" style="filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
-                                👨‍🍳
-                            </div>
-                        </div>
+                    {{-- Top ribbon strip --}}
+                    <div class="flex items-center justify-between bg-black text-white px-5 py-2 relative z-10">
+                        <span class="text-[9px] font-black uppercase tracking-[0.3em] flex items-center gap-2">
+                            <span class="text-[var(--lime)]">●</span>
+                            PROFIEL 
+                        </span>
                     </div>
 
-                    {{-- Right column --}}
-                    <div class="flex flex-col border-2 border-black" style="box-shadow: 5px 5px 0px 0px var(--hot-pink);">
+                    {{-- Hero band with subtle dot pattern --}}
+                    <div class="relative px-8 pt-10 pb-7"
+                         style="background-color: var(--pink-soft); background-image: radial-gradient(circle, rgba(0,0,0,0.07) 1.2px, transparent 1.2px); background-size: 18px 18px;">
 
-                        {{-- Bio --}}
-                        <div class="flex-1 bg-[#E8FFB0] border-b-2 border-black flex items-center justify-center p-8">
-                            <p class="text-[11px] font-black uppercase tracking-widest text-gray-500 text-center">{{ auth()->user()->bio ?: 'HIER KOMT DE BIO VAN DE GEBRUIKER' }}</p>
-                        </div>
+                        {{-- Decorative blob accents --}}
+                        <div class="absolute top-4 left-6 w-3 h-3 rounded-full bg-[var(--lime)] border-2 border-black"></div>
+                        <div class="absolute top-8 right-32 text-2xl select-none opacity-80" style="transform: rotate(-12deg);">✦</div>
 
-                        {{-- Stats --}}
-                        <div class="grid grid-cols-2" style="min-height: 140px;">
-                            <div class="flex flex-col items-center justify-center border-r-2 border-black border-l-4 border-l-brand p-6">
-                                <span class="text-5xl font-black leading-none mb-1">69</span>
-                                <span class="text-[9px] font-black uppercase tracking-widest text-gray-400">RECEPTEN</span>
+                        <div class="relative flex items-center gap-7">
+
+                            {{-- Avatar with floating dots --}}
+                            <div class="relative flex-shrink-0">
+                                {{-- floating accents around avatar --}}
+                                <div class="absolute -top-2 -left-3 w-4 h-4 rounded-full bg-[var(--yellow)] border-2 border-black z-10"></div>
+                                <div class="absolute top-5 -left-5 w-2.5 h-2.5 rounded-full bg-brand border-2 border-black z-10"></div>
+                                <div class="absolute -top-4 right-4 text-xl select-none z-10" style="transform: rotate(15deg);">✨</div>
+
+                                <div class="w-36 h-36 rounded-full bg-gradient-to-br from-brand to-[var(--hot-pink)] border-[3px] border-black flex items-center justify-center shadow-[6px_6px_0px_0px_#000] relative overflow-hidden">
+                                    {{-- inner ring --}}
+                                    <div class="absolute inset-2 rounded-full border border-white/40"></div>
+                                    <span class="text-white text-7xl font-black italic leading-none select-none relative" style="text-shadow: 3px 3px 0px rgba(0,0,0,0.25);">{{ $initial }}</span>
+                                </div>
+                                {{-- photo upload button --}}
+                                <button type="button"
+                                        aria-label="Profielfoto uploaden"
+                                        class="absolute -bottom-1 -right-1 w-10 h-10 rounded-full bg-[var(--lime)] border-[3px] border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0px_0px_#000] transition-all duration-75 cursor-pointer">
+                                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                                    </svg>
+                                </button>
                             </div>
-                            <div class="flex flex-col items-center justify-center border-l-4 border-l-brand p-6">
-                                <span class="text-5xl font-black leading-none mb-1">12</span>
-                                <span class="text-[9px] font-black uppercase tracking-widest text-gray-400">REVIEWS</span>
+
+                            {{-- Identity + bio --}}
+                            <div class="flex-1 min-w-0">
+
+                                <h1 class="text-[3.25rem] font-black uppercase italic leading-[0.9] tracking-tight mb-2 truncate">
+                                    <span class="relative inline-block">
+                                        <span class="absolute inset-x-0 bottom-1 h-3 bg-[var(--lime)] -z-0"></span>
+                                        <span class="relative">{{ $user->username }}</span>
+                                    </span>
+                                </h1>
+                                <p class="text-gray-700 text-sm leading-relaxed max-w-xl italic">
+                                    "{{ $user->bio ?: 'Nog geen bio. Klik op bewerken en vertel wat jij graag in de pan gooit.' }}"
+                                </p>
+                            </div>
+
+                            {{-- Action buttons --}}
+                            <div class="flex-shrink-0 self-start flex flex-col gap-2">
+                                <button class="flex items-center gap-1.5 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-4 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                    </svg>
+                                    BEWERKEN
+                                </button>
+                                <button class="flex items-center justify-center gap-1.5 bg-white text-black text-[10px] font-black uppercase tracking-widest px-4 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12s-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                                    </svg>
+                                    DELEN
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {{-- Stats row --}}
+                    <div class="grid grid-cols-3 border-t-2 border-black divide-x-2 divide-black">
+                        <div class="flex items-center gap-3 px-5 py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors">
+                            <div class="w-9 h-9 bg-[var(--lime)] border-2 border-black flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
+                                </svg>
+                            </div>
+                            <div class="leading-tight">
+                                <div class="text-xl font-black leading-none">69</div>
+                                <div class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-0.5">RECEPTEN</div>
                             </div>
                         </div>
-
+                        <div class="flex items-center gap-3 px-5 py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors">
+                            <div class="w-9 h-9 bg-[var(--yellow)] border-2 border-black flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                                </svg>
+                            </div>
+                            <div class="leading-tight">
+                                <div class="text-xl font-black leading-none">12</div>
+                                <div class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-0.5">REVIEWS</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 px-5 py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors">
+                            <div class="w-9 h-9 bg-brand border-2 border-black flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </div>
+                            <div class="leading-tight">
+                                <div class="text-xl font-black leading-none">247</div>
+                                <div class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-0.5">FAVORIETEN</div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
