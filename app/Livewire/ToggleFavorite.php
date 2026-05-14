@@ -10,6 +10,7 @@ class ToggleFavorite extends Component
 {
     public int $recipeId;
     public bool $isFavorited = false;
+    public bool $compact = false;
 
     public function mount(int $recipeId): void
     {

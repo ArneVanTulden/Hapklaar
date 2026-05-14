@@ -179,11 +179,9 @@
                                             {{ strtoupper($recipe->badge) }}
                                         </span>
                                     @endif
-                                    <button class="absolute top-2 right-2 z-10 w-7 h-7 bg-white border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_#000] hover:bg-[var(--pink-soft)] transition-colors">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                        </svg>
-                                    </button>
+                                    <div class="absolute top-2 right-2 z-10">
+                                        <livewire:toggle-favorite :recipe-id="$recipe->id" :compact="true" :key="'fav-'.$recipe->id" />
+                                    </div>
                                 </div>
 
                                 {{-- Card body --}}
