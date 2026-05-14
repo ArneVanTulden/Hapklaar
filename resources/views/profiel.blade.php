@@ -87,7 +87,8 @@
 
                             {{-- Action buttons --}}
                             <div class="flex-shrink-0 self-start flex flex-col gap-2">
-                                <button class="flex items-center gap-1.5 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-4 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                <button onclick="window.dispatchEvent(new CustomEvent('open-tab', { detail: { tab: 'instellingen' } })); document.getElementById('profiel-tabs').scrollIntoView({ behavior: 'smooth' })"
+                                        class="flex items-center gap-1.5 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-4 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                                     </svg>
@@ -146,7 +147,7 @@
                 {{-- ============================================================
                      TAB NAV
                 ============================================================ --}}
-                <div x-data="{ tab: 'favorieten' }">
+                <div x-data="{ tab: 'favorieten' }" id="profiel-tabs" @open-tab.window="tab = $event.detail.tab">
 
                 <div class="flex gap-3 mb-8">
                     <button @click="tab = 'favorieten'"
