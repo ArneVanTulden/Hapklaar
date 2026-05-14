@@ -41,7 +41,11 @@
                     <div class="flex-1 min-w-0">
 
                         {{-- Recipe image --}}
-                        <div class="relative border-2 border-black overflow-hidden mb-4" style="aspect-ratio: 16/10;">
+                        <div class="relative mb-4">
+                        <div class="absolute -top-5 -right-5 z-10">
+                            <livewire:toggle-favorite :recipe-id="$recipe->id" />
+                        </div>
+                        <div class="relative border-2 border-black overflow-hidden" style="aspect-ratio: 16/10;">
                             <img src="{{ asset($recipe->image_path) }}"
                                  alt="{{ $recipe->title }}"
                                  class="w-full h-full object-cover">
@@ -53,6 +57,7 @@
                                 </span>
                             </button>
                             <span class="absolute bottom-3 left-3 text-[8px] font-black uppercase tracking-widest bg-[var(--lime)] border border-black px-2 py-1">RECEPT VIDEO</span>
+                        </div>
                         </div>
 
                         {{-- Action buttons --}}
