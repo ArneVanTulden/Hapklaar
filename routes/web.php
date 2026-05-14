@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn() => view('home'))->name('home');
+Route::get('/', function () {
+    $recepten = \App\Models\Recipe::orderBy('id')->limit(3)->get();
+    return view('home', compact('recepten'));
+})->name('home');
 Route::get('/ontdekken', function (Illuminate\Http\Request $request) {
     $query = \App\Models\Recipe::with(['dietTags', 'creator']);
 

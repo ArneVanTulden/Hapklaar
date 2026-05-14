@@ -85,74 +85,41 @@
 
                 <div class="grid grid-cols-3 gap-6">
 
-                    <!-- Card 1 -->
+                    @foreach($recepten as $recept)
                     <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
                         <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
-                            <img src="{{ asset('images/kater_pasta.png') }}" alt="Snelle Pasta met Tomaat" class="w-full h-full object-cover">
-                            <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-brand text-white">STUDENT FAVORIET</span>
+                            @if($recept->image_path)
+                                <img src="{{ asset('storage/' . $recept->image_path) }}" alt="{{ $recept->title }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="w-full h-full bg-gray-200"></div>
+                            @endif
+                            @if($recept->badge)
+                                <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-brand text-white">{{ $recept->badge }}</span>
+                            @endif
                         </div>
 
                         <div class="p-4 flex flex-col flex-1">
-                            <h3 class="font-black uppercase text-lg leading-tight mb-3">Snelle Pasta met Tomaat</h3>
+                            <h3 class="font-black uppercase text-lg leading-tight mb-3">{{ $recept->title }}</h3>
 
                             <div class="flex items-center gap-3 mb-4 text-[10px] font-bold uppercase text-gray-500 tracking-wide flex-wrap">
-                                <span>⏱ 20 MIN</span>
-                                <span>⚡ 450 KCAL</span>
-                                <span>🍽 |||</span>
+                                @if($recept->prep_time_minutes)
+                                    <span>⏱ {{ $recept->prep_time_minutes }} MIN</span>
+                                @endif
+                                @if($recept->calories_per_portion)
+                                    <span>⚡ {{ (int)$recept->calories_per_portion }} KCAL</span>
+                                @endif
+                                @if($recept->afwas_score)
+                                    <span>🍽 {{ str_repeat('|', (int)$recept->afwas_score) }}</span>
+                                @endif
                             </div>
 
-                            <a href="#"
+                            <a href="{{ route('recept', $recept->id) }}"
                                class="mt-auto text-center text-[11px] font-black uppercase tracking-widest bg-brand text-white no-underline px-4 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                 LAAT ME ZIEN!
                             </a>
                         </div>
                     </div>
-
-                    <!-- Card 2 -->
-                    <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
-                        <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
-                            <img src="{{ asset('images/budget_nachos.png') }}" alt="Ovengebakken Zoete Aardappel" class="w-full h-full object-cover">
-                            <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-[#FF6B00] text-white">HOT DEAL</span>
-                        </div>
-
-                        <div class="p-4 flex flex-col flex-1">
-                            <h3 class="font-black uppercase text-lg leading-tight mb-3">Ovengebakken Zoete Aardappel</h3>
-
-                            <div class="flex items-center gap-3 mb-4 text-[10px] font-bold uppercase text-gray-500 tracking-wide flex-wrap">
-                                <span>⏱ 35 MIN</span>
-                                <span>⚡ 320 KCAL</span>
-                                <span>🍽 ||||</span>
-                            </div>
-
-                            <a href="#"
-                               class="mt-auto text-center text-[11px] font-black uppercase tracking-widest bg-brand text-white no-underline px-4 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-                                LAAT ME ZIEN!
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
-                        <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
-                            <img src="{{ asset('images/brakke_bowl.png') }}" alt="Rijstsalade met Groenten" class="w-full h-full object-cover">
-                            <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-[var(--lime)] text-black">LAAGSTE AFWAS</span>
-                        </div>
-
-                        <div class="p-4 flex flex-col flex-1">
-                            <h3 class="font-black uppercase text-lg leading-tight mb-3">Rijstsalade met Groenten</h3>
-
-                            <div class="flex items-center gap-3 mb-4 text-[10px] font-bold uppercase text-gray-500 tracking-wide flex-wrap">
-                                <span>⏱ 15 MIN</span>
-                                <span>⚡ 280 KCAL</span>
-                                <span>🍽 ||</span>
-                            </div>
-
-                            <a href="#"
-                               class="mt-auto text-center text-[11px] font-black uppercase tracking-widest bg-brand text-white no-underline px-4 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-                                LAAT ME ZIEN!
-                            </a>
-                        </div>
-                    </div>
+                    @endforeach
 
                 </div>
 
