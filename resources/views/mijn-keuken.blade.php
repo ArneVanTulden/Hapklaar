@@ -165,9 +165,9 @@
                         <p class="font-black uppercase text-lg leading-tight mb-1">GEEN ZIN IN DEZE OPTIES?</p>
                         <p class="text-[11px] text-gray-600 uppercase font-bold tracking-wide">WE HEBBEN NOG 142 ANDERE IDEEËN VOOR JE.</p>
                     </div>
-                    <button class="bg-black text-white text-[11px] font-black uppercase tracking-widest px-8 py-4 border-2 border-black hover:bg-gray-900 transition-colors flex-shrink-0">
+                    <a href="{{ route('recept.random') }}" class="bg-black text-white text-[11px] font-black uppercase tracking-widest px-8 py-4 border-2 border-black hover:bg-gray-900 transition-colors flex-shrink-0">
                         DOE MAAR EEN GOK
-                    </button>
+                    </a>
                 </div>
 
             </div>

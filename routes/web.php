@@ -42,6 +42,11 @@ Route::middleware('guest')->group(function () {
     Route::get('/reset-password/{token}', fn(string $token) => view('reset-password', compact('token')))->name('password.reset');
 });
 
+Route::get('/recepten/random', function () {
+    $recipe = \App\Models\Recipe::inRandomOrder()->firstOrFail();
+    return redirect()->route('recept', $recipe->id);
+})->name('recept.random');
+
 Route::get('/recepten/{id}', function (int $id) {
     $recipe = \App\Models\Recipe::with(['ingredients', 'nutritionInfo'])->findOrFail($id);
     return view('recept', compact('recipe'));
