@@ -13,7 +13,12 @@
       "Bash(xargs grep -l \"step\" -i)",
       "Bash(xargs grep -l \"RecipeStep\")",
       "Bash(xargs grep -l \"steps\\\\|stappen\")",
-      "Bash(xargs grep -l 'recipe.*steps\\\\|$recipe->steps')"
+      "Bash(xargs grep -l 'recipe.*steps\\\\|$recipe->steps')",
+      "PowerShell(php -r \"require 'c:/Workspace/Hapklaar/vendor/autoload.php'; $a=new App\\\\Filament\\\\Resources\\\\ReviewResource\\(\\); echo 'OK';\" 2>&1)",
+      "PowerShell(php -l c:/Workspace/Hapklaar/app/Filament/Resources/ReviewResource.php)",
+      "PowerShell(php -l c:/Workspace/Hapklaar/app/Filament/Resources/ReviewResource/Pages/ListReviews.php)",
+      "PowerShell(php -l c:/Workspace/Hapklaar/app/Filament/Resources/ReviewResource/Pages/EditReview.php)",
+      "PowerShell(php -l c:/Workspace/Hapklaar/app/Livewire/RecipeReviews.php)"
     ]
   }
 }
