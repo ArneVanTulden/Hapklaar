@@ -140,6 +140,7 @@
 
                     {{-- Recipe cards --}}
                     @php
+                        use Illuminate\Support\Facades\Storage;
                         $badgeCycle  = ['bg-brand text-white', 'bg-purple-600 text-white', 'bg-[var(--lime)] text-black'];
                         $avatarCycle = ['bg-purple-500', 'bg-indigo-400', 'bg-teal-400', 'bg-orange-400', 'bg-pink-500', 'bg-blue-400'];
                     @endphp
@@ -151,8 +152,8 @@
                             @php
                                 $tag         = $recipe->dietTags->first()?->name;
                                 $badgeClass  = $badgeCycle[$i % 3];
-                                $avatarColor = $avatarCycle[($recipe->created_by ?? 0) % count($avatarCycle)];
-                                $initial     = strtoupper(substr($recipe->creator?->username ?? '?', 0, 1));
+                                $reviewers   = $recipe->reviews->pluck('user')->filter()->unique('id')->take(3)->values();
+                                $extraCount  = max(0, ($recipe->review_count ?? 0) - $reviewers->count());
                             @endphp
                             <a data-recipe-card
                                href="{{ route('recept', $recipe->id) }}"
@@ -221,17 +222,31 @@
                                     <div class="border-t border-gray-200 mb-2"></div>
 
                                     {{-- Avatar + rating --}}
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-1.5">
-                                            <div class="w-6 h-6 rounded-full {{ $avatarColor }} border-2 border-white flex items-center justify-center">
-                                                <span class="text-[8px] font-black text-white leading-none">{{ $initial }}</span>
+                                    @if($recipe->review_count > 0 && $reviewers->isNotEmpty())
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-1.5">
+                                                <div class="flex -space-x-2">
+                                                    @foreach($reviewers as $reviewer)
+                                                        @php
+                                                            $color   = $avatarCycle[($reviewer->id ?? 0) % count($avatarCycle)];
+                                                            $initial = strtoupper(mb_substr($reviewer->username ?? '?', 0, 1));
+                                                        @endphp
+                                                        <div class="w-6 h-6 rounded-full {{ $color }} border-2 border-white flex items-center justify-center overflow-hidden">
+                                                            @if($reviewer->avatar_url)
+                                                                <img src="{{ Storage::url($reviewer->avatar_url) }}" alt="{{ $reviewer->username }}" class="w-full h-full object-cover">
+                                                            @else
+                                                                <span class="text-[8px] font-black text-white leading-none">{{ $initial }}</span>
+                                                            @endif
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                @if($extraCount > 0)
+                                                    <span class="text-[8px] font-black bg-[var(--lime)] border border-black px-1 py-0.5 leading-none">+{{ $extraCount }}</span>
+                                                @endif
                                             </div>
-                                            @if($recipe->review_count > 0)
-                                                <span class="text-[8px] font-black bg-[var(--lime)] border border-black px-1 py-0.5 leading-none">+{{ $recipe->review_count }}</span>
-                                            @endif
+                                            <span class="text-[11px] font-black">★ {{ number_format($recipe->avg_rating, 1) }}</span>
                                         </div>
-                                        <span class="text-[11px] font-black">★ {{ number_format($recipe->avg_rating, 1) }}</span>
-                                    </div>
+                                    @endif
 
                                 </div>
                             </a>

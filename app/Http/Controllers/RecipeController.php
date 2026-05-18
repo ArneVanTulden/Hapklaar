@@ -9,7 +9,11 @@ class RecipeController extends Controller
 {
     public function discover(Request $request)
     {
-        $query = Recipe::with(['dietTags', 'creator']);
+        $query = Recipe::with([
+            'dietTags',
+            'creator',
+            'reviews' => fn($q) => $q->where('status', 'approved')->with('user')->latest(),
+        ]);
 
         foreach ($request->input('diets', []) as $diet) {
             $query->whereHas('dietTags', fn($q) => $q->where('name', $diet));
