@@ -16,8 +16,8 @@
 
         <x-navbar />
 
-        <main class="flex-1 py-8">
-            <div class="max-w-6xl mx-auto px-6 flex gap-7 items-start">
+        <main class="flex-1 py-6 md:py-8" x-data="{ filtersOpen: false }">
+            <div class="max-w-6xl mx-auto px-4 md:px-6 flex flex-col md:flex-row gap-5 md:gap-7 md:items-start">
 
                 {{-- ============================================================
                      FILTER SIDEBAR
@@ -32,7 +32,32 @@
                     $activeDiets      = request('diets', []);
                     $activeMaxCal     = request('max_calories', 1000);
                     $activeMaxAfwas   = request()->has('max_afwas') ? (int) request('max_afwas') : null;
+                    $activeFilterCount = count((array)$activeDiets)
+                        + ((int)$activeMaxCal < 1000 ? 1 : 0)
+                        + ($activeMaxAfwas !== null ? 1 : 0);
                 @endphp
+
+                {{-- Mobile filter trigger --}}
+                <button type="button"
+                        @click="filtersOpen = true"
+                        class="md:hidden flex items-center justify-between w-full bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] px-4 py-3">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 4h18M6 12h12M10 20h4"/>
+                        </svg>
+                        <span class="text-[12px] font-black uppercase tracking-widest">FILTERS</span>
+                    </span>
+                    @if($activeFilterCount > 0)
+                        <span class="bg-[var(--lime)] border-2 border-black text-[10px] font-black px-2 py-0.5">{{ $activeFilterCount }}</span>
+                    @endif
+                </button>
+
+                {{-- Mobile backdrop --}}
+                <div x-show="filtersOpen"
+                     x-transition.opacity
+                     @click="filtersOpen = false"
+                     class="md:hidden fixed inset-0 bg-black/50 z-40"
+                     style="display: none;"></div>
 
                 <aside
                     x-data="{
@@ -47,9 +72,20 @@
                         },
                         setAfwas(v)   { this.maxAfwas = (this.maxAfwas === v) ? null : v; this.submit(); }
                     }"
-                    class="w-64 flex-shrink-0 bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-6"
+                    :class="filtersOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
+                    class="fixed md:static md:transform-none inset-y-0 left-0 z-50 w-80 max-w-[85vw] md:w-64 md:max-w-none flex-shrink-0 bg-white border-r-2 md:border-2 border-black md:shadow-[4px_4px_0px_0px_#000] p-6 overflow-y-auto md:overflow-visible transition-transform duration-200"
                 >
-                    <h2 class="text-4xl font-black uppercase italic mb-6 leading-none">FILTERS</h2>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-4xl font-black uppercase italic leading-none">FILTERS</h2>
+                        <button type="button"
+                                @click="filtersOpen = false"
+                                class="md:hidden flex items-center justify-center w-9 h-9 border-2 border-black bg-white"
+                                aria-label="Sluit">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18"/>
+                            </svg>
+                        </button>
+                    </div>
 
                     <form x-ref="form" method="GET" action="{{ route('ontdekken') }}">
                         <template x-for="d in diets" :key="d">
@@ -116,14 +152,14 @@
                 {{-- ============================================================
                      MAIN CONTENT
                 ============================================================ --}}
-                <div class="flex-1 min-w-0">
+                <div class="flex-1 min-w-0 w-full">
 
                     {{-- Page header --}}
-                    <div class="flex items-start justify-between mb-1.5">
-                        <h1 class="text-5xl font-black uppercase italic leading-[1.05]">
+                    <div class="flex items-start justify-between mb-1.5 gap-3">
+                        <h1 class="text-3xl md:text-5xl font-black uppercase italic leading-[1.05]">
                             POPULAIRE<br>RECEPTEN
                         </h1>
-                        <div class="bg-[var(--lime)] border-2 border-black shadow-[3px_3px_0px_0px_#000] px-4 py-2 text-center">
+                        <div class="bg-[var(--lime)] border-2 border-black shadow-[3px_3px_0px_0px_#000] px-4 py-2 text-center flex-shrink-0">
                             <div class="text-lg font-black leading-none">{{ $recipes->count() }}</div>
                             <div class="text-[9px] font-black uppercase tracking-widest leading-none mt-0.5">RESULTATEN</div>
                         </div>
@@ -132,7 +168,7 @@
                     <p class="text-sm text-gray-500 mb-5">Ontdek de favorieten van studenten deze week.</p>
 
                     {{-- Tabs --}}
-                    <div class="flex gap-7 border-b-2 border-black mb-6">
+                    <div class="flex gap-5 md:gap-7 border-b-2 border-black mb-6 overflow-x-auto">
                         <button class="text-[11px] font-black uppercase tracking-widest pb-2.5 border-b-2 border-brand text-brand -mb-px">POPULAIR</button>
                         <button class="text-[11px] font-black uppercase tracking-widest pb-2.5 text-gray-400 hover:text-black transition-colors -mb-px">SNEL</button>
                         <button class="text-[11px] font-black uppercase tracking-widest pb-2.5 text-gray-400 hover:text-black transition-colors -mb-px">GOEDKOOP</button>
@@ -147,7 +183,7 @@
 
                     <div x-data="{ expanded: false }">
 
-                    <div class="grid grid-cols-3 gap-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         @forelse($recipes as $i => $recipe)
                             @php
                                 $tag         = $recipe->dietTags->first()?->name;
@@ -251,7 +287,7 @@
                                 </div>
                             </a>
                         @empty
-                            <div class="col-span-3 py-10 flex flex-col items-center gap-3 border-2 border-dashed border-gray-300">
+                            <div class="col-span-full py-10 flex flex-col items-center gap-3 border-2 border-dashed border-gray-300">
                                 <p class="text-lg font-black uppercase leading-none">Geen recepten gevonden</p>
                                 <p class="text-xs text-gray-400">Pas de filters aan of wis ze om meer te zien.</p>
                                 <a href="{{ route('ontdekken') }}"
@@ -267,7 +303,7 @@
                     <div class="flex justify-center mt-10 mb-4">
                         <button type="button"
                                 @click="expanded = !expanded"
-                                class="text-[11px] font-black uppercase tracking-widest px-16 py-4 border-2 border-black bg-white shadow-[4px_4px_0px_0px_var(--pink)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--pink)] transition-all duration-75">
+                                class="text-[11px] font-black uppercase tracking-widest px-8 md:px-16 py-4 border-2 border-black bg-white shadow-[4px_4px_0px_0px_var(--pink)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--pink)] transition-all duration-75">
                             <span x-show="!expanded">MEER <span class="font-normal">RECEPTEN LADEN</span></span>
                             <span x-show="expanded" style="display:none">MINDER <span class="font-normal">RECEPTEN TONEN</span></span>
                         </button>
