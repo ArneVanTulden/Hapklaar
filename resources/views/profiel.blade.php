@@ -130,7 +130,7 @@
                                 </svg>
                             </div>
                             <div class="leading-tight">
-                                <div class="text-xl font-black leading-none">12</div>
+                                <div class="text-xl font-black leading-none">{{ $reviews->count() }}</div>
                                 <div class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-0.5">REVIEWS</div>
                             </div>
                         </div>
@@ -258,54 +258,32 @@
                 <div x-show="tab === 'reviews'" x-cloak>
                     <h2 class="text-sm font-black uppercase tracking-widest mb-5">JOUW EERLIJKE MENINGEN</h2>
 
-                    @php
-                        $reviews = [
-                            [
-                                'title'  => 'SPICY VODKA PASTA ZONDER VODKA',
-                                'stars'  => 4,
-                                'quote'  => '"Echt een lifesaver na een zware avond in de bieb. Makkelijk, snel en je proeft die tranen van het leren bijna niet eens. 10/10 would cook again."',
-                                'date'   => '2 DAGEN GELEDEN',
-                                'img'    => 'kater_pasta',
-                                'cooked' => true,
-                            ],
-                            [
-                                'title'  => 'THE ULTIMATE HANGOVER BURGER',
-                                'stars'  => 5,
-                                'quote'  => '"Beetje veel afwas, maar die saus is goud waard. Mijn huisgenoten hebben de helft gestolen dus maak er extra."',
-                                'date'   => '1 WEEK GELEDEN',
-                                'img'    => 'budget_nachos',
-                                'cooked' => true,
-                            ],
-                            [
-                                'title'  => 'DE "IK HEB NOG 3 EURO" OMELET',
-                                'stars'  => 3,
-                                'quote'  => '"Het is een omelet. Niks bijzonders, maar vult de maag als je bankrekening huilt. Perfect voor de laatste week van de maand."',
-                                'date'   => '2 WEKEN GELEDEN',
-                                'img'    => 'kater_bowl',
-                                'cooked' => true,
-                            ],
-                        ];
-                    @endphp
-
+                    @if($reviews->isEmpty())
+                        <p class="text-sm text-gray-500 italic">Je hebt nog geen reviews geschreven.</p>
+                    @else
                     <div class="flex flex-col gap-4 mb-8">
                         @foreach($reviews as $review)
-                            <div class="flex items-stretch border-2 border-black shadow-[4px_4px_0px_0px_#000] bg-white">
+                            <a href="{{ route('recept', $review->recipe_id) }}" class="flex items-stretch border-2 border-black shadow-[4px_4px_0px_0px_#000] bg-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
 
                                 {{-- Thumbnail --}}
                                 <div class="flex-shrink-0 w-20 h-20 my-auto ml-4 border-2 border-black overflow-hidden">
-                                    <img src="{{ asset('images/' . $review['img'] . '.png') }}"
-                                         alt="{{ $review['title'] }}"
-                                         class="w-full h-full object-cover">
+                                    @if($review->recipe && $review->recipe->image_path)
+                                        <img src="{{ asset('storage/' . $review->recipe->image_path) }}"
+                                             alt="{{ $review->recipe->title }}"
+                                             class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-gray-200"></div>
+                                    @endif
                                 </div>
 
                                 {{-- Content --}}
                                 <div class="flex-1 px-5 py-4 min-w-0">
-                                    <h3 class="text-sm font-black uppercase leading-snug mb-1">{{ $review['title'] }}</h3>
+                                    <h3 class="text-sm font-black uppercase leading-snug mb-1">{{ strtoupper($review->recipe->title ?? 'RECEPT VERWIJDERD') }}</h3>
 
                                     {{-- Stars --}}
                                     <div class="flex gap-0.5 mb-2">
                                         @for($i = 1; $i <= 5; $i++)
-                                            @if($i <= $review['stars'])
+                                            @if($i <= $review->rating)
                                                 <svg class="w-4 h-4 text-brand" fill="currentColor" viewBox="0 0 24 24">
                                                     <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
                                                 </svg>
@@ -317,29 +295,26 @@
                                         @endfor
                                     </div>
 
-                                    <p class="text-xs text-gray-700 leading-relaxed mb-2">{{ $review['quote'] }}</p>
-                                    <p class="text-[9px] font-black uppercase tracking-widest text-gray-400">{{ $review['date'] }}</p>
+                                    @if($review->title)
+                                        <p class="text-[11px] font-black uppercase mb-1">{{ $review->title }}</p>
+                                    @endif
+                                    @if($review->body)
+                                        <p class="text-xs text-gray-700 leading-relaxed mb-2 whitespace-pre-line">{{ $review->body }}</p>
+                                    @endif
+                                    <p class="text-[9px] font-black uppercase tracking-widest text-gray-400">{{ strtoupper($review->created_at->diffForHumans()) }}</p>
                                 </div>
 
-                                {{-- Gekookt badge --}}
-                                @if($review['cooked'])
-                                    <div class="flex-shrink-0 flex items-end p-4">
-                                        <span class="bg-[var(--lime)] text-black text-[8px] font-black uppercase tracking-widest px-3 py-1.5 border border-black whitespace-nowrap">
-                                            GEKOOKT ✓
-                                        </span>
-                                    </div>
-                                @endif
+                                {{-- Status badge --}}
+                                <div class="flex-shrink-0 flex items-end p-4">
+                                    <span class="bg-[var(--lime)] text-black text-[8px] font-black uppercase tracking-widest px-3 py-1.5 border border-black whitespace-nowrap">
+                                        {{ strtoupper($review->status) }} ✓
+                                    </span>
+                                </div>
 
-                            </div>
+                            </a>
                         @endforeach
                     </div>
-
-                    {{-- Show all button --}}
-                    <div class="flex justify-center mb-4">
-                        <button class="text-[11px] font-black uppercase tracking-widest px-14 py-4 border-2 border-black bg-white shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
-                            + TOON ALLE 12 REVIEWS
-                        </button>
-                    </div>
+                    @endif
                 </div>{{-- end reviews --}}
 
                 {{-- ============================================================

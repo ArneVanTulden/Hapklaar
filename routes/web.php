@@ -32,7 +32,8 @@ Route::get('/mijn-voorraad', fn () => view('mijn-voorraad'))->middleware('auth')
 Route::get('/profiel', function () {
     $user = auth()->user();
     $favorieten = $user->favoriteRecipes()->with('category')->latest('favorites.created_at')->get();
-    return view('profiel', compact('favorieten'));
+    $reviews = $user->reviews()->with(['recipe', 'photos'])->latest()->get();
+    return view('profiel', compact('favorieten', 'reviews'));
 })->middleware('auth')->name('profiel');
 
 Route::middleware('guest')->group(function () {
