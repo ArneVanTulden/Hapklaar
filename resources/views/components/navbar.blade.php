@@ -1,7 +1,76 @@
-<header class="border-b-2 border-black">
+<header class="border-b-2 border-black" x-data="{ mobileOpen: false }">
 
-    {{-- Main nav: 3-column grid keeps links truly centered --}}
-    <nav class="grid items-center px-6 bg-white"
+    {{-- MOBILE nav --}}
+    <nav class="md:hidden flex items-center justify-between px-4 bg-white" style="height: 52px;">
+        <button type="button"
+                @click="mobileOpen = !mobileOpen"
+                class="flex items-center justify-center w-9 h-9 border-2 border-black bg-white"
+                aria-label="Menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+
+        <a href="{{ route('home') }}"
+           class="text-xl font-black italic text-brand no-underline">
+            HAPKLAAR
+        </a>
+
+        @auth
+            <a href="{{ route('profiel') }}"
+               class="flex items-center justify-center w-9 h-9 border-2 border-black bg-white"
+               aria-label="Profiel">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path stroke-linecap="round" d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                </svg>
+            </a>
+        @else
+            <a href="{{ route('login') }}"
+               class="text-[10px] font-black uppercase tracking-widest text-white bg-[var(--pink)] no-underline px-3 py-2 border-2 border-black shadow-[3px_3px_0px_0px_#000]">
+                INLOGGEN
+            </a>
+        @endauth
+    </nav>
+
+    {{-- MOBILE menu (dropdown) --}}
+    <div x-show="mobileOpen"
+         x-transition
+         class="md:hidden border-t-2 border-black bg-white"
+         style="display: none;">
+        <ul class="flex flex-col list-none m-0 p-0">
+            @foreach([
+                ['home','HOME'],
+                ['ontdekken','ONTDEKKEN'],
+                ['mijn-keuken','MIJN KEUKEN'],
+                ['mijn-voorraad','VOORRAAD'],
+                ['boodschappen','BOODSCHAPPEN'],
+                ['profiel','PROFIEL'],
+            ] as [$r,$label])
+                <li>
+                    <a href="{{ route($r) }}"
+                       @class([
+                           'block px-5 py-3 text-[12px] font-bold uppercase tracking-widest text-black no-underline border-b border-gray-100',
+                           'bg-[var(--lime)]' => request()->routeIs($r),
+                       ])>{{ $label }}</a>
+                </li>
+            @endforeach
+            @auth
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit"
+                                class="w-full text-left px-5 py-3 text-[12px] font-black uppercase tracking-widest text-[var(--pink)]">
+                            LOGOUT
+                        </button>
+                    </form>
+                </li>
+            @endauth
+        </ul>
+    </div>
+
+    {{-- DESKTOP nav: 3-column grid keeps links truly centered --}}
+    <nav class="hidden md:grid items-center px-6 bg-white"
          style="grid-template-columns: 1fr auto 1fr; height: 52px;">
 
         {{-- Logo --}}
