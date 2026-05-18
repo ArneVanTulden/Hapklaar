@@ -20,11 +20,11 @@
              HERO
         ============================================================ --}}
         <section class="bg-[var(--pink-soft)] border-b-2 border-black">
-            <div class="max-w-6xl mx-auto px-6 py-16 flex items-center gap-16">
+            <div class="max-w-6xl mx-auto px-6 py-10 md:py-16 flex flex-col md:flex-row items-center gap-12 md:gap-16">
 
                 {{-- Left --}}
-                <div class="flex-1 min-w-0">
-                    <h1 class="text-[5.25rem] font-black uppercase leading-[0.85] mb-6 tracking-tight italic">
+                <div class="flex-1 min-w-0 w-full">
+                    <h1 class="text-5xl sm:text-6xl md:text-[5.25rem] font-black uppercase leading-[0.85] mb-6 tracking-tight italic">
                         LEKKER VRETEN<br>
                         <span class="bg-[var(--lime)] px-3 py-1 inline-block" style="transform: skewX(-8deg); box-shadow: 5px 5px 0px 0px #000;">
                             <span style="display: inline-block; transform: skewX(8deg);">ZONDER STRESS.</span>
@@ -34,13 +34,13 @@
                         Geen keuzestress. Geen ingewikkelde shit.<br>
                         Gewoon vreten wat de pot schaft (of wat er nog in je koelkast ligt).
                     </p>
-                    <div class="flex gap-4 flex-wrap">
+                    <div class="flex gap-4 flex-col sm:flex-row sm:flex-wrap">
                         <a href="{{ route('ontdekken') }}"
-                           class="text-[12px] font-black uppercase tracking-widest bg-brand text-white no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_var(--lime)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--lime)] transition-all duration-75">
+                           class="text-center text-[12px] font-black uppercase tracking-widest bg-brand text-white no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_var(--lime)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--lime)] transition-all duration-75">
                             ONTDEK RECEPTEN
                         </a>
                         <a href="{{ route('mijn-keuken') }}"
-                           class="text-[12px] font-black uppercase tracking-widest bg-white text-black no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_var(--pink)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--pink)] transition-all duration-75">
+                           class="text-center text-[12px] font-black uppercase tracking-widest bg-white text-black no-underline px-7 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_var(--pink)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--pink)] transition-all duration-75">
                             SCAN JE KOELKAST
                         </a>
                     </div>
@@ -48,7 +48,7 @@
 
                 {{-- Right: Image card --}}
                 <div class="flex-shrink-0 relative">
-                    <div class="relative w-72" style="transform: rotate(3deg);">
+                    <div class="relative w-60 md:w-72" style="transform: rotate(3deg);">
                         {{-- Yellow image box --}}
                         <div class="border-4 border-black bg-[var(--yellow)]" style="box-shadow: 6px 6px 0px 0px var(--hot-pink);">
                             <div class="aspect-square bg-[var(--yellow)] flex items-center justify-center text-[var(--yellow)] overflow-hidden">
@@ -75,15 +75,15 @@
         {{-- ============================================================
              TRENDING RECEPTEN (Livewire)
         ============================================================ --}}
-        <section class="py-16 border-b-2 border-black bg-white">
+        <section class="py-10 md:py-16 border-b-2 border-black bg-white">
             <div class="max-w-6xl mx-auto px-6">
 
-                <div class="flex items-center gap-4 mb-10">
-                    <h2 class="text-4xl font-black uppercase">TRENDING RECEPTEN</h2>
+                <div class="flex items-center gap-4 mb-8 md:mb-10 flex-wrap">
+                    <h2 class="text-2xl md:text-4xl font-black uppercase">TRENDING RECEPTEN</h2>
                     <span class="bg-[var(--lime)] text-black text-[10px] font-black uppercase tracking-widest px-3 py-1 border-2 border-black">HOT &amp; FRESH</span>
                 </div>
 
-                <div class="grid grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                     @foreach($recepten as $recept)
                     <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
@@ -129,46 +129,33 @@
         {{-- ============================================================
              HOE WERKT HET?
         ============================================================ --}}
-        <section class="py-16 bg-[var(--pink-soft)]">
-            <div class="max-w-4xl mx-auto px-6">
-                <h2 class="text-3xl font-black uppercase italic text-center mb-16 text-[#2B1B1B]">HOE WERKT HET?</h2>
+        <section class="py-10 md:py-16 bg-[var(--pink-soft)]">
+            <div class="max-w-6xl mx-auto px-6">
+                <h2 class="text-3xl font-black uppercase italic text-center mb-12 md:mb-16 text-[#2B1B1B]">HOE WERKT HET?</h2>
 
-                <div class="relative flex items-start justify-between gap-4">
-                    {{-- Dashed connector line --}}
-                    <div class="absolute top-10 -left-20 -right-20 border-t-2 border-dashed border-black z-0 pointer-events-none"></div>
+                <div class="relative flex flex-col md:flex-row items-center md:items-start md:justify-between gap-10 md:gap-16">
+                    {{-- Dashed connector line: horizontal on desktop, vertical on mobile --}}
+                    <div class="hidden md:block absolute top-8 left-[12%] right-[12%] border-t-2 border-dashed border-black z-0 pointer-events-none"></div>
+                    <div class="md:hidden absolute top-8 bottom-8 left-1/2 -translate-x-1/2 border-l-2 border-dashed border-black z-0 pointer-events-none"></div>
 
-                    {{-- VIND --}}
-                    <div class="flex-1 flex flex-col items-center text-center relative z-10">
-                        <div class="w-20 h-20 rounded-full bg-[var(--lime)] border-2 border-black flex items-center justify-center mb-5 shadow-[4px_4px_0px_0px_#000]">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
+                    @foreach([
+                        ['n' => 1, 'bg' => 'var(--lime)',   'num' => 'text-black',          'title' => 'VIND', 'title_color' => 'text-[var(--pink)]', 'desc' => 'Kies een recept op basis van je budget of koelkast inhoud.'],
+                        ['n' => 2, 'bg' => 'var(--pink)',   'num' => 'text-white',          'title' => 'KOOK', 'title_color' => 'text-[var(--pink)]', 'desc' => 'Volg de stappen zonder dat je brein explodeert.'],
+                        ['n' => 3, 'bg' => '#a855f7',       'num' => 'text-white',          'title' => 'EET',  'title_color' => 'text-purple-600',     'desc' => 'Vreten maar. De afwas is een probleem voor morgen.'],
+                    ] as $step)
+                        <div class="flex-1 flex flex-col items-center text-center relative z-10">
+                            {{-- Numbered circle --}}
+                            <div class="w-16 h-16 rounded-full border-2 border-black flex items-center justify-center shadow-[4px_4px_0px_0px_#000]"
+                                 style="background-color: {{ $step['bg'] }};">
+                                <span class="{{ $step['num'] }} text-2xl font-black">{{ $step['n'] }}</span>
+                            </div>
+                            {{-- Card --}}
+                            <div class="mt-6 bg-white border-2 border-black shadow-[5px_5px_0px_0px_#000] px-5 py-5 w-full max-w-[220px]">
+                                <h3 class="text-xl font-black uppercase italic mb-2 {{ $step['title_color'] }}">{{ $step['title'] }}</h3>
+                                <p class="text-sm text-gray-700 leading-snug">{{ $step['desc'] }}</p>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-black uppercase mb-2 text-[#2B1B1B]">VIND</h3>
-                        <p class="text-sm text-gray-700 max-w-[170px] leading-snug">Kies een recept op basis van je budget of koelkast inhoud.</p>
-                    </div>
-
-                    {{-- KOOK --}}
-                    <div class="flex-1 flex flex-col items-center text-center relative z-10">
-                        <div class="w-20 h-20 rounded-full bg-[var(--pink)] border-2 border-black flex items-center justify-center mb-5 shadow-[4px_4px_0px_0px_#000]">
-                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-black uppercase mb-2 text-[var(--pink)]">KOOK</h3>
-                        <p class="text-sm text-gray-700 max-w-[170px] leading-snug">Volg de stappen zonder dat je brein explodeert.</p>
-                    </div>
-
-                    {{-- EET --}}
-                    <div class="flex-1 flex flex-col items-center text-center relative z-10">
-                        <div class="w-20 h-20 rounded-full bg-purple-600 border-2 border-black flex items-center justify-center mb-5 shadow-[4px_4px_0px_0px_#000]">
-                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-black uppercase mb-2 text-purple-600">EET</h3>
-                        <p class="text-sm text-gray-700 max-w-[170px] leading-snug">Vreten maar. De afwas is een probleem voor morgen.</p>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -177,12 +164,12 @@
              CTA: NOOIT MEER KEUZESTRESS (Alpine.js)
         ============================================================ --}}
         <section class="bg-white py-10">
-            <div class="max-w-7xl mx-auto px-1">
-                <div class="grid grid-cols-2 min-h-[420px] border-[3px] border-black" style="box-shadow: 6px 0 0 0 var(--lime), 0 6px 0 0 var(--lime);">
+            <div class="max-w-7xl mx-auto px-4 md:px-1">
+                <div class="grid grid-cols-1 md:grid-cols-2 md:min-h-[420px] border-[3px] border-black" style="box-shadow: 6px 0 0 0 var(--lime), 0 6px 0 0 var(--lime);">
 
                 {{-- Left: Brand pink --}}
-                <div class="bg-[var(--pink)] border-r-2 border-black p-16 flex flex-col justify-center">
-                    <h2 class="text-5xl font-black uppercase italic text-white leading-none mb-5">
+                <div class="bg-[var(--pink)] border-b-2 md:border-b-0 md:border-r-2 border-black p-8 md:p-16 flex flex-col justify-center">
+                    <h2 class="text-4xl md:text-5xl font-black uppercase italic text-white leading-none mb-5">
                         NOOIT MEER<br>KEUZESTRESS.
                     </h2>
                     <p class="text-white/75 mb-8 text-sm leading-relaxed max-w-sm">
@@ -198,7 +185,7 @@
                 </div>
 
                 {{-- Right: App mockup --}}
-                <div class="bg-white p-16 flex items-center justify-center">
+                <div class="bg-[var(--pink)] md:bg-white p-8 md:p-16 flex items-center justify-center">
                     <div class="w-64 bg-white border-2 border-black overflow-hidden" style="box-shadow: 8px 8px 0px 0px var(--hot-pink);">
                         {{-- Mockup header --}}
                         <div class="bg-[var(--lime)] border-b-2 border-black px-3 py-2">
