@@ -13,12 +13,12 @@
         @endif
         @livewireStyles
     </head>
-    <body class="m-0 bg-[var(--pink-soft)] min-h-screen flex flex-col">
+    <body class="m-0 bg-[var(--pink-soft)] min-h-screen flex flex-col overflow-x-hidden">
 
         <x-navbar />
 
-        <main class="flex-1 py-10">
-            <div class="max-w-5xl mx-auto px-6">
+        <main class="flex-1 py-6 md:py-10">
+            <div class="max-w-5xl mx-auto px-4 md:px-6">
 
                 {{-- ============================================================
                      PROFILE HERO CARD
@@ -41,14 +41,14 @@
                     </div>
 
                     {{-- Hero band with subtle dot pattern --}}
-                    <div class="relative px-8 pt-10 pb-7"
+                    <div class="relative px-5 md:px-8 pt-10 pb-7"
                          style="background-color: var(--pink-soft); background-image: radial-gradient(circle, rgba(0,0,0,0.07) 1.2px, transparent 1.2px); background-size: 18px 18px;">
 
                         {{-- Decorative blob accents --}}
                         <div class="absolute top-4 left-6 w-3 h-3 rounded-full bg-[var(--lime)] border-2 border-black"></div>
-                        <div class="absolute top-8 right-32 text-2xl select-none opacity-80" style="transform: rotate(-12deg);">✦</div>
+                        <div class="absolute top-8 right-32 text-2xl select-none opacity-80 hidden md:block" style="transform: rotate(-12deg);">✦</div>
 
-                        <div class="relative flex items-center gap-7">
+                        <div class="relative flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-7">
 
                             {{-- Avatar with floating dots --}}
                             <div class="relative flex-shrink-0">
@@ -77,9 +77,9 @@
                             </div>
 
                             {{-- Identity + bio --}}
-                            <div class="flex-1 min-w-0">
+                            <div class="flex-1 min-w-0 text-center md:text-left w-full">
 
-                                <h1 class="text-[3.25rem] font-black uppercase italic leading-[0.9] tracking-tight mb-2 truncate">
+                                <h1 class="text-3xl sm:text-4xl md:text-[3.25rem] font-black uppercase italic leading-[0.9] tracking-tight mb-2 truncate">
                                     <span class="relative inline-block">
                                         <span class="absolute inset-x-0 bottom-1 h-3 bg-[var(--lime)] -z-0"></span>
                                         <span class="relative">{{ $user->username }}</span>
@@ -91,7 +91,7 @@
                             </div>
 
                             {{-- Action buttons --}}
-                            <div class="flex-shrink-0 self-start flex flex-col gap-2">
+                            <div class="flex-shrink-0 md:self-start flex flex-row md:flex-col gap-2 w-full md:w-auto justify-center">
                                 <button onclick="window.dispatchEvent(new CustomEvent('open-tab', { detail: { tab: 'instellingen' } })); document.getElementById('profiel-tabs').scrollIntoView({ behavior: 'smooth' })"
                                         class="flex items-center gap-1.5 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-4 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -112,7 +112,7 @@
 
                     {{-- Stats row --}}
                     <div class="grid grid-cols-3 border-t-2 border-black divide-x-2 divide-black">
-                        <div class="flex items-center gap-3 px-5 py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors">
+                        <div class="flex flex-col md:flex-row items-center md:gap-3 gap-2 px-2 md:px-5 py-3 md:py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors text-center md:text-left">
                             <div class="w-9 h-9 bg-[var(--lime)] border-2 border-black flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
@@ -123,7 +123,7 @@
                                 <div class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-0.5">RECEPTEN</div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 px-5 py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors">
+                        <div class="flex flex-col md:flex-row items-center md:gap-3 gap-2 px-2 md:px-5 py-3 md:py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors text-center md:text-left">
                             <div class="w-9 h-9 bg-[var(--yellow)] border-2 border-black flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
@@ -134,7 +134,7 @@
                                 <div class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-0.5">REVIEWS</div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 px-5 py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors">
+                        <div class="flex flex-col md:flex-row items-center md:gap-3 gap-2 px-2 md:px-5 py-3 md:py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors text-center md:text-left">
                             <div class="w-9 h-9 bg-brand border-2 border-black flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -154,7 +154,7 @@
                 ============================================================ --}}
                 <div x-data="{ tab: 'favorieten' }" id="profiel-tabs" @open-tab.window="tab = $event.detail.tab">
 
-                <div class="flex gap-3 mb-8">
+                <div class="flex gap-2 md:gap-3 mb-8 flex-wrap">
                     <button @click="tab = 'favorieten'"
                             :class="tab === 'favorieten' ? 'bg-brand text-white' : 'bg-white text-black hover:bg-[var(--pink-soft)]'"
                             class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] transition-colors">
@@ -191,7 +191,7 @@
                 @if($favorieten->isEmpty())
                     <p class="text-sm text-gray-500 italic">Nog geen favorieten. Ga recepten ontdekken!</p>
                 @else
-                <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                     @foreach($favorieten as $fav)
                         <a href="{{ route('recept', $fav->id) }}"
                            class="bg-black border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 overflow-hidden cursor-pointer group block">
@@ -263,10 +263,10 @@
                     @else
                     <div class="flex flex-col gap-4 mb-8">
                         @foreach($reviews as $review)
-                            <a href="{{ route('recept', $review->recipe_id) }}" class="flex items-stretch border-2 border-black shadow-[4px_4px_0px_0px_#000] bg-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
+                            <a href="{{ route('recept', $review->recipe_id) }}" class="flex flex-col sm:flex-row items-stretch border-2 border-black shadow-[4px_4px_0px_0px_#000] bg-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
 
                                 {{-- Thumbnail --}}
-                                <div class="flex-shrink-0 w-20 h-20 my-auto ml-4 border-2 border-black overflow-hidden">
+                                <div class="flex-shrink-0 w-20 h-20 my-auto ml-4 mt-4 sm:mt-auto border-2 border-black overflow-hidden">
                                     @if($review->recipe && $review->recipe->image_path)
                                         <img src="{{ asset('storage/' . $review->recipe->image_path) }}"
                                              alt="{{ $review->recipe->title }}"
@@ -305,7 +305,7 @@
                                 </div>
 
                                 {{-- Status badge --}}
-                                <div class="flex-shrink-0 flex items-end p-4">
+                                <div class="flex-shrink-0 flex sm:items-end px-4 pb-4 sm:py-4">
                                     <span class="bg-[var(--lime)] text-black text-[8px] font-black uppercase tracking-widest px-3 py-1.5 border border-black whitespace-nowrap">
                                         {{ strtoupper($review->status) }} ✓
                                     </span>
@@ -323,7 +323,7 @@
                 <div x-show="tab === 'instellingen'" x-cloak>
 
                     {{-- Row 1: Profiel + Account & Beveiliging --}}
-                    <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
 
                         {{-- JOUW PROFIEL --}}
                         <div class="border-2 border-black shadow-[4px_4px_0px_0px_#000] bg-white p-6">
@@ -352,7 +352,7 @@
                     </div>
 
                     {{-- Row 2: Notificaties + Gevaar Zone --}}
-                    <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
 
                         {{-- NOTIFICATIES --}}
                         <div class="border-2 border-black shadow-[4px_4px_0px_0px_#000] bg-white p-6">
