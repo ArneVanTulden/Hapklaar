@@ -194,49 +194,55 @@
                 <div class="grid grid-cols-2 gap-4 mb-8">
                     @foreach($favorieten as $fav)
                         <a href="{{ route('recept', $fav->id) }}"
-                           class="relative border-2 border-black shadow-[4px_4px_0px_0px_#000] overflow-hidden bg-black cursor-pointer group block">
+                           class="bg-black border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 overflow-hidden cursor-pointer group block">
 
-                            <div class="relative overflow-hidden" style="aspect-ratio:4/3;">
+                            {{-- Image + badges --}}
+                            <div class="relative overflow-hidden" style="aspect-ratio:16/9;">
                                 @if($fav->image_path)
                                     <img src="{{ asset('storage/' . $fav->image_path) }}"
                                          alt="{{ $fav->title }}"
-                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                         class="w-full h-full object-cover">
                                 @else
-                                    <div class="w-full h-full bg-gray-800"></div>
+                                    <div class="w-full h-full bg-gray-200"></div>
                                 @endif
 
-                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-
-                                <span class="absolute top-3 left-3 bg-[var(--lime)] text-black text-[8px] font-black uppercase tracking-widest px-2 py-1 border border-black">
+                                {{-- FAVORIET badge top-left --}}
+                                <span class="absolute top-3 left-3 bg-[var(--lime)] text-black text-[10px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 border-black flex items-center gap-1.5">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                                    </svg>
                                     FAVORIET
                                 </span>
 
+                                {{-- Badge top-right --}}
                                 @if($fav->badge)
-                                    <span class="absolute top-3 right-3 bg-brand text-white text-[8px] font-black uppercase tracking-widest px-2 py-1 border border-black">
+                                    <span class="absolute top-3 right-3 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 border-black">
                                         {{ $fav->badge }}
                                     </span>
                                 @endif
+                            </div>
 
-                                <div class="absolute bottom-0 left-0 right-0 p-4">
-                                    <h3 class="text-white font-black uppercase text-sm leading-snug mb-2">{{ $fav->title }}</h3>
-                                    <div class="flex items-center gap-4">
-                                        @if($fav->prep_time_minutes)
-                                        <span class="flex items-center gap-1 text-[9px] font-bold uppercase text-gray-300">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/>
-                                            </svg>
-                                            {{ $fav->prep_time_minutes }} MIN
-                                        </span>
-                                        @endif
-                                        @if($fav->afwas_score)
-                                        <span class="flex items-center gap-1 text-[9px] font-bold uppercase text-gray-300">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                            </svg>
-                                            AFWAS {{ $fav->afwas_score }}
-                                        </span>
-                                        @endif
-                                    </div>
+                            {{-- Black bottom section: title + info --}}
+                            <div class="bg-black px-5 pt-4 pb-4">
+                                <h3 class="text-white font-black uppercase italic text-lg leading-tight mb-3">{{ $fav->title }}</h3>
+
+                                <div class="flex items-center gap-5">
+                                    @if($fav->prep_time_minutes)
+                                    <span class="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wide text-white">
+                                        <svg class="w-4 h-4 text-[var(--lime)]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/>
+                                        </svg>
+                                        {{ $fav->prep_time_minutes }} MIN
+                                    </span>
+                                    @endif
+                                    @if($fav->afwas_score)
+                                    <span class="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wide text-white">
+                                        <svg class="w-4 h-4 text-[var(--lime)]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
+                                        </svg>
+                                        AFWAS-SCORE: {{ $fav->afwas_score }}/5
+                                    </span>
+                                    @endif
                                 </div>
                             </div>
 
