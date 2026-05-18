@@ -10,6 +10,7 @@
             <label class="block text-[8px] font-black uppercase tracking-widest text-brand mb-1.5">GEBRUIKERSNAAM</label>
             <input type="text"
                    wire:model="username"
+                   maxlength="15"
                    class="w-full border-2 border-black px-3 py-2.5 text-sm font-medium outline-none focus:border-brand transition-colors">
             @error('username') <p class="text-brand text-[9px] font-black uppercase mt-1">{{ $message }}</p> @enderror
         </div>

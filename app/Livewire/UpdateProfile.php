@@ -41,7 +41,7 @@ class UpdateProfile extends Component
         $user = Auth::user();
 
         $this->validate([
-            'username' => 'required|min:3|max:30|unique:users,username,' . $user->id,
+            'username' => 'required|min:3|max:15|unique:users,username,' . $user->id,
             'bio'      => 'nullable|max:255',
         ]);
 

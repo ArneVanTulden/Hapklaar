@@ -8,7 +8,8 @@
             <label class="block text-[9px] font-black uppercase tracking-widest mb-1">GEBRUIKERSNAAM</label>
             <input type="text"
                    wire:model="username"
-                   placeholder="student_chef_2024"
+                   maxlength="15"
+                   placeholder="student_chef"
                    class="w-full border-2 border-black px-4 py-2.5 text-sm font-medium placeholder-gray-300 outline-none focus:border-brand transition-colors @error('username') border-red-500 @enderror">
             @error('username')
                 <p class="text-red-600 text-[10px] font-bold mt-1 uppercase tracking-wide">{{ $message }}</p>
