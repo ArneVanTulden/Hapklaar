@@ -38,6 +38,39 @@
         this.dragId = null;
         this.dragOver = null;
         this.dragCounts = { fridge: 0, freezer: 0, pantry: 0 };
+    },
+    startTouchDrag(id, event) {
+        this.dragId = id;
+        this.activeFilter = 'alles';
+        const updateOver = (clientX, clientY) => {
+            const el = document.elementFromPoint(clientX, clientY);
+            const zone = el && el.closest ? el.closest('[data-droploc]') : null;
+            this.dragOver = zone ? zone.dataset.droploc : null;
+        };
+        this._touchMove = (e) => {
+            e.preventDefault();
+            const t = e.touches[0];
+            if (!t) return;
+            updateOver(t.clientX, t.clientY);
+            const h = window.innerHeight, threshold = 100;
+            if (t.clientY > h - threshold) window.scrollBy(0, 10);
+            else if (t.clientY < threshold) window.scrollBy(0, -10);
+        };
+        this._touchEnd = async () => {
+            const target = this.dragOver;
+            const id = this.dragId;
+            window.removeEventListener('touchmove', this._touchMove);
+            window.removeEventListener('touchend', this._touchEnd);
+            window.removeEventListener('touchcancel', this._touchEnd);
+            this.dragId = null;
+            this.dragOver = null;
+            if (id !== null && target) {
+                await $wire.moveItem(id, target);
+            }
+        };
+        window.addEventListener('touchmove', this._touchMove, { passive: false });
+        window.addEventListener('touchend', this._touchEnd);
+        window.addEventListener('touchcancel', this._touchEnd);
     }
 }">
 
@@ -190,6 +223,7 @@
 
                             {{-- KOELKAST compartment (interior visible through door opening) --}}
                                 <div x-show="activeFilter === 'alles' || activeFilter === 'fridge'"
+                                     data-droploc="fridge"
                                      class="relative transition-all duration-150 mx-5 mb-4 overflow-hidden border-[4px] border-gray-800"
                                      :class="dragOver === 'fridge' && dragId !== null ? 'ring-2 ring-inset ring-brand/40' : ''"
                                      style="border-radius: 4px; background: linear-gradient(150deg, #e0f3fa 0%, #cce8f4 50%, #b8dcee 100%); box-shadow: inset 0 4px 12px rgba(0,0,0,0.35), inset 0 -2px 8px rgba(0,0,0,0.2);"
@@ -218,11 +252,13 @@
                                                 <div class="flex items-center justify-between py-2.5 px-2"
                                                      style="background: rgba(255,255,255,0.3); border-radius: 3px;">
                                                     <div class="flex items-center gap-3">
-                                                        <svg class="w-3 h-4 text-blue-200 group-hover:text-blue-400 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
-                                                            <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
-                                                            <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
-                                                            <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
-                                                        </svg>
+                                                        <span @touchstart.prevent="startTouchDrag({{ $item['id'] }}, $event)" style="touch-action: none;" class="p-2 -m-1 flex-shrink-0 cursor-grab">
+                                                            <svg class="w-3 h-4 text-blue-200 group-hover:text-blue-400" viewBox="0 0 8 14" fill="currentColor">
+                                                                <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                                <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                                <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                            </svg>
+                                                        </span>
                                                         <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] {{ $item['catClass'] }}">{{ $item['category'] }}</span>
                                                         <div>
                                                             <p class="text-[12px] font-black uppercase">{{ $item['name'] }}</p>
@@ -282,7 +318,8 @@
                                 </div>
 
                                 {{-- Drawer body / freezer content --}}
-                                <div class="relative transition-all duration-150 mx-4 my-3 overflow-hidden border-[4px] border-gray-800"
+                                <div data-droploc="freezer"
+                                     class="relative transition-all duration-150 mx-4 my-3 overflow-hidden border-[4px] border-gray-800"
                                      :class="dragOver === 'freezer' && dragId !== null ? 'ring-2 ring-inset ring-brand/40' : ''"
                                      style="border-radius: 4px; background: linear-gradient(160deg, #8fc8e0 0%, #6eb0ce 40%, #58a0c0 100%); box-shadow: inset 0 4px 12px rgba(0,0,0,0.35), inset 0 -2px 8px rgba(0,0,0,0.2);"
                                      @dragover.prevent
@@ -310,11 +347,13 @@
                                                 <div class="flex items-center justify-between py-2.5 px-2"
                                                      style="background: rgba(255,255,255,0.22); border-radius: 3px;">
                                                     <div class="flex items-center gap-3">
-                                                        <svg class="w-3 h-4 text-white/35 group-hover:text-white/60 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
-                                                            <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
-                                                            <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
-                                                            <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
-                                                        </svg>
+                                                        <span @touchstart.prevent="startTouchDrag({{ $item['id'] }}, $event)" style="touch-action: none;" class="p-2 -m-1 flex-shrink-0 cursor-grab">
+                                                            <svg class="w-3 h-4 text-white/35 group-hover:text-white/60" viewBox="0 0 8 14" fill="currentColor">
+                                                                <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                                <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                                <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                            </svg>
+                                                        </span>
                                                         <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] {{ $item['catClass'] }}">{{ $item['category'] }}</span>
                                                         <div>
                                                             <p class="text-[12px] font-black uppercase text-white/90">{{ $item['name'] }}</p>
@@ -417,7 +456,8 @@
                          x-transition:enter-start="opacity-0 translate-y-2"
                          x-transition:enter-end="opacity-100 translate-y-0">
 
-                        <div class="overflow-hidden border-[5px] border-black transition-all duration-150"
+                        <div data-droploc="pantry"
+                             class="overflow-hidden border-[5px] border-black transition-all duration-150"
                              :class="dragOver === 'pantry' && dragId !== null
                                  ? 'border-brand shadow-[10px_10px_0px_0px_var(--brand)]'
                                  : 'border-black shadow-[10px_10px_0px_0px_#000]'"
@@ -470,11 +510,13 @@
                                              @dragend="endDrag()"
                                              :class="dragId === {{ $item['id'] }} ? 'opacity-30' : 'opacity-100'">
                                             <div class="flex items-center gap-3">
-                                                <svg class="w-3 h-4 text-yellow-600/50 group-hover:text-yellow-700 flex-shrink-0 cursor-grab" viewBox="0 0 8 14" fill="currentColor">
-                                                    <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
-                                                    <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
-                                                    <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
-                                                </svg>
+                                                <span @touchstart.prevent="startTouchDrag({{ $item['id'] }}, $event)" style="touch-action: none;" class="p-2 -m-1 flex-shrink-0 cursor-grab">
+                                                    <svg class="w-3 h-4 text-yellow-600/50 group-hover:text-yellow-700" viewBox="0 0 8 14" fill="currentColor">
+                                                        <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                        <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                        <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                    </svg>
+                                                </span>
                                                 <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] {{ $item['catClass'] }}">{{ $item['category'] }}</span>
                                                 <div>
                                                     <p class="text-[12px] font-black uppercase">{{ $item['name'] }}</p>
