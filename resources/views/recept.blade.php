@@ -35,10 +35,10 @@
                 {{-- ============================================================
                      TWO-COLUMN LAYOUT
                 ============================================================ --}}
-                <div class="flex gap-7 items-start">
+                <div class="grid gap-7" style="grid-template-columns: minmax(0, 1fr) 18rem; align-items: start;">
 
                     {{-- LEFT: image + controls + steps --}}
-                    <div class="flex-1 min-w-0">
+                    <div class="min-w-0">
 
                         {{-- Recipe image --}}
                         <div class="relative mb-4">
@@ -110,7 +110,7 @@
                     </div>
 
                     {{-- RIGHT: Ingredients card --}}
-                    <div class="w-72 flex-shrink-0 sticky top-6">
+                    <aside style="align-self: start;">
                         <div class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-5">
 
                             {{-- Header + portions counter --}}
@@ -165,7 +165,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </aside>
 
                 </div>
 
