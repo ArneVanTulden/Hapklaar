@@ -1,82 +1,29 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RecipeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $recepten = \App\Models\Recipe::orderBy('id')->limit(3)->get();
-    return view('home', compact('recepten'));
-})->name('home');
-Route::get('/ontdekken', function (Illuminate\Http\Request $request) {
-    $query = \App\Models\Recipe::with(['dietTags', 'creator']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/ontdekken', [RecipeController::class, 'discover'])->name('ontdekken');
 
-    foreach ($request->input('diets', []) as $diet) {
-        $query->whereHas('dietTags', fn($q) => $q->where('name', $diet));
-    }
+Route::view('/mijn-keuken', 'mijn-keuken')->name('mijn-keuken');
+Route::view('/boodschappen', 'boodschappen')->middleware('auth')->name('boodschappen');
+Route::view('/mijn-voorraad', 'mijn-voorraad')->middleware('auth')->name('mijn-voorraad');
 
-    $maxCal = $request->integer('max_calories', 1000);
-    if ($maxCal < 1000) {
-        $query->where('calories_per_portion', '<=', $maxCal);
-    }
-
-    if ($request->filled('max_afwas')) {
-        $query->where('afwas_score', '<=', $request->integer('max_afwas'));
-    }
-
-    $recipes = $query->orderByDesc('avg_rating')->get();
-    return view('ontdekken', compact('recipes'));
-})->name('ontdekken');
-Route::get('/mijn-keuken', fn() => view('mijn-keuken'))->name('mijn-keuken');
-Route::get('/boodschappen', fn() => view('boodschappen'))->middleware('auth')->name('boodschappen');
-Route::get('/mijn-voorraad', fn () => view('mijn-voorraad'))->middleware('auth')->name('mijn-voorraad');
-Route::get('/profiel', function () {
-    $user = auth()->user();
-    $favorieten = $user->favoriteRecipes()->with('category')->latest('favorites.created_at')->get();
-    $reviews = $user->reviews()->with(['recipe', 'photos'])->latest()->get();
-    return view('profiel', compact('favorieten', 'reviews'));
-})->middleware('auth')->name('profiel');
+Route::get('/profiel', [ProfileController::class, 'show'])->middleware('auth')->name('profiel');
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', fn() => view('login'))->name('login');
-    Route::get('/register', fn() => view('register'))->name('register');
-    Route::get('/forgot-password', fn() => view('forgot-password'))->name('forgot-password');
+    Route::view('/login', 'login')->name('login');
+    Route::view('/register', 'register')->name('register');
+    Route::view('/forgot-password', 'forgot-password')->name('forgot-password');
     Route::get('/reset-password/{token}', fn(string $token) => view('reset-password', compact('token')))->name('password.reset');
 });
 
-Route::get('/recepten/random', function () {
-    $recipe = \App\Models\Recipe::inRandomOrder()->firstOrFail();
-    return redirect()->route('recept', $recipe->id);
-})->name('recept.random');
+Route::get('/recepten/random', [RecipeController::class, 'random'])->name('recept.random');
+Route::get('/recepten/{id}', [RecipeController::class, 'show'])->name('recept');
+Route::post('/recepten/{id}/boodschappen', [RecipeController::class, 'addToShoppingList'])->middleware('auth')->name('recept.boodschappen');
 
-Route::get('/recepten/{id}', function (int $id) {
-    $recipe = \App\Models\Recipe::with(['ingredients', 'nutritionInfo'])->findOrFail($id);
-    return view('recept', compact('recipe'));
-})->name('recept');
-
-Route::post('/recepten/{id}/boodschappen', function (Illuminate\Http\Request $request, int $id) {
-    $recipe   = \App\Models\Recipe::with('ingredients')->findOrFail($id);
-    $portions = max(1, (int) $request->input('portions', 1));
-    $list     = auth()->user()->shoppingLists()->firstOrCreate([]);
-
-    foreach ($recipe->ingredients as $ingredient) {
-        $qty = $ingredient->pivot->quantity ? round($ingredient->pivot->quantity * $portions, 2) : null;
-
-        $list->items()->create([
-            'ingredient_id' => $ingredient->id,
-            'name'          => $ingredient->canonical_name,
-            'quantity'      => $qty,
-            'unit'          => $ingredient->pivot->unit,
-            'category'      => $ingredient->category,
-            'sort_order'    => $list->items()->max('sort_order') + 1,
-        ]);
-    }
-
-    return back()->with('boodschappen_success', 'Ingrediënten toegevoegd aan boodschappenlijst.');
-})->middleware('auth')->name('recept.boodschappen');
-
-Route::post('/logout', function () {
-    Auth::logout();
-    session()->invalidate();
-    session()->regenerateToken();
-    return redirect()->route('home');
-})->middleware('auth')->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
