@@ -41,28 +41,24 @@
     }
 }">
 
-    <main class="flex-1 py-10">
-        <div class="max-w-5xl mx-auto px-6">
+    <main class="flex-1 py-6 md:py-10">
+        <div class="max-w-5xl mx-auto px-4 md:px-6">
 
             {{-- PAGE HEADER --}}
             <div class="relative mb-8">
-                <div class="absolute top-0 right-0 bg-[var(--yellow)] border-2 border-black px-4 py-2 text-[10px] font-black uppercase tracking-widest shadow-[3px_3px_0px_0px_#000]"
-                     style="transform: rotate(2deg);">
-                    BIJGEHOUDEN
-                </div>
                 <div class="inline-block bg-black border-b-4 border-brand pr-6 py-4 pl-4 mb-5">
-                    <h1 class="text-[4rem] font-black uppercase italic leading-none text-white tracking-tight">
+                    <h1 class="text-3xl sm:text-5xl md:text-[4rem] font-black uppercase italic leading-none text-white tracking-tight">
                         MIJN VOOR<span class="italic">RAAD</span>
                     </h1>
                 </div>
-                <p class="font-black uppercase text-sm tracking-wide leading-snug max-w-md">
+                <p class="font-black uppercase text-xs md:text-sm tracking-wide leading-snug max-w-md">
                     ALLES WAT ER IN JE KOELKAST, VRIEZER EN KAST ZIT.
                 </p>
             </div>
 
             {{-- FILTER TABS + ADD BUTTON --}}
             <div class="flex items-center justify-between mb-6">
-                <div class="flex gap-2">
+                <div class="flex gap-2 flex-wrap">
                     <button @click="activeFilter = 'alles'"
                             :class="activeFilter === 'alles'
                                 ? 'bg-black text-white border-black shadow-[3px_3px_0px_0px_#000]'
@@ -100,7 +96,7 @@
             </div>
 
             {{-- TWO-COLUMN LAYOUT --}}
-            <div class="flex gap-12 items-start">
+            <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch lg:items-start">
 
                 {{-- LEFT: Fridge + Pantry visuals --}}
                 <div class="flex-1 min-w-0 space-y-6">
@@ -234,7 +230,7 @@
                                                         </div>
                                                     </div>
                                                     @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
-                                                    <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100">
+                                                    <div class="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                                                         <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
                                                                 class="w-6 h-6 border border-blue-200 bg-white/80 text-blue-500 hover:bg-white hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">−</button>
                                                         <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
@@ -326,7 +322,7 @@
                                                         </div>
                                                     </div>
                                                     @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
-                                                    <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100">
+                                                    <div class="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                                                         <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
                                                                 class="w-6 h-6 border border-white/35 bg-white/20 text-white/70 hover:bg-white/40 hover:border-white/60 hover:text-white transition-colors text-xs font-black flex items-center justify-center">−</button>
                                                         <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
@@ -486,7 +482,7 @@
                                                 </div>
                                             </div>
                                             @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
-                                            <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100">
+                                            <div class="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                                                 <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
                                                         class="w-6 h-6 border border-yellow-500 bg-white/80 text-yellow-700 hover:bg-white hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">−</button>
                                                 <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
@@ -529,7 +525,7 @@
                 </div>
 
                 {{-- RIGHT: Sidebar --}}
-                <div class="w-72 flex-shrink-0 space-y-4">
+                <div class="w-full lg:w-72 flex-shrink-0 space-y-4">
 
                     <div class="bg-white border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] p-6">
                         <h2 class="text-xl font-black uppercase italic text-center mb-5">JOUW KEUKEN</h2>
@@ -580,15 +576,15 @@
             </div>
 
             {{-- BOTTOM CTA --}}
-            <div class="bg-[var(--lime)] border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] flex items-center justify-between px-8 py-7 mt-6">
+            <div class="bg-[var(--lime)] border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6 px-5 md:px-8 py-5 md:py-7 mt-6">
                 <div>
-                    <p class="font-black uppercase text-lg leading-tight mb-1">WEET JE NOG WAT JE KAN MAKEN?</p>
+                    <p class="font-black uppercase text-base md:text-lg leading-tight mb-1">WEET JE NOG WAT JE KAN MAKEN?</p>
                     <p class="text-[11px] text-gray-600 uppercase font-bold tracking-wide">
                         JE HEBT {{ count($items) }} PRODUCTEN IN HUIS. WIJ BEDENKEN HET RECEPT.
                     </p>
                 </div>
                 <a href="{{ route('mijn-keuken') }}"
-                   class="bg-black text-white text-[11px] font-black uppercase tracking-widest px-8 py-4 border-2 border-black hover:bg-gray-900 transition-colors flex-shrink-0 no-underline">
+                   class="bg-black text-white text-[11px] font-black uppercase tracking-widest text-center px-8 py-4 border-2 border-black hover:bg-gray-900 transition-colors flex-shrink-0 no-underline">
                     SCAN & COOK →
                 </a>
             </div>
