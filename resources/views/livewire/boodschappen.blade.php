@@ -1,25 +1,25 @@
 <div>
-    <main class="flex-1 py-10">
-        <div class="max-w-5xl mx-auto px-6">
+    <main class="flex-1 py-6 md:py-10">
+        <div class="max-w-5xl mx-auto px-4 md:px-6">
 
             {{-- PAGE HEADER --}}
             <div class="relative mb-8">
-                <div class="absolute top-0 right-0 bg-[var(--lime)] border-2 border-black px-4 py-2 text-[10px] font-black uppercase tracking-widest shadow-[3px_3px_0px_0px_#000]"
+                <div class="absolute top-0 right-0 bg-[var(--lime)] border-2 border-black px-3 py-1.5 md:px-4 md:py-2 text-[9px] md:text-[10px] font-black uppercase tracking-widest shadow-[3px_3px_0px_0px_#000]"
                      style="transform: rotate(-2deg);">
                     GEEN STRESS
                 </div>
                 <div class="inline-block bg-black border-b-4 border-brand pr-6 py-4 pl-4 mb-5">
-                    <h1 class="text-[4rem] font-black uppercase italic leading-none text-white tracking-tight">
+                    <h1 class="text-3xl sm:text-5xl md:text-[4rem] font-black uppercase italic leading-none text-white tracking-tight">
                         BOODSC<span class="italic">HAPPEN</span>
                     </h1>
                 </div>
-                <p class="font-black uppercase text-sm tracking-wide leading-snug max-w-md">
+                <p class="font-black uppercase text-xs md:text-sm tracking-wide leading-snug max-w-md">
                     ALLES WAT JE NODIG HEBT VOOR EEN LEGENDARISCHE WEEK.
                 </p>
             </div>
 
             {{-- TWO-COLUMN LAYOUT --}}
-            <div class="flex gap-6 items-start">
+            <div class="flex flex-col lg:flex-row gap-6 lg:items-start">
 
                 {{-- LEFT: Shopping list --}}
                 <div class="flex-1 min-w-0 space-y-4">
@@ -91,7 +91,7 @@
                 </div>
 
                 {{-- RIGHT: Kassa sidebar --}}
-                <div class="w-72 flex-shrink-0 space-y-4">
+                <div class="w-full lg:w-72 flex-shrink-0 space-y-4">
 
                     <div class="bg-white border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] p-6">
 

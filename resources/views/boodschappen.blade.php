@@ -12,7 +12,7 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="m-0 bg-[var(--pink-soft)] min-h-screen flex flex-col">
+    <body class="m-0 bg-[var(--pink-soft)] min-h-screen flex flex-col overflow-x-hidden">
 
         <x-navbar />
 
