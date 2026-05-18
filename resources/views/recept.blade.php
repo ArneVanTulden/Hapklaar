@@ -12,18 +12,18 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="m-0 bg-[var(--pink-soft)] min-h-screen flex flex-col">
+    <body class="m-0 bg-[var(--pink-soft)] min-h-screen flex flex-col overflow-x-hidden">
 
         <x-navbar />
 
-        <main class="flex-1 py-8" x-data="{ tab: 'stappen', portions: 1 }">
-            <div class="max-w-6xl mx-auto px-6">
+        <main class="flex-1 py-6 md:py-8" x-data="{ tab: 'stappen', portions: 1 }">
+            <div class="max-w-6xl mx-auto px-4 md:px-6">
 
                 {{-- ============================================================
                      RECIPE HEADER
                 ============================================================ --}}
                 <div class="mb-5">
-                    <h1 class="text-4xl font-black uppercase italic leading-tight mb-1">{{ $recipe->title }}</h1>
+                    <h1 class="text-2xl md:text-4xl font-black uppercase italic leading-tight mb-1">{{ $recipe->title }}</h1>
                     <p class="text-brand font-bold italic text-sm mb-3">{{ $recipe->description }}</p>
                     <div class="flex items-center gap-2 flex-wrap">
                         <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1.5 border-2 border-black bg-white shadow-[2px_2px_0px_0px_#000]">{{ $recipe->prep_time_minutes }} MIN</span>
@@ -33,12 +33,12 @@
                 </div>
 
                 {{-- ============================================================
-                     TWO-COLUMN LAYOUT
+                     TWO-COLUMN LAYOUT (single col on mobile)
                 ============================================================ --}}
-                <div class="grid gap-7" style="grid-template-columns: minmax(0, 1fr) 18rem; align-items: start;">
+                <div class="grid gap-7 grid-cols-1 lg:grid-cols-[minmax(0,1fr)_18rem] items-start">
 
-                    {{-- LEFT: image + controls + steps --}}
-                    <div class="min-w-0">
+                    {{-- A: image + action buttons (col 1, row 1) --}}
+                    <div class="min-w-0 lg:col-start-1 lg:row-start-1">
 
                         {{-- Recipe image --}}
                         <div class="relative mb-4">
@@ -61,7 +61,7 @@
                         </div>
 
                         {{-- Action buttons --}}
-                        <div class="flex items-center gap-3 mb-5">
+                        <div class="flex items-center gap-3 flex-wrap">
                             <button class="flex items-center gap-2 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 016 0v6a3 3 0 01-3 3z"/>
@@ -76,41 +76,10 @@
                             </button>
                         </div>
 
-                        {{-- Tabs --}}
-                        <div class="flex gap-6 border-b-2 border-black mb-6 items-end">
-                            <button @click="tab = 'stappen'" class="text-[11px] font-black uppercase tracking-widest">
-                                <span x-show="tab === 'stappen'" class="block bg-[var(--lime)] border-2 border-black px-4 py-2.5 mb-[-2px]">STAPPEN</span>
-                                <span x-show="tab !== 'stappen'" x-cloak class="block text-gray-400 hover:text-black italic pb-2.5 transition-colors">STAPPEN</span>
-                            </button>
-                            <button @click="tab = 'voedingswaarden'" class="text-[11px] font-black uppercase tracking-widest">
-                                <span x-show="tab === 'voedingswaarden'" x-cloak class="block bg-[var(--lime)] border-2 border-black px-4 py-2.5 mb-[-2px]">VOEDINGSWAARDEN</span>
-                                <span x-show="tab !== 'voedingswaarden'" class="block text-gray-400 hover:text-black italic pb-2.5 transition-colors">VOEDINGSWAARDEN</span>
-                            </button>
-                            <button @click="tab = 'reviews'" class="text-[11px] font-black uppercase tracking-widest">
-                                <span x-show="tab === 'reviews'" x-cloak class="block bg-[var(--lime)] border-2 border-black px-4 py-2.5 mb-[-2px]">REVIEWS</span>
-                                <span x-show="tab !== 'reviews'" class="block text-gray-400 hover:text-black italic pb-2.5 transition-colors">REVIEWS</span>
-                            </button>
-                        </div>
+                    </div>{{-- /A --}}
 
-                        {{-- STAPPEN --}}
-                        <div x-show="tab === 'stappen'">
-                            @include('recept.stappen')
-                        </div>
-
-                        {{-- VOEDINGSWAARDEN --}}
-                        <div x-show="tab === 'voedingswaarden'" x-cloak class="space-y-6">
-                            @include('recept.voedingswaarden')
-                        </div>
-
-                        {{-- REVIEWS --}}
-                        <div x-show="tab === 'reviews'" x-cloak class="space-y-5">
-                            @include('recept.reviews')
-                        </div>
-
-                    </div>
-
-                    {{-- RIGHT: Ingredients card --}}
-                    <aside style="align-self: start;">
+                    {{-- B: Ingredients (col 2 desktop spans both rows, between A and C on mobile) --}}
+                    <aside class="lg:col-start-2 lg:row-start-1 lg:row-span-2">
                         <div class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-5">
 
                             {{-- Header + portions counter --}}
@@ -166,6 +135,42 @@
 
                         </div>
                     </aside>
+
+                    {{-- C: tabs + content (col 1 desktop, row 2) --}}
+                    <div class="min-w-0 lg:col-start-1 lg:row-start-2">
+
+                        {{-- Tabs --}}
+                        <div class="flex gap-4 md:gap-6 border-b-2 border-black mb-6 items-end overflow-x-auto">
+                            <button @click="tab = 'stappen'" class="text-[11px] font-black uppercase tracking-widest">
+                                <span x-show="tab === 'stappen'" class="block bg-[var(--lime)] border-2 border-black px-4 py-2.5 mb-[-2px]">STAPPEN</span>
+                                <span x-show="tab !== 'stappen'" x-cloak class="block text-gray-400 hover:text-black italic pb-2.5 transition-colors">STAPPEN</span>
+                            </button>
+                            <button @click="tab = 'voedingswaarden'" class="text-[11px] font-black uppercase tracking-widest">
+                                <span x-show="tab === 'voedingswaarden'" x-cloak class="block bg-[var(--lime)] border-2 border-black px-4 py-2.5 mb-[-2px]">VOEDINGSWAARDEN</span>
+                                <span x-show="tab !== 'voedingswaarden'" class="block text-gray-400 hover:text-black italic pb-2.5 transition-colors">VOEDINGSWAARDEN</span>
+                            </button>
+                            <button @click="tab = 'reviews'" class="text-[11px] font-black uppercase tracking-widest">
+                                <span x-show="tab === 'reviews'" x-cloak class="block bg-[var(--lime)] border-2 border-black px-4 py-2.5 mb-[-2px]">REVIEWS</span>
+                                <span x-show="tab !== 'reviews'" class="block text-gray-400 hover:text-black italic pb-2.5 transition-colors">REVIEWS</span>
+                            </button>
+                        </div>
+
+                        {{-- STAPPEN --}}
+                        <div x-show="tab === 'stappen'">
+                            @include('recept.stappen')
+                        </div>
+
+                        {{-- VOEDINGSWAARDEN --}}
+                        <div x-show="tab === 'voedingswaarden'" x-cloak class="space-y-6">
+                            @include('recept.voedingswaarden')
+                        </div>
+
+                        {{-- REVIEWS --}}
+                        <div x-show="tab === 'reviews'" x-cloak class="space-y-5">
+                            @include('recept.reviews')
+                        </div>
+
+                    </div>{{-- /C --}}
 
                 </div>
 

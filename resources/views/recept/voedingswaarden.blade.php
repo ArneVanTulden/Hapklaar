@@ -32,7 +32,7 @@
 {{-- Calorieën --}}
 <div class="bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] p-6">
     <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-1">CALORIEËN PER PORTIE</p>
-    <p class="text-5xl font-black italic text-brand mb-3">{{ $kcal }} KCAL</p>
+    <p class="text-4xl md:text-5xl font-black italic text-brand mb-3">{{ $kcal }} KCAL</p>
     <div class="h-3 bg-gray-100 border border-black overflow-hidden mb-1">
         <div class="h-full bg-[var(--lime)]" style="width: {{ $kcalPct }}%"></div>
     </div>
@@ -42,7 +42,7 @@
 {{-- Macronutriënten --}}
 <div>
     <p class="text-[10px] font-black uppercase tracking-widest mb-3">MACRONUTRIËNTEN</p>
-    <div class="grid grid-cols-3 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div class="bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] p-4">
             <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-1">EIWITTEN</p>
             <p class="text-2xl font-black mb-2">{{ $protein }}G</p>
@@ -82,7 +82,7 @@
             ['label' => 'VEZELS',     'value' => $fiber . 'g',        'pct' => $fiberPct,     'color' => 'bg-[var(--lime)]'],
         ];
     @endphp
-    <div class="grid grid-cols-3 gap-3">
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
         @foreach($minerals as $v)
             <div class="bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] p-3">
                 <p class="text-[8px] font-black uppercase tracking-widest text-gray-500 mb-1">{{ $v['label'] }}</p>

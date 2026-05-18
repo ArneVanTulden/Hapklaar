@@ -1,7 +1,7 @@
 <div class="space-y-5">
 
     {{-- Rating summary --}}
-    <div class="bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] p-5 flex gap-8 items-center">
+    <div class="bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] p-5 flex flex-col sm:flex-row gap-5 sm:gap-8 sm:items-center">
         <div class="flex-shrink-0 text-center">
             <p class="text-6xl font-black leading-none">{{ number_format($avg, 1) }}</p>
             <div class="flex gap-0.5 justify-center my-1">
@@ -45,7 +45,7 @@
             </a>
         @endauth
 
-        <div class="flex gap-1">
+        <div class="flex gap-1 flex-wrap">
             @foreach(['recent' => 'MEEST RECENT', 'highest' => 'HOOGSTE', 'lowest' => 'LAAGSTE'] as $key => $label)
                 <button wire:click="setSort('{{ $key }}')" class="text-[8px] font-black uppercase tracking-widest px-3 py-2 border-2 border-black shadow-[2px_2px_0px_0px_#000] {{ $sort === $key ? 'bg-[var(--lime)]' : 'bg-white hover:bg-[var(--pink-soft)]' }} transition-colors">{{ $label }}</button>
             @endforeach
