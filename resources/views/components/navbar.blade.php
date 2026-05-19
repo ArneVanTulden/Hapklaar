@@ -50,7 +50,7 @@
                 <li>
                     <a href="{{ route($r) }}"
                        @class([
-                           'block px-5 py-3 text-[12px] font-bold uppercase tracking-widest text-black no-underline border-b border-gray-100',
+                           'flex items-center w-full px-5 py-4 text-[12px] font-bold uppercase tracking-widest text-black no-underline border-b border-gray-100',
                            'bg-[var(--lime)]' => request()->routeIs($r),
                        ])>{{ $label }}</a>
                 </li>
