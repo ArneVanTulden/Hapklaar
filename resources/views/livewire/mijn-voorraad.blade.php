@@ -89,6 +89,25 @@
                 </p>
             </div>
 
+            {{-- JOUW KEUKEN — mobile only, boven de tabs --}}
+            <div class="lg:hidden mb-6 bg-white border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] p-4">
+                <h2 class="text-base font-black uppercase italic text-center mb-3">JOUW KEUKEN</h2>
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1 mb-4">
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">TOTAAL</span>
+                    <span class="text-[12px] font-black text-right">{{ count($items) }} ITEMS</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">KOELKAST</span>
+                    <span class="text-[12px] font-black text-right">{{ count($fridgeItems) }}</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">VRIEZER</span>
+                    <span class="text-[12px] font-black text-right">{{ count($freezerItems) }}</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-gray-500">VOORRAADKAST</span>
+                    <span class="text-[12px] font-black text-right">{{ count($pantryItems) }}</span>
+                </div>
+                <button @click="$dispatch('open-ingredient-modal')"
+                        class="w-full bg-brand text-white text-[10px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                    + PRODUCT TOEVOEGEN
+                </button>
+            </div>
+
             {{-- FILTER TABS + ADD BUTTON --}}
             <div class="flex items-center justify-between mb-6">
                 <div class="flex gap-2 flex-wrap">
@@ -563,7 +582,7 @@
                 {{-- RIGHT: Sidebar --}}
                 <div class="w-full lg:w-72 flex-shrink-0 space-y-4">
 
-                    <div class="bg-white border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] p-6">
+                    <div class="hidden lg:block bg-white border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] p-6">
                         <h2 class="text-xl font-black uppercase italic text-center mb-5">JOUW KEUKEN</h2>
                         <div class="space-y-2 mb-4">
                             <div class="flex justify-between items-center">
