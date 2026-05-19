@@ -168,7 +168,8 @@
                     <p class="text-sm text-gray-500 mb-5">Ontdek de favorieten van studenten deze week.</p>
 
                     {{-- Tabs --}}
-                    <div class="flex gap-5 md:gap-7 border-b-2 border-black mb-6 overflow-x-auto">
+                    <div class="flex gap-5 md:gap-7 border-b-2 border-black mb-6 overflow-x-auto md:overflow-visible"
+                         style="scrollbar-width: none;">
                         <button class="text-[11px] font-black uppercase tracking-widest pb-2.5 border-b-2 border-brand text-brand -mb-px">POPULAIR</button>
                         <button class="text-[11px] font-black uppercase tracking-widest pb-2.5 text-gray-400 hover:text-black transition-colors -mb-px">SNEL</button>
                         <button class="text-[11px] font-black uppercase tracking-widest pb-2.5 text-gray-400 hover:text-black transition-colors -mb-px">GOEDKOOP</button>
