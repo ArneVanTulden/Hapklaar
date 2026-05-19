@@ -46,12 +46,14 @@
                             2       => 'shadow-[5px_5px_0px_0px_var(--lime)]',
                             default => 'shadow-[5px_5px_0px_0px_#7C3AED]',
                         };
-                        $img     = $recipe->image_path ?: 'images/kater_bowl.png';
+                        $imgSrc  = $recipe->image_path
+                            ? asset('storage/' . $recipe->image_path)
+                            : asset('images/kater_bowl.png');
                     @endphp
                     <div class="bg-white border-2 border-black {{ $shadow }} flex flex-col">
 
                         <div class="relative overflow-hidden border-b-2 border-black" style="aspect-ratio:4/3;">
-                            <img src="{{ str_starts_with($img, 'http') || str_starts_with($img, '/') ? $img : asset($img) }}"
+                            <img src="{{ $imgSrc }}"
                                  alt="{{ $recipe->title }}"
                                  class="w-full h-full object-cover">
 
