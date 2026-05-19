@@ -168,11 +168,17 @@
                     <p class="text-sm text-gray-500 mb-5">Ontdek de favorieten van studenten deze week.</p>
 
                     {{-- Tabs --}}
+                    @php $currentSort = $sort ?? request('sort', 'popular'); @endphp
                     <div class="flex gap-5 md:gap-7 border-b-2 border-black mb-6 overflow-x-auto md:overflow-visible"
                          style="scrollbar-width: none;">
-                        <button class="text-[11px] font-black uppercase tracking-widest pb-2.5 border-b-2 border-brand text-brand -mb-px">POPULAIR</button>
-                        <button class="text-[11px] font-black uppercase tracking-widest pb-2.5 text-gray-400 hover:text-black transition-colors -mb-px">SNEL</button>
-                        <button class="text-[11px] font-black uppercase tracking-widest pb-2.5 text-gray-400 hover:text-black transition-colors -mb-px">GOEDKOOP</button>
+                        @foreach(['popular' => 'POPULAIR', 'snel' => 'SNEL', 'goedkoop' => 'GOEDKOOP'] as $key => $label)
+                            <a href="{{ request()->fullUrlWithQuery(['sort' => $key]) }}"
+                               @class([
+                                   'text-[11px] font-black uppercase tracking-widest pb-2.5 -mb-px no-underline transition-colors',
+                                   'border-b-2 border-brand text-brand' => $currentSort === $key,
+                                   'text-gray-400 hover:text-black' => $currentSort !== $key,
+                               ])>{{ $label }}</a>
+                        @endforeach
                     </div>
 
                     {{-- Recipe cards --}}

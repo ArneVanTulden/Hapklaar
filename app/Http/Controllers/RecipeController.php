@@ -28,8 +28,15 @@ class RecipeController extends Controller
             $query->where('afwas_score', '<=', $request->integer('max_afwas'));
         }
 
-        $recipes = $query->orderByDesc('avg_rating')->get();
-        return view('ontdekken', compact('recipes'));
+        $sort = $request->input('sort', 'popular');
+        match ($sort) {
+            'snel'     => $query->orderByRaw('prep_time_minutes IS NULL, prep_time_minutes ASC'),
+            'goedkoop' => $query->orderByRaw('calories_per_portion IS NULL, calories_per_portion ASC'),
+            default    => $query->orderByDesc('avg_rating'),
+        };
+
+        $recipes = $query->get();
+        return view('ontdekken', compact('recipes', 'sort'));
     }
 
     public function show(int $id)
