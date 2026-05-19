@@ -16,6 +16,7 @@ class ScannerResults extends Component
         array_splice($this->items, $index, 1);
         $this->items = array_values($this->items);
         $this->flash = null;
+        $this->broadcastItems();
     }
 
     #[On('scanner-ingredient-added')]
@@ -28,6 +29,17 @@ class ScannerResults extends Component
             'unit'          => $unit,
         ];
         $this->flash = null;
+        $this->broadcastItems();
+    }
+
+    private function broadcastItems(): void
+    {
+        $ids = array_values(array_filter(
+            array_map(fn ($i) => $i['ingredient_id'] ?? null, $this->items),
+            fn ($v) => $v !== null,
+        ));
+
+        $this->dispatch('scanner-items-updated', ids: $ids);
     }
 
     public function addAllToInventory(): void
