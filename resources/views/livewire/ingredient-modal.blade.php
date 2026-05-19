@@ -2,29 +2,34 @@
      @open-ingredient-modal.window="open = true; $wire.set('mode', $event.detail?.mode ?? 'inventory')"
      @close-ingredient-modal.window="open = false"
      x-show="open"
-     class="fixed inset-0 z-50 flex items-center justify-center p-4"
-     x-transition:enter="transition ease-out duration-150"
+     class="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4"
+     x-transition:enter="transition ease-out duration-200"
      x-transition:enter-start="opacity-0"
      x-transition:enter-end="opacity-100"
-     x-transition:leave="transition ease-in duration-100"
+     x-transition:leave="transition ease-in duration-150"
      x-transition:leave-start="opacity-100"
      x-transition:leave-end="opacity-0"
      style="display: none;">
 
     <div class="absolute inset-0 bg-black/60" @click="open = false"></div>
 
-    <div class="relative bg-white border-2 border-black shadow-[8px_8px_0px_0px_var(--pink)] w-full max-w-md z-10"
-         x-transition:enter="transition ease-out duration-150"
-         x-transition:enter-start="opacity-0 scale-95"
-         x-transition:enter-end="opacity-100 scale-100">
+    <div class="relative bg-white border-2 border-black shadow-[8px_8px_0px_0px_var(--pink)] w-full sm:max-w-md z-10
+                rounded-t-2xl sm:rounded-none
+                max-h-[92dvh] overflow-y-auto"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 translate-y-4 sm:scale-95"
+         x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100">
 
-        <button @click="open = false"
-                class="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-xl font-black border-2 border-black hover:bg-gray-800 transition-colors z-20">
-            ✕
-        </button>
+        {{-- Header --}}
+        <div class="flex items-center justify-between border-b-2 border-black px-4 sm:px-8 py-4 sticky top-0 bg-white z-10">
+            <h2 class="text-lg sm:text-2xl font-black uppercase italic">PRODUCT TOEVOEGEN</h2>
+            <button @click="open = false"
+                    class="w-9 h-9 flex items-center justify-center border-2 border-black hover:bg-gray-100 transition-colors font-black text-lg flex-shrink-0">
+                ✕
+            </button>
+        </div>
 
-        <div class="p-8">
-            <h2 class="text-3xl font-black uppercase italic mb-6">PRODUCT TOEVOEGEN</h2>
+        <div class="p-4 sm:p-8">
 
             @if($ingredientId)
                 <div class="flex items-center justify-between border-2 border-black px-4 py-3 mb-4 bg-[var(--lime)]">
@@ -52,7 +57,7 @@
                                 <button wire:click="selectIngredient({{ $r['id'] }})"
                                         class="w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-[var(--pink-soft)] border-b border-gray-100 last:border-0 transition-colors">
                                     <span class="text-[11px] font-black uppercase">{{ $r['name'] }}</span>
-                                    <span class="text-[9px] font-bold uppercase text-gray-400">{{ $r['category'] }}</span>
+                                    <span class="text-[9px] font-bold uppercase text-gray-400 ml-2 flex-shrink-0">{{ $r['category'] }}</span>
                                 </button>
                             @endforeach
                         </div>
@@ -69,23 +74,23 @@
                      decrement() { this.qty = String(Math.max(0, parseInt(this.qty || 0) - this.step)); },
                  }"
                  x-init="$watch('unit', (val) => { qty = String(['g','ml'].includes(val) ? 50 : 1); })">
-                <div class="flex-1">
+                <div class="flex-1 min-w-0">
                     <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">HOEVEELHEID</label>
                     <div class="flex border-2 border-black">
                         <button @click="decrement()" type="button"
-                                class="px-4 py-3 text-[14px] font-black border-r-2 border-black hover:bg-gray-100 transition-colors select-none">−</button>
+                                class="px-3 sm:px-4 py-3 text-[14px] font-black border-r-2 border-black hover:bg-gray-100 transition-colors select-none">−</button>
                         <input x-model="qty"
                                type="number"
                                min="0"
-                               class="flex-1 text-center text-[13px] font-black outline-none bg-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                               class="flex-1 text-center text-[13px] font-black outline-none bg-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none w-0">
                         <button @click="increment()" type="button"
-                                class="px-4 py-3 text-[14px] font-black border-l-2 border-black hover:bg-gray-100 transition-colors select-none">+</button>
+                                class="px-3 sm:px-4 py-3 text-[14px] font-black border-l-2 border-black hover:bg-gray-100 transition-colors select-none">+</button>
                     </div>
                 </div>
-                <div class="w-32">
+                <div class="w-28 sm:w-32 flex-shrink-0">
                     <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">EENHEID</label>
                     <select x-model="unit"
-                            class="w-full border-2 border-black px-3 py-3 text-[11px] font-black uppercase outline-none focus:border-brand transition-colors bg-white appearance-none cursor-pointer">
+                            class="w-full border-2 border-black px-2 sm:px-3 py-3 text-[11px] font-black uppercase outline-none focus:border-brand transition-colors bg-white appearance-none cursor-pointer">
                         <option value="stuks">STUKS</option>
                         <option value="g">G</option>
                         <option value="kg">KG</option>
@@ -98,19 +103,19 @@
             </div>
 
             @if($mode === 'inventory')
-            <div class="mb-8">
+            <div class="mb-6 sm:mb-8">
                 <label class="block text-[9px] font-black uppercase tracking-widest mb-2 text-gray-500">BEWAARPLAATS</label>
-                <div class="flex gap-2">
+                <div class="grid grid-cols-3 gap-2">
                     <button wire:click="$set('location', 'fridge')" type="button"
-                            class="flex-1 text-[9px] font-black uppercase tracking-widest py-2.5 border-2 transition-all duration-75 {{ $location === 'fridge' ? 'bg-[var(--lime)] border-black text-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-gray-300 text-gray-500' }}">
+                            class="text-[9px] font-black uppercase tracking-widest py-3 border-2 transition-all duration-75 {{ $location === 'fridge' ? 'bg-[var(--lime)] border-black text-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-gray-300 text-gray-500' }}">
                         ❄ KOELKAST
                     </button>
                     <button wire:click="$set('location', 'freezer')" type="button"
-                            class="flex-1 text-[9px] font-black uppercase tracking-widest py-2.5 border-2 transition-all duration-75 {{ $location === 'freezer' ? 'bg-gray-800 border-gray-800 text-white shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-gray-300 text-gray-500' }}">
+                            class="text-[9px] font-black uppercase tracking-widest py-3 border-2 transition-all duration-75 {{ $location === 'freezer' ? 'bg-gray-800 border-gray-800 text-white shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-gray-300 text-gray-500' }}">
                         ❄❄ VRIEZER
                     </button>
                     <button wire:click="$set('location', 'pantry')" type="button"
-                            class="flex-1 text-[9px] font-black uppercase tracking-widest py-2.5 border-2 transition-all duration-75 {{ $location === 'pantry' ? 'bg-[var(--yellow)] border-black text-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-gray-300 text-gray-500' }}">
+                            class="text-[9px] font-black uppercase tracking-widest py-3 border-2 transition-all duration-75 {{ $location === 'pantry' ? 'bg-[var(--yellow)] border-black text-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-gray-300 text-gray-500' }}">
                         KAST
                     </button>
                 </div>
@@ -118,7 +123,7 @@
             @endif
 
             <button wire:click="addItem"
-                    class="w-full bg-brand text-white text-base font-black uppercase italic tracking-widest py-4 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
+                    class="w-full bg-brand text-white text-sm sm:text-base font-black uppercase italic tracking-widest py-4 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
                 TOEVOEGEN
             </button>
         </div>
