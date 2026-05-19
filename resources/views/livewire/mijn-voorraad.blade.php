@@ -194,10 +194,14 @@
                                     <span class="relative text-[6px] uppercase tracking-wider text-black bg-white/85 px-1 rounded-sm" style="text-shadow: 0 1px 0 rgba(255,255,255,0.6);">ITALIA</span>
                                 </div>
 
-                                {{-- Magnet 2: hot-pink heart --}}
-                                <div class="border-2 border-black flex items-center justify-center font-black"
-                                     style="width: 30px; height: 30px; background: var(--hot-pink); transform: rotate(6deg); box-shadow: 2px 2px 0 0 #000; border-radius: 50%;">
-                                    <span class="text-[12px] text-white">♥</span>
+                                {{-- Magnet 2: I ♥ NY souvenir --}}
+                                <div class="border-2 border-black flex flex-col items-center justify-center font-black leading-none"
+                                     style="width: 36px; height: 32px; background: #ffffff; transform: rotate(6deg); box-shadow: 2px 2px 0 0 #000, inset -1px -1px 3px rgba(0,0,0,0.2), inset 1px 1px 2px rgba(255,255,255,0.8); border-radius: 3px;">
+                                    <div class="flex items-center gap-[1px]">
+                                        <span class="text-[7px] text-black">I</span>
+                                        <span class="text-[8px]" style="color: #e60023;">♥</span>
+                                    </div>
+                                    <span class="text-[7px] text-black tracking-wider mt-[1px]">NY</span>
                                 </div>
 
                                 {{-- Hapklaar logo sticker --}}
