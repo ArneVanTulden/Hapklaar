@@ -1,90 +1,139 @@
-<div class="relative">
-    {{-- GEEN STRESS badge --}}
-    <div class="absolute -top-3 -left-2 z-10 bg-[var(--lime)] border-2 border-black px-3 py-1 text-[9px] font-black uppercase tracking-widest shadow-[2px_2px_0px_0px_#000]">
-        GEEN STRESS!
-    </div>
+{{-- ============================================================
+     IJSKAST SCANNER
+============================================================ --}}
+<div
+    x-data="{
+        drag: false,
+        triggerCamera() { this.$refs.cameraInput.click(); },
+        triggerGallery() { this.$refs.galleryInput.click(); },
+    }"
+    @dragover.prevent="drag = true"
+    @dragleave.prevent="drag = false"
+    @drop.prevent="
+        drag = false;
+        if ($event.dataTransfer.files.length) {
+            const dt = new DataTransfer();
+            dt.items.add($event.dataTransfer.files[0]);
+            $refs.cameraInput.files = dt.files;
+            $refs.cameraInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    "
+    class="relative flex flex-col"
+>
+    {{-- ============================================================
+         FOTO PANEEL
+    ============================================================ --}}
+    <div class="relative bg-white border-[3px] border-black shadow-[6px_6px_0px_0px_#000] overflow-hidden flex-1 flex flex-col"
+         :class="{ 'shadow-[6px_6px_0px_0px_var(--lime)]': drag }">
 
-    <div class="bg-white border-2 border-black shadow-[5px_5px_0px_0px_#000]">
-        {{-- Step label --}}
-        <div class="bg-[var(--lime)] border-b-2 border-black px-4 py-2">
-            <span class="text-[9px] font-black uppercase tracking-widest">STAP 1: TREK DIE DEUR OPEN</span>
-        </div>
+        {{-- Photo area --}}
+        <div class="relative flex-1" style="aspect-ratio: 4/3;">
 
-        {{-- Drop zone --}}
-        <div class="flex flex-col items-center justify-center py-14 px-8">
-            <div class="relative mb-6">
-                {{-- Dashed circle --}}
-                <div class="w-44 h-44 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden relative">
-                    @if($photo)
-                        <img src="{{ $photo->temporaryUrl() }}" alt="Preview" class="w-full h-full object-cover rounded-full {{ $isScanning ? 'opacity-40' : '' }}">
-                        @if($isScanning)
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <svg class="w-10 h-10 text-brand animate-spin" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                                </svg>
-                            </div>
-                        @else
-                            <button wire:click="clearPhoto"
-                                    class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity rounded-full">
-                                <span class="text-white text-[10px] font-black uppercase tracking-widest">WISSEN</span>
-                            </button>
-                        @endif
-                    @else
-                        <label for="scanner-photo-upload"
-                               class="w-28 h-28 rounded-full bg-brand border-2 border-black shadow-[4px_4px_0px_0px_#000] flex items-center justify-center hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] transition-all duration-75 cursor-pointer">
-                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
-                        </label>
-                    @endif
+            {{-- SCAN LOADING OVERLAY (alleen tijdens scan-request) --}}
+            <div wire:loading.flex wire:target="scan"
+                 class="absolute inset-0 z-40 bg-black/85 hidden flex-col items-center justify-center px-6">
+                <div class="w-16 h-16 mb-4">
+                    <svg class="w-full h-full animate-spin text-[var(--lime)]" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/>
+                        <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                    </svg>
                 </div>
-
-                @if($isScanning)
-                    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap bg-brand text-white text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border border-black">
-                        AI SCANT...
-                    </div>
-                @endif
+                <p class="text-white text-[14px] font-black italic uppercase tracking-wide">AI snuffelt door je koelkast...</p>
+                <div class="flex gap-1.5 mt-3">
+                    <span class="w-2 h-2 bg-[var(--lime)] rounded-full animate-bounce [animation-delay:0ms]"></span>
+                    <span class="w-2 h-2 bg-[var(--lime)] rounded-full animate-bounce [animation-delay:150ms]"></span>
+                    <span class="w-2 h-2 bg-[var(--lime)] rounded-full animate-bounce [animation-delay:300ms]"></span>
+                </div>
+                <p class="text-white/60 text-[9px] font-black uppercase tracking-widest mt-3">Dit kan 5-15 sec duren</p>
             </div>
 
-            {{-- Error --}}
-            @if($error || $errors->has('photo'))
-                <p class="text-[10px] font-black uppercase text-red-600 mb-3 text-center tracking-widest">
-                    {{ $error ?? $errors->first('photo') }}
-                </p>
+            @if($photo)
+                <img src="{{ $photo->temporaryUrl() }}"
+                     alt="Scan"
+                     class="absolute inset-0 w-full h-full object-cover">
+
+                <button wire:click.stop="clearPhoto"
+                        wire:loading.attr="disabled" wire:target="scan"
+                        type="button"
+                        class="absolute top-3 right-3 w-8 h-8 bg-white border-2 border-black flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors z-20 shadow-[2px_2px_0px_0px_#000] disabled:opacity-0"
+                        title="Wissen">
+                    <span class="text-[16px] font-black leading-none">×</span>
+                </button>
             @else
-                <p class="text-[11px] font-black uppercase tracking-widest text-gray-500 mb-6">
-                    {{ $photo ? 'FOTO KLAAR! HIT SCAN-IT →' : 'DROP JE FOTO HIER' }}
-                </p>
+                <button type="button"
+                        @click="triggerCamera()"
+                        class="absolute inset-0 flex flex-col items-center justify-center bg-[var(--pink-soft)] bg-[radial-gradient(circle,rgba(0,0,0,0.18)_1.2px,transparent_1.6px)] bg-[length:9px_9px] hover:bg-white transition-colors group"
+                        :class="{ '!bg-[var(--lime)]/60': drag }">
+
+                    <div class="w-20 h-20 rounded-full bg-brand border-[3px] border-black shadow-[4px_4px_0px_0px_#000] flex items-center justify-center mb-4 group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[2px_2px_0px_0px_#000] transition-all">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </div>
+
+                    <p class="text-[14px] font-black italic uppercase tracking-wide">
+                        <span x-show="!drag">Klik · sleep · kies</span>
+                        <span x-show="drag" x-cloak>Loslaten!</span>
+                    </p>
+                    <p class="text-[9px] font-bold uppercase tracking-widest text-black/50 mt-1">JPG · PNG · MAX 20MB</p>
+                </button>
             @endif
-
-            {{-- Hidden file inputs --}}
-            <input type="file" id="scanner-photo-upload" wire:model="photo"
-                   accept="image/*" capture="environment" class="hidden">
-            <input type="file" id="scanner-photo-gallery" wire:model="photo"
-                   accept="image/*" class="hidden">
-
-            {{-- Buttons --}}
-            <div class="flex gap-3 w-full">
-                <label for="scanner-photo-upload"
-                       class="flex-1 bg-brand text-white text-[11px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 text-center cursor-pointer">
-                    MAAK FOTO
-                </label>
-                <label for="scanner-photo-gallery"
-                       class="flex-1 bg-[var(--lime)] text-black text-[11px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 text-center cursor-pointer">
-                    UPLOAD
-                </label>
-            </div>
         </div>
+
+        {{-- Error strip --}}
+        @if($error || $errors->has('photo'))
+            <div class="border-t-[3px] border-black bg-red-500 text-white px-4 py-2 text-[10px] font-black uppercase tracking-widest">
+                ⚠ {{ $error ?? $errors->first('photo') }}
+            </div>
+        @endif
     </div>
 
-    {{-- SCAN-IT badge bottom-right --}}
-    <div class="absolute -bottom-3 -right-3 z-10">
+    {{-- ============================================================
+         CONTROL DECK
+    ============================================================ --}}
+    <div class="mt-4 flex items-stretch gap-2">
+
+        <button type="button"
+                @click="triggerGallery()"
+                wire:loading.attr="disabled" wire:target="scan"
+                class="w-12 flex items-center justify-center bg-white border-[3px] border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] disabled:opacity-40 transition-all duration-75"
+                title="Uit galerij">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+        </button>
+
+        <button type="button"
+                @click="triggerCamera()"
+                wire:loading.attr="disabled" wire:target="scan"
+                class="w-12 flex items-center justify-center bg-[var(--lime)] border-[3px] border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] disabled:opacity-40 transition-all duration-75"
+                title="Maak foto">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+        </button>
+
         <button wire:click="scan"
-                @disabled(!$photo || $isScanning)
-                class="bg-brand text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 border-2 border-black shadow-[3px_3px_0px_0px_#000] disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:translate-x-[1px] hover:enabled:translate-y-[1px] hover:enabled:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-            {{ $isScanning ? 'BEZIG...' : 'SCAN-IT' }}
+                wire:loading.attr="disabled" wire:target="scan"
+                type="button"
+                @disabled(!$photo)
+                class="flex-1 bg-brand text-white font-black uppercase italic tracking-widest border-[3px] border-black shadow-[4px_4px_0px_0px_#000] disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:translate-x-[1px] hover:enabled:translate-y-[1px] hover:enabled:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 flex items-center justify-center gap-2 text-[14px] py-3">
+            <span wire:loading.remove wire:target="scan">SCAN MIJN ZOOI →</span>
+            <span wire:loading.flex wire:target="scan" class="hidden items-center gap-2">
+                <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                </svg>
+                BEZIG...
+            </span>
         </button>
     </div>
+
+    {{-- Hidden inputs --}}
+    <input type="file" wire:model="photo" x-ref="cameraInput"
+           accept="image/*" capture="environment" class="hidden">
+    <input type="file" wire:model="photo" x-ref="galleryInput"
+           accept="image/*" class="hidden">
 </div>
