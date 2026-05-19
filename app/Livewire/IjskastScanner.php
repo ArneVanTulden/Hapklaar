@@ -31,12 +31,14 @@ class IjskastScanner extends Component
             return;
         }
 
-        $this->validate(['photo' => 'required|image|max:20480']);
+        $this->validate(['photo' => 'required|image|max:8192']);
 
         $this->isScanning = true;
         $this->error = null;
 
         try {
+            ini_set('memory_limit', '512M');
+
             $manager = new ImageManager(new Driver());
             $encoded = $manager->decode($this->photo->getRealPath())
                 ->scaleDown(width: 1024)
