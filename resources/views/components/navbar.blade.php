@@ -1,4 +1,4 @@
-<header class="border-b-2 border-black" x-data="{ mobileOpen: false }">
+<header class="border-b-2 border-black relative z-40" x-data="{ mobileOpen: false }">
 
     {{-- MOBILE nav --}}
     <nav class="md:hidden flex items-center justify-between px-4 bg-white" style="height: 52px;">
@@ -36,7 +36,7 @@
     {{-- MOBILE menu (dropdown) --}}
     <div x-show="mobileOpen"
          x-transition
-         class="md:hidden border-t-2 border-black bg-white"
+         class="md:hidden border-t-2 border-b-2 border-black bg-white absolute top-[52px] left-0 right-0 z-50 shadow-[0_8px_0_-2px_#000]"
          style="display: none;">
         <ul class="flex flex-col list-none m-0 p-0">
             @foreach([
