@@ -26,7 +26,7 @@
                 <div class="flex-1 min-w-0 w-full">
                     <h1 class="text-5xl sm:text-6xl md:text-[5.25rem] font-black uppercase leading-[0.85] mb-6 tracking-tight italic">
                         LEKKER VRETEN<br>
-                        <span class="bg-[var(--lime)] px-3 py-1 inline-block" style="transform: skewX(-8deg); box-shadow: 5px 5px 0px 0px #000;">
+                        <span class="bg-[var(--lime)] px-3 py-1 inline-block ml-8 sm:ml-0" style="transform: skewX(-8deg); box-shadow: 5px 5px 0px 0px #000;">
                             <span style="display: inline-block; transform: skewX(8deg);">ZONDER STRESS.</span>
                         </span>
                     </h1>
