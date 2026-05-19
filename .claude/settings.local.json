@@ -26,7 +26,14 @@
       "PowerShell(php artisan make:migration add_image_path_to_recipes_table --table=recipes)",
       "PowerShell(php artisan migrate)",
       "PowerShell(php artisan storage:link 2>&1)",
-      "PowerShell(php artisan tinker --execute=\"echo implode\\(', ', Schema::getColumnListing\\('recipes'\\)\\);\")"
+      "PowerShell(php artisan tinker --execute=\"echo implode\\(', ', Schema::getColumnListing\\('recipes'\\)\\);\")",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "PowerShell(head -30)",
+      "Bash(Get-ChildItem \"c:\\\\Workspace\\\\Hapklaar\\\\public\\\\images\")",
+      "Bash(Select-Object Name, Length)",
+      "PowerShell(Get-ChildItem \"c:\\\\Workspace\\\\Hapklaar\\\\public\" -Recurse | Where-Object { !$_.PSIsContainer } | Select-Object Name, DirectoryName | Sort-Object DirectoryName)",
+      "PowerShell(cd \"c:\\\\Workspace\\\\Hapklaar\"; php -r \"require 'vendor/autoload.php'; \\\\$m = new Intervention\\\\Image\\\\ImageManager\\(new Intervention\\\\Image\\\\Drivers\\\\Gd\\\\Driver\\(\\)\\); echo get_class\\(\\\\$m\\); echo PHP_EOL; echo implode\\(', ', get_class_methods\\(\\\\$m\\)\\);\" 2>&1)"
     ]
   }
 }

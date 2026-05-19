@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#FFF0F5"/>
+  <!-- Brand pink square (neobrutalist style) -->
+  <rect x="56" y="56" width="400" height="400" fill="#E5006E" rx="0"/>
+  <!-- Bold H letter -->
+  <rect x="130" y="130" width="70" height="252" fill="white"/>
+  <rect x="312" y="130" width="70" height="252" fill="white"/>
+  <rect x="130" y="221" width="252" height="70" fill="white"/>
+</svg>
