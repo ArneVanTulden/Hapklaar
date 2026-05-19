@@ -262,30 +262,32 @@
                                                  @dragstart="startDrag({{ $item['id'] }}, $event)"
                                                  @dragend="endDrag()"
                                                  :class="dragId === {{ $item['id'] }} ? 'opacity-30' : 'opacity-100'">
-                                                <div class="flex items-center justify-between py-2.5 px-2"
+                                                <div class="flex items-center gap-2 py-2.5 px-2"
                                                      style="background: rgba(255,255,255,0.3); border-radius: 3px;">
-                                                    <div class="flex items-center gap-3">
-                                                        <span @touchstart.prevent="startTouchDrag({{ $item['id'] }}, $event)" style="touch-action: none;" class="p-2 -m-1 flex-shrink-0 cursor-grab">
-                                                            <svg class="w-3 h-4 text-blue-200 group-hover:text-blue-400" viewBox="0 0 8 14" fill="currentColor">
-                                                                <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
-                                                                <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
-                                                                <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
-                                                            </svg>
-                                                        </span>
-                                                        <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] {{ $item['catClass'] }}">{{ $item['category'] }}</span>
-                                                        <div>
-                                                            <p class="text-[12px] font-black uppercase">{{ $item['name'] }}</p>
-                                                            <p class="text-[9px] text-blue-600/50 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                                                    <span @touchstart.prevent="startTouchDrag({{ $item['id'] }}, $event)" style="touch-action: none;" class="p-2 -m-1 flex-shrink-0 cursor-grab">
+                                                        <svg class="w-3 h-4 text-blue-200 group-hover:text-blue-400" viewBox="0 0 8 14" fill="currentColor">
+                                                            <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                            <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                            <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                        </svg>
+                                                    </span>
+                                                    <div class="flex-1 min-w-0 flex flex-col md:flex-row md:items-center md:gap-2">
+                                                        <div class="flex items-center gap-2 mb-1 md:mb-0 md:flex-1 min-w-0">
+                                                            <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] flex-shrink-0 {{ $item['catClass'] }}">{{ $item['category'] }}</span>
+                                                            <p class="text-[11px] font-black uppercase truncate">{{ $item['name'] }}</p>
                                                         </div>
-                                                    </div>
-                                                    @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
-                                                    <div class="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                                                        <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
-                                                                class="w-6 h-6 border border-blue-200 bg-white/80 text-blue-500 hover:bg-white hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">−</button>
-                                                        <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
-                                                                class="w-6 h-6 border border-blue-200 bg-white/80 text-blue-500 hover:bg-white hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">+</button>
-                                                        <button wire:click.stop="removeItem({{ $item['id'] }})"
-                                                                class="w-6 h-6 border border-blue-200 bg-white/80 text-blue-500 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center">✕</button>
+                                                        @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
+                                                        <div class="flex items-center justify-between md:justify-end md:gap-2">
+                                                            <p class="text-[9px] text-blue-600/50 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                                                            <div class="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex-shrink-0">
+                                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
+                                                                        class="w-6 h-6 border border-blue-200 bg-white/80 text-blue-500 hover:bg-white hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">−</button>
+                                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
+                                                                        class="w-6 h-6 border border-blue-200 bg-white/80 text-blue-500 hover:bg-white hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">+</button>
+                                                                <button wire:click.stop="removeItem({{ $item['id'] }})"
+                                                                        class="w-6 h-6 border border-blue-200 bg-white/80 text-blue-500 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center">✕</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 {{-- Glass shelf bar --}}
@@ -357,30 +359,32 @@
                                                  @dragstart="startDrag({{ $item['id'] }}, $event)"
                                                  @dragend="endDrag()"
                                                  :class="dragId === {{ $item['id'] }} ? 'opacity-30' : 'opacity-100'">
-                                                <div class="flex items-center justify-between py-2.5 px-2"
+                                                <div class="flex items-center gap-2 py-2.5 px-2"
                                                      style="background: rgba(255,255,255,0.22); border-radius: 3px;">
-                                                    <div class="flex items-center gap-3">
-                                                        <span @touchstart.prevent="startTouchDrag({{ $item['id'] }}, $event)" style="touch-action: none;" class="p-2 -m-1 flex-shrink-0 cursor-grab">
-                                                            <svg class="w-3 h-4 text-white/35 group-hover:text-white/60" viewBox="0 0 8 14" fill="currentColor">
-                                                                <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
-                                                                <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
-                                                                <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
-                                                            </svg>
-                                                        </span>
-                                                        <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] {{ $item['catClass'] }}">{{ $item['category'] }}</span>
-                                                        <div>
-                                                            <p class="text-[12px] font-black uppercase text-white/90">{{ $item['name'] }}</p>
-                                                            <p class="text-[9px] text-white/45 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                                                    <span @touchstart.prevent="startTouchDrag({{ $item['id'] }}, $event)" style="touch-action: none;" class="p-2 -m-1 flex-shrink-0 cursor-grab">
+                                                        <svg class="w-3 h-4 text-white/35 group-hover:text-white/60" viewBox="0 0 8 14" fill="currentColor">
+                                                            <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                            <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                            <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                        </svg>
+                                                    </span>
+                                                    <div class="flex-1 min-w-0 flex flex-col md:flex-row md:items-center md:gap-2">
+                                                        <div class="flex items-center gap-2 mb-1 md:mb-0 md:flex-1 min-w-0">
+                                                            <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] flex-shrink-0 {{ $item['catClass'] }}">{{ $item['category'] }}</span>
+                                                            <p class="text-[11px] font-black uppercase text-white/90 truncate">{{ $item['name'] }}</p>
                                                         </div>
-                                                    </div>
-                                                    @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
-                                                    <div class="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                                                        <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
-                                                                class="w-6 h-6 border border-white/35 bg-white/20 text-white/70 hover:bg-white/40 hover:border-white/60 hover:text-white transition-colors text-xs font-black flex items-center justify-center">−</button>
-                                                        <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
-                                                                class="w-6 h-6 border border-white/35 bg-white/20 text-white/70 hover:bg-white/40 hover:border-white/60 hover:text-white transition-colors text-xs font-black flex items-center justify-center">+</button>
-                                                        <button wire:click.stop="removeItem({{ $item['id'] }})"
-                                                                class="w-6 h-6 border border-white/35 bg-white/20 text-white/70 hover:bg-red-400/40 hover:border-red-300/60 hover:text-red-100 transition-colors text-xs font-black flex items-center justify-center">✕</button>
+                                                        @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
+                                                        <div class="flex items-center justify-between md:justify-end md:gap-2">
+                                                            <p class="text-[9px] text-white/45 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                                                            <div class="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex-shrink-0">
+                                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
+                                                                        class="w-6 h-6 border border-white/35 bg-white/20 text-white/70 hover:bg-white/40 hover:border-white/60 hover:text-white transition-colors text-xs font-black flex items-center justify-center">−</button>
+                                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
+                                                                        class="w-6 h-6 border border-white/35 bg-white/20 text-white/70 hover:bg-white/40 hover:border-white/60 hover:text-white transition-colors text-xs font-black flex items-center justify-center">+</button>
+                                                                <button wire:click.stop="removeItem({{ $item['id'] }})"
+                                                                        class="w-6 h-6 border border-white/35 bg-white/20 text-white/70 hover:bg-red-400/40 hover:border-red-300/60 hover:text-red-100 transition-colors text-xs font-black flex items-center justify-center">✕</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 @if(!$loop->last)
@@ -516,34 +520,36 @@
                                 <div>
                                     @foreach($pantryItems as $item)
                                         <div wire:key="pantry-{{ $item['id'] }}"
-                                             class="flex items-center justify-between py-3 group transition-opacity duration-100 border-b-2 last:border-b-0"
+                                             class="flex items-center py-3 gap-2 group transition-opacity duration-100 border-b-2 last:border-b-0"
                                              style="border-bottom-color: rgba(160,110,0,0.18);"
                                              draggable="true"
                                              @dragstart="startDrag({{ $item['id'] }}, $event)"
                                              @dragend="endDrag()"
                                              :class="dragId === {{ $item['id'] }} ? 'opacity-30' : 'opacity-100'">
-                                            <div class="flex items-center gap-3">
-                                                <span @touchstart.prevent="startTouchDrag({{ $item['id'] }}, $event)" style="touch-action: none;" class="p-2 -m-1 flex-shrink-0 cursor-grab">
-                                                    <svg class="w-3 h-4 text-yellow-600/50 group-hover:text-yellow-700" viewBox="0 0 8 14" fill="currentColor">
-                                                        <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
-                                                        <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
-                                                        <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
-                                                    </svg>
-                                                </span>
-                                                <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] {{ $item['catClass'] }}">{{ $item['category'] }}</span>
-                                                <div>
-                                                    <p class="text-[12px] font-black uppercase">{{ $item['name'] }}</p>
-                                                    <p class="text-[9px] text-yellow-800/55 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                                            <span @touchstart.prevent="startTouchDrag({{ $item['id'] }}, $event)" style="touch-action: none;" class="p-2 -m-1 flex-shrink-0 cursor-grab">
+                                                <svg class="w-3 h-4 text-yellow-600/50 group-hover:text-yellow-700" viewBox="0 0 8 14" fill="currentColor">
+                                                    <circle cx="2" cy="2" r="1.5"/><circle cx="6" cy="2" r="1.5"/>
+                                                    <circle cx="2" cy="7" r="1.5"/><circle cx="6" cy="7" r="1.5"/>
+                                                    <circle cx="2" cy="12" r="1.5"/><circle cx="6" cy="12" r="1.5"/>
+                                                </svg>
+                                            </span>
+                                            <div class="flex-1 min-w-0 flex flex-col md:flex-row md:items-center md:gap-2">
+                                                <div class="flex items-center gap-2 mb-1 md:mb-0 md:flex-1 min-w-0">
+                                                    <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] flex-shrink-0 {{ $item['catClass'] }}">{{ $item['category'] }}</span>
+                                                    <p class="text-[11px] font-black uppercase truncate">{{ $item['name'] }}</p>
                                                 </div>
-                                            </div>
-                                            @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
-                                            <div class="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100">
-                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
-                                                        class="w-6 h-6 border border-yellow-500 bg-white/80 text-yellow-700 hover:bg-white hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">−</button>
-                                                <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
-                                                        class="w-6 h-6 border border-yellow-500 bg-white/80 text-yellow-700 hover:bg-white hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">+</button>
-                                                <button wire:click.stop="removeItem({{ $item['id'] }})"
-                                                        class="w-6 h-6 border border-yellow-500 bg-white/80 text-yellow-700 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center">✕</button>
+                                                @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
+                                                <div class="flex items-center justify-between md:justify-end md:gap-2">
+                                                    <p class="text-[9px] text-yellow-800/55 font-bold uppercase">{{ $item['qty'] }} {{ $item['unit'] }}</p>
+                                                    <div class="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex-shrink-0">
+                                                        <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ -$step }})"
+                                                                class="w-6 h-6 border border-yellow-500 bg-white/80 text-yellow-700 hover:bg-white hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">−</button>
+                                                        <button wire:click.stop="updateQuantity({{ $item['id'] }}, {{ $step }})"
+                                                                class="w-6 h-6 border border-yellow-500 bg-white/80 text-yellow-700 hover:bg-white hover:border-gray-400 hover:text-black transition-colors text-xs font-black flex items-center justify-center">+</button>
+                                                        <button wire:click.stop="removeItem({{ $item['id'] }})"
+                                                                class="w-6 h-6 border border-yellow-500 bg-white/80 text-yellow-700 hover:bg-red-50 hover:border-red-300 hover:text-red-500 transition-colors text-xs font-black flex items-center justify-center">✕</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
