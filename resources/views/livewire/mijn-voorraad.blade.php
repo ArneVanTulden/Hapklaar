@@ -183,10 +183,15 @@
                                  class="relative px-5 pt-4 pb-2 flex items-center gap-2.5 flex-wrap"
                                  style="background: linear-gradient(175deg, #f5f5f3 0%, #ebebe9 100%);">
 
-                                {{-- Magnet 1: lime smiley --}}
-                                <div class="border-2 border-black flex items-center justify-center font-black"
-                                     style="width: 32px; height: 32px; background: var(--lime); transform: rotate(-4deg); box-shadow: 2px 2px 0 0 #000; border-radius: 2px;">
-                                    <span class="text-[14px]">☺</span>
+                                {{-- Magnet 1: Italia souvenir --}}
+                                <div class="border-2 border-black flex flex-col items-center justify-center font-black relative overflow-hidden"
+                                     style="width: 40px; height: 32px; transform: rotate(-4deg); box-shadow: 2px 2px 0 0 #000, inset -1px -1px 3px rgba(0,0,0,0.3), inset 1px 1px 2px rgba(255,255,255,0.4); border-radius: 3px;">
+                                    <div class="absolute inset-0 flex">
+                                        <div class="flex-1" style="background: #009246;"></div>
+                                        <div class="flex-1" style="background: #f5f5f0;"></div>
+                                        <div class="flex-1" style="background: #ce2b37;"></div>
+                                    </div>
+                                    <span class="relative text-[6px] uppercase tracking-wider text-black bg-white/85 px-1 rounded-sm" style="text-shadow: 0 1px 0 rgba(255,255,255,0.6);">ITALIA</span>
                                 </div>
 
                                 {{-- Magnet 2: hot-pink heart --}}
@@ -195,30 +200,15 @@
                                     <span class="text-[12px] text-white">♥</span>
                                 </div>
 
-                                {{-- Post-it note --}}
-                                <div class="border-2 border-black px-2 py-1 font-black"
-                                     style="background: var(--yellow); transform: rotate(-2deg); box-shadow: 3px 3px 0 0 #000;">
-                                    <span class="text-[8px] uppercase tracking-wider block leading-tight">EITJES</span>
-                                    <span class="text-[8px] uppercase tracking-wider block leading-tight">KOPEN!</span>
-                                </div>
+                                {{-- Hapklaar logo sticker --}}
+                                <img src="{{ asset('images/Hapklaar-LOGO.png') }}" alt="Hapklaar" class="h-8 w-auto block mx-4" style="transform: rotate(-2deg) scale(2); transform-origin: center;">
 
                                 {{-- Photo polaroid --}}
-                                <div class="border-2 border-black p-1 pb-2"
-                                     style="background: #fafafa; transform: rotate(3deg); box-shadow: 2px 2px 0 0 #000;">
-                                    <div class="w-7 h-5" style="background: linear-gradient(135deg, #ff6b9d 0%, #c44ce6 50%, #4ce6c4 100%);"></div>
+                                <div class="border-2 border-black p-1 pb-2 mx-2"
+                                     style="background: #fafafa; transform: rotate(3deg) scale(1.2); transform-origin: center; box-shadow: 2px 2px 0 0 #000;">
+                                    <img src="{{ asset('images/koelkastfoto.jpg') }}" alt="" class="w-7 h-5 object-cover block">
                                 </div>
 
-                                {{-- Hapklaar brand magnet --}}
-                                <div class="ml-auto border-2 border-black px-2 py-1"
-                                     style="background: black; transform: rotate(-2deg); box-shadow: 2px 2px 0 0 #000;">
-                                    <span class="text-[9px] font-black uppercase italic tracking-wider text-white">HAPKLAAR</span>
-                                </div>
-
-                                {{-- Recipe card --}}
-                                <div class="border-2 border-black px-2 py-1 font-black"
-                                     style="background: white; transform: rotate(2deg); box-shadow: 2px 2px 0 0 #000;">
-                                    <span class="text-[8px] uppercase tracking-wider">📋 RECEPT</span>
-                                </div>
                             </div>
 
                             {{-- KOELKAST compartment (interior visible through door opening) --}}
