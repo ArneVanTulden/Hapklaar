@@ -16,18 +16,18 @@
 
         <x-navbar />
 
-        <main class="flex-1 py-10">
-            <div class="max-w-5xl mx-auto px-6">
+        <main class="flex-1 py-6 sm:py-10">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6">
 
                 {{-- ============================================================
                      PAGE HEADER
                 ============================================================ --}}
-                <div class="flex items-start justify-between mb-8">
+                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6 sm:mb-8">
                     <div>
-                        <h1 class="text-[3.5rem] font-black uppercase italic leading-none mb-2">IJSKAST SCANNER</h1>
-                        <p class="text-brand font-black uppercase italic text-lg leading-none">WAT KAN IK NOG MAKEN MET DIE ZOOI?</p>
+                        <h1 class="text-3xl sm:text-5xl md:text-[3.5rem] font-black uppercase italic leading-none mb-2">IJSKAST SCANNER</h1>
+                        <p class="text-brand font-black uppercase italic text-sm sm:text-lg leading-none">WAT KAN IK NOG MAKEN MET DIE ZOOI?</p>
                     </div>
-                    <div class="flex items-center gap-2 flex-shrink-0 mt-1">
+                    <div class="flex items-center gap-2 flex-wrap md:flex-shrink-0 md:mt-1">
                         <span class="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 bg-[var(--lime)] border-2 border-black">AI POWERED</span>
                         <span class="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 bg-black text-white border-2 border-black">BETA</span>
                         <button class="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
@@ -39,7 +39,7 @@
                 {{-- ============================================================
                      SCANNER + RESULTS
                 ============================================================ --}}
-                <div class="grid grid-cols-2 gap-6 mb-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-10 sm:mb-12">
 
                     {{-- Left: Upload box --}}
                     @livewire('ijskast-scanner')
@@ -53,8 +53,8 @@
                      JOUW MATCHES
                 ============================================================ --}}
                 <div class="mb-8">
-                    <div class="flex items-center gap-4 mb-6">
-                        <h2 class="text-4xl font-black uppercase">JOUW MATCHES</h2>
+                    <div class="flex items-center gap-3 sm:gap-4 mb-5 sm:mb-6 flex-wrap">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black uppercase">JOUW MATCHES</h2>
                         <span class="bg-[var(--lime)] border-2 border-black px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-[3px_3px_0px_0px_#000]">JACKPOT!</span>
                     </div>
 
@@ -96,7 +96,7 @@
                         ];
                     @endphp
 
-                    <div class="grid grid-cols-3 gap-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                         @foreach($matches as $match)
                             <div class="bg-white border-2 border-black {{ $match['shadow'] }} flex flex-col">
 
@@ -160,12 +160,12 @@
                 {{-- ============================================================
                      CTA BAR
                 ============================================================ --}}
-                <div class="bg-[var(--lime)] border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] flex items-center justify-between px-8 py-7">
+                <div class="bg-[var(--lime)] border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-5 sm:px-8 py-5 sm:py-7">
                     <div>
-                        <p class="font-black uppercase text-lg leading-tight mb-1">GEEN ZIN IN DEZE OPTIES?</p>
+                        <p class="font-black uppercase text-base sm:text-lg leading-tight mb-1">GEEN ZIN IN DEZE OPTIES?</p>
                         <p class="text-[11px] text-gray-600 uppercase font-bold tracking-wide">WE HEBBEN NOG 142 ANDERE IDEEËN VOOR JE.</p>
                     </div>
-                    <a href="{{ route('recept.random') }}" class="bg-black text-white text-[11px] font-black uppercase tracking-widest px-8 py-4 border-2 border-black hover:bg-gray-900 transition-colors flex-shrink-0">
+                    <a href="{{ route('recept.random') }}" class="bg-black text-white text-[11px] font-black uppercase tracking-widest px-6 sm:px-8 py-3 sm:py-4 border-2 border-black hover:bg-gray-900 transition-colors text-center sm:flex-shrink-0">
                         DOE MAAR EEN GOK
                     </a>
                 </div>
