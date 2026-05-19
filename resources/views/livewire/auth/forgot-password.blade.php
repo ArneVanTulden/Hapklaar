@@ -1,4 +1,9 @@
 <div>
+    <h1 class="text-3xl md:text-4xl font-black uppercase italic leading-none mb-2">WACHTWOORD VERGETEN?</h1>
+    <p class="text-sm text-gray-600 leading-relaxed mb-6">
+        Geen stress. Vul je e-mailadres in en we sturen je een link om een nieuw wachtwoord in te stellen. Check ook je spam-folder — soms duikt hij daar op.
+    </p>
+
     @if ($sent)
         <div class="bg-green-50 border-2 border-green-500 p-4 mb-6">
             <p class="text-sm font-bold text-green-700 uppercase tracking-wide">
