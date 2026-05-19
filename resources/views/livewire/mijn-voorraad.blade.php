@@ -571,11 +571,6 @@
                         </div>
                     </div>
 
-                    {{-- Inventory matches --}}
-                    <div class="mt-6">
-                        @livewire('kitchen-matches', ['source' => 'inventory'])
-                    </div>
-
                 </div>
 
                 {{-- RIGHT: Sidebar --}}
@@ -627,6 +622,11 @@
 
                 </div>
 
+            </div>
+
+            {{-- Inventory matches (full width) --}}
+            <div class="mt-8">
+                @livewire('kitchen-matches', ['source' => 'inventory'])
             </div>
 
             {{-- BOTTOM CTA --}}
