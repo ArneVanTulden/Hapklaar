@@ -13,10 +13,10 @@
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
-    <body class="m-0 h-screen overflow-hidden flex">
+    <body class="m-0 min-h-screen flex flex-col md:flex-row md:h-screen md:overflow-hidden">
 
-        {{-- LEFT PANEL --}}
-        <div class="w-1/2 bg-brand flex flex-col relative overflow-hidden">
+        {{-- LEFT PANEL (desktop only) --}}
+        <div class="hidden md:flex w-full md:w-1/2 bg-brand flex-col relative overflow-hidden">
 
             <a href="{{ route('home') }}" class="absolute top-6 left-6">
                 <div class="w-9 h-9 bg-black flex items-center justify-center hover:bg-gray-900 transition-colors">
@@ -51,11 +51,20 @@
         </div>
 
         {{-- RIGHT PANEL --}}
-        <div class="w-1/2 bg-[var(--pink-soft)] flex items-center justify-center">
+        <div class="w-full md:w-1/2 bg-[var(--pink-soft)] flex items-center justify-center relative py-10 md:py-0 md:overflow-y-auto min-h-screen md:min-h-0">
 
-            <div class="w-full max-w-md bg-white border-2 border-black shadow-[8px_8px_0px_0px_#000] p-10 mx-8">
+            {{-- Mobile back arrow --}}
+            <a href="{{ route('home') }}" class="md:hidden absolute top-4 left-4 z-10">
+                <div class="w-9 h-9 bg-black flex items-center justify-center hover:bg-gray-900 transition-colors">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </div>
+            </a>
 
-                <h1 class="text-4xl font-black uppercase mb-4 leading-tight">NIEUW<br>WACHTWOORD</h1>
+            <div class="w-full max-w-md bg-white border-2 border-black shadow-[6px_6px_0px_0px_#000] md:shadow-[8px_8px_0px_0px_#000] p-6 md:p-10 mx-4 md:mx-8">
+
+                <h1 class="text-3xl md:text-4xl font-black uppercase mb-4 leading-tight">NIEUW<br>WACHTWOORD</h1>
 
                 <p class="text-sm text-gray-500 mb-7 leading-relaxed">
                     Kies een nieuw wachtwoord van minimaal 8 tekens.
