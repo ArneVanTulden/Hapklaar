@@ -63,7 +63,7 @@ class IjskastScanner extends Component
                                 ],
                                 [
                                     'type' => 'text',
-                                    'text' => "Je bent een koelkast-scanner. Identificeer alle voedselingrediënten die zichtbaar zijn in deze afbeelding.\n\nRegels:\n- Gebruik altijd Nederlandse namen (\"wortel\" niet \"carrot\")\n- Scan alle schappen en vakken volledig\n- Neem alleen op wat je daadwerkelijk ziet, geen aannames\n- Vloeistoffen: identificeer op kleur/label (oranje sap = sinaasappelsap, transparant = water)\n\nGeef ALLEEN een JSON-array terug: [{\"name\":\"nederlandse naam\",\"qty\":\"hoeveelheid\",\"unit\":\"stuks|gram|liter|\"}]. Geen uitleg, geen markdown.",
+                                    'text' => "Je bent een koelkast-scanner. Identificeer alle voedselingrediënten die zichtbaar zijn in deze afbeelding.\n\nRegels:\n- Gebruik altijd Nederlandse namen (\"wortel\" niet \"carrot\")\n- Scan alle schappen en vakken volledig\n- Neem alleen op wat je daadwerkelijk ziet, geen aannames\n- Vloeistoffen: identificeer op kleur/label (oranje sap = sinaasappelsap, transparant = water)\n\nGeef ALLEEN een JSON-array terug: [{\"name\":\"nederlandse naam\",\"qty\":\"hoeveelheid\",\"unit\":\"stuks|g|kg|ml|l\"}]. Gebruik altijd de afkorting (g niet gram, ml niet milliliter). Geen uitleg, geen markdown.",
                                 ],
                             ],
                         ],
@@ -106,7 +106,7 @@ class IjskastScanner extends Component
                     id: $ingredient['id'],
                     name: $ingredient['canonical_name'],
                     qty: $item['qty'] ?? '1',
-                    unit: $item['unit'] ?? 'stuks',
+                    unit: $this->normalizeUnit($item['unit'] ?? 'stuks'),
                 );
             }
 
@@ -115,6 +115,17 @@ class IjskastScanner extends Component
         } finally {
             $this->isScanning = false;
         }
+    }
+
+    private function normalizeUnit(string $unit): string
+    {
+        return match (strtolower(trim($unit))) {
+            'gram', 'gr', 'g'   => 'g',
+            'kilogram', 'kg'    => 'kg',
+            'milliliter', 'ml'  => 'ml',
+            'liter', 'l'        => 'l',
+            default             => 'stuks',
+        };
     }
 
     private function fuzzyMatch(string $name, array $ingredients): ?array
