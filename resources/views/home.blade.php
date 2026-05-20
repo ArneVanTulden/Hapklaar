@@ -174,7 +174,9 @@
                         NOOIT MEER<br>KEUZESTRESS.
                     </h2>
                     <p class="text-white/75 mb-8 text-sm leading-relaxed max-w-sm">
-                        Ontvang wekelijks een curated lijst met recepten die wél te doen zijn op een dinsdagavond.
+                        Onze app vertelt je precies wat je
+                        moet vreten op basis van je budget
+                        en hoeveel tijd het inneemt om te maken. Geen gedoe, gewoon eten.
                     </p>
                     <div>
                         <button
@@ -185,24 +187,26 @@
                     </div>
                 </div>
 
-                {{-- Right: App mockup --}}
-                <div class="bg-[var(--pink)] md:bg-white p-8 md:p-16 flex items-center justify-center">
-                    <div class="w-64 bg-white border-2 border-black overflow-hidden" style="box-shadow: 8px 8px 0px 0px var(--hot-pink);">
-                        {{-- Mockup header --}}
-                        <div class="bg-[var(--lime)] border-b-2 border-black px-3 py-2">
-                            <span class="text-[10px] font-black uppercase tracking-wider">HAPKLAAR APP</span>
-                        </div>
-                        {{-- Mockup content --}}
-                        <div class="p-3 space-y-2">
-                            <div class="h-24 bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-200 text-3xl">🥑</div>
-                            <div class="border-2 border-brand p-2">
-                                <div class="text-[8px] font-black uppercase bg-brand text-white inline-block px-1 mb-1">NIEUW!</div>
-                                <div class="text-[10px] font-black uppercase leading-tight">SPICY AVOCADO TOAST MET EEN KRING-EYE</div>
-                                <div class="text-[8px] text-gray-400 mt-2 uppercase font-bold">AFGEROND: 65%</div>
-                                <div class="h-1.5 bg-gray-100 mt-1 border border-gray-200">
-                                    <div class="h-full bg-brand" style="width:65%"></div>
-                                </div>
+                {{-- Right: Phone mockup --}}
+                <div class="bg-white p-8 md:p-16 flex items-center justify-center">
+                    {{-- Phone frame --}}
+                    <div class="relative w-[200px] bg-black rounded-[40px] border-[3px] border-black p-[8px] shadow-[8px_8px_0px_0px_var(--hot-pink)]"
+                         style="aspect-ratio: 9/19;">
+                        {{-- Side buttons (left: silent + volume up/down) --}}
+                        <div class="absolute -left-[6px] top-[80px] w-[4px] h-8 bg-black rounded-l-sm"></div>
+                        <div class="absolute -left-[6px] top-[130px] w-[4px] h-14 bg-black rounded-l-sm"></div>
+                        <div class="absolute -left-[6px] top-[200px] w-[4px] h-14 bg-black rounded-l-sm"></div>
+                        {{-- Side buttons (right: power) --}}
+                        <div class="absolute -right-[6px] top-[120px] w-[4px] h-20 bg-black rounded-r-sm"></div>
+
+                        {{-- Inner bezel --}}
+                        <div class="relative w-full h-full overflow-hidden rounded-[38px] bg-white">
+                            {{-- Dynamic island --}}
+                            <div class="absolute top-2 left-1/2 -translate-x-1/2 w-[90px] h-[26px] bg-black rounded-full z-20 flex items-center justify-end pr-2">
+                                <div class="w-[6px] h-[6px] rounded-full bg-gray-700"></div>
                             </div>
+                            {{-- Screen image --}}
+                            <img src="{{ asset('images/phone.png') }}" alt="Hapklaar app preview" class="w-full h-full object-cover object-top">
                         </div>
                     </div>
                 </div>
