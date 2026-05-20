@@ -19,10 +19,10 @@
 
     <div class="flex flex-wrap gap-2 mb-4 items-start content-start">
         @forelse($items as $index => $item)
-            <span class="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 {{ $tagStyles[$index % count($tagStyles)] }}">
+                <span class="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 {{ $tagStyles[$index % count($tagStyles)] }}">
                 {{ $item['label'] }}
                 <button wire:click="removeItem({{ $index }})"
-                        class="font-black hover:opacity-70 transition-opacity leading-none">×</button>
+                    class="font-black text-[14px] inline-flex items-center justify-center hover:opacity-70 transition-opacity leading-none">×</button>
             </span>
         @empty
             <p class="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Nog geen ingrediënten gevonden.</p>
