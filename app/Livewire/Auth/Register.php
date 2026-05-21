@@ -4,6 +4,7 @@ namespace App\Livewire\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -22,6 +23,16 @@ class Register extends Component
 
     public function register(): void
     {
+        $key = 'register:' . request()->ip();
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $seconds = RateLimiter::availableIn($key);
+            $this->addError('email', "Te veel pogingen. Probeer het over {$seconds} seconden opnieuw.");
+            return;
+        }
+
+        RateLimiter::hit($key, 60);
+
         $this->validate();
 
         $user = User::create([
