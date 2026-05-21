@@ -196,7 +196,7 @@
     <div class="bg-[var(--lime)] overflow-hidden">
         <div class="flex w-max animate-ticker py-[7px]">
             @php
-                $text = 'ELKE KATER PASTA &bull; KOOK VOOR &euro;2 PER PERSOON &bull; GEEN STRESS GEWOON VRETEN &bull; STUDENTENDEALS: GRATIS BIER BIJ BESTELLING &bull; &nbsp;&nbsp;&nbsp;';
+                $text = \App\Support\Settings::get('marquee_text', 'HAPKLAAR &bull; &nbsp;&nbsp;&nbsp;');
             @endphp
             <span class="text-[11px] font-bold uppercase tracking-widest text-black whitespace-nowrap">{!! $text !!}</span>
             <span class="text-[11px] font-bold uppercase tracking-widest text-black whitespace-nowrap">{!! $text !!}</span>
