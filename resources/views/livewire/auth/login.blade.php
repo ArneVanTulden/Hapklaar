@@ -40,6 +40,15 @@
             @enderror
         </div>
 
+        {{-- Remember me --}}
+        <div class="flex items-center gap-2">
+            <input type="checkbox"
+                   wire:model="remember"
+                   id="remember"
+                   class="w-4 h-4 border-2 border-black accent-brand cursor-pointer">
+            <label for="remember" class="text-[11px] font-bold uppercase tracking-widest cursor-pointer select-none">Onthoud mij</label>
+        </div>
+
         {{-- Submit --}}
         <button type="submit"
                 wire:loading.attr="disabled"

@@ -14,11 +14,13 @@ class Login extends Component
     #[Validate('required')]
     public string $password = '';
 
+    public bool $remember = false;
+
     public function login(): void
     {
         $this->validate();
 
-        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             $this->addError('email', 'De opgegeven gegevens kloppen niet.');
             return;
         }
