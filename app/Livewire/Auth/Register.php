@@ -35,6 +35,12 @@ class Register extends Component
 
         $this->validate();
 
+        $domain = substr(strrchr($this->email, '@'), 1);
+        if (! checkdnsrr($domain, 'MX') && ! checkdnsrr($domain, 'A')) {
+            $this->addError('email', 'Dit e-mailadres bestaat niet.');
+            return;
+        }
+
         $user = User::create([
             'username' => $this->username,
             'email'    => $this->email,
