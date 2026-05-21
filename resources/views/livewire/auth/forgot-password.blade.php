@@ -7,7 +7,7 @@
     @if ($sent)
         <div class="bg-green-50 border-2 border-green-500 p-4 mb-6">
             <p class="text-sm font-bold text-green-700 uppercase tracking-wide">
-                Als dit e-mailadres bij ons bekend is, ontvang je een link om je wachtwoord te resetten.
+                We hebben een link gestuurd om je wachtwoord aan te passen.
             </p>
         </div>
     @endif
