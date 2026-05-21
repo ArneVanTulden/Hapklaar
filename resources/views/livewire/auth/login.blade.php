@@ -1,6 +1,12 @@
 <div>
     <h1 class="text-4xl font-black uppercase mb-8 leading-none">INLOGGEN</h1>
 
+    @if (session('success'))
+        <div class="border-2 border-black bg-brand text-white px-4 py-3 mb-6 shadow-[4px_4px_0px_0px_#000]">
+            <p class="text-[11px] font-black uppercase tracking-widest">{{ session('success') }}</p>
+        </div>
+    @endif
+
     <form wire:submit="login" class="space-y-5">
 
         {{-- Email --}}

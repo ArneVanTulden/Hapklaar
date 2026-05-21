@@ -47,6 +47,7 @@ class ResetPassword extends Component
         );
 
         if ($status === Password::PASSWORD_RESET) {
+            session()->flash('success', 'Wachtwoord succesvol gewijzigd. Je kunt nu inloggen.');
             $this->redirect(route('login'));
         } else {
             $this->addError('email', __($status));
