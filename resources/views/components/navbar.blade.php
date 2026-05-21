@@ -192,7 +192,7 @@
     <div class="h-1 bg-brand"></div>
 
     {{-- Ticker --}}
-    <div class="bg-[var(--lime)] overflow-hidden mt-2">
+    <div class="bg-[var(--lime)] overflow-hidden">
         <div class="flex w-max animate-ticker py-[7px]">
             @php
                 $text = 'ELKE KATER PASTA &bull; KOOK VOOR &euro;2 PER PERSOON &bull; GEEN STRESS GEWOON VRETEN &bull; STUDENTENDEALS: GRATIS BIER BIJ BESTELLING &bull; &nbsp;&nbsp;&nbsp;';
