@@ -189,6 +189,7 @@
     </nav>
 
     {{-- Pink separator line --}}
+    <div class="h-0.5 bg-black"></div>
     <div class="h-1 bg-brand"></div>
 
     {{-- Ticker --}}
