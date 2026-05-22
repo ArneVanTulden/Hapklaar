@@ -193,13 +193,67 @@
     <div class="h-1 bg-brand"></div>
 
     {{-- Ticker --}}
-    <div class="bg-[var(--lime)] overflow-hidden">
-        <div class="flex w-max animate-ticker py-[7px]">
+    <div
+        class="bg-[var(--lime)] overflow-hidden"
+        x-data="{
+            init() {
+                const build = () => {
+                    const root = this.$refs.root;
+                    const track = this.$refs.track;
+                    const group = this.$refs.group;
+                    const item = this.$refs.item;
+
+                    if (!root || !track || !group || !item) {
+                        return;
+                    }
+
+                    track.querySelectorAll('[data-ticker-clone]').forEach((node) => node.remove());
+                    group.querySelectorAll('[data-ticker-item]').forEach((node, index) => {
+                        if (index > 0) {
+                            node.remove();
+                        }
+                    });
+
+                    const containerWidth = root.clientWidth;
+                    let groupWidth = group.scrollWidth;
+                    let safety = 0;
+
+                    while (groupWidth < containerWidth && safety < 20) {
+                        group.appendChild(item.cloneNode(true));
+                        groupWidth = group.scrollWidth;
+                        safety += 1;
+                    }
+
+                    const clone = group.cloneNode(true);
+                    clone.setAttribute('data-ticker-clone', 'true');
+                    track.appendChild(clone);
+
+                    const pixelsPerSecond = 14;
+                    const durationSeconds = Math.max(85, group.scrollWidth / pixelsPerSecond);
+                    track.style.setProperty('--ticker-duration', `${durationSeconds}s`);
+                    track.style.animationDuration = `${durationSeconds}s`;
+                };
+
+                this.$nextTick(() => build());
+                const resizeObserver = new ResizeObserver(() => build());
+                resizeObserver.observe(this.$refs.root);
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden) {
+                        build();
+                    }
+                });
+            }
+        }"
+        x-init="init()"
+        x-ref="root"
+    >
+        <div class="ticker-track flex w-max animate-ticker py-[7px]" x-ref="track">
             @php
                 $text = \App\Support\Settings::get('marquee_text', 'HAPKLAAR &bull; &nbsp;&nbsp;&nbsp;');
             @endphp
-            <span class="text-[11px] font-bold uppercase tracking-widest text-black whitespace-nowrap">{!! $text !!}</span>
-            <span class="text-[11px] font-bold uppercase tracking-widest text-black whitespace-nowrap">{!! $text !!}</span>
+            <div class="ticker-group flex w-max" x-ref="group">
+                <span class="ticker-item text-[11px] font-bold uppercase tracking-widest text-black whitespace-nowrap" x-ref="item" data-ticker-item>{!! $text !!}</span>
+            </div>
         </div>
     </div>
 

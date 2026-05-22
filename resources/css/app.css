@@ -11,7 +11,7 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
     --color-brand: var(--pink);
-    --animate-ticker: ticker 20s linear infinite;
+    --animate-ticker: ticker var(--ticker-duration, 35s) linear infinite;
 }
 
 @keyframes ticker {
