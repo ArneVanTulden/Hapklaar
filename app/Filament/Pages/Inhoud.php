@@ -26,6 +26,7 @@ class Inhoud extends Page
     {
         $this->form->fill([
             'marquee_text' => Settings::get('marquee_text'),
+            'budget_hack_text' => Settings::get('budget_hack_text', 'Wissel kip voor kikkererwten en bespaar €2,40!'),
         ]);
     }
 
@@ -37,6 +38,10 @@ class Inhoud extends Page
                     ->label('Marquee banner tekst')
                     ->rows(4)
                     ->required(),
+                Forms\Components\Textarea::make('budget_hack_text')
+                    ->label('Budget hack tekst')
+                    ->rows(2)
+                    ->required(),
             ])
             ->statePath('data');
     }
@@ -45,6 +50,7 @@ class Inhoud extends Page
     {
         $data = $this->form->getState();
         Settings::set('marquee_text', $data['marquee_text']);
+        Settings::set('budget_hack_text', $data['budget_hack_text']);
 
         Notification::make()
             ->title('Opgeslagen')

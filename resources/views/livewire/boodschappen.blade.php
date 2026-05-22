@@ -136,7 +136,7 @@
                             </svg>
                             <div>
                                 <p class="text-[9px] font-black uppercase tracking-widest mb-1">BUDGET HACK</p>
-                                <p class="text-[11px] font-bold leading-snug">Wissel kip voor kikkererwten en bespaar €2,40!</p>
+                                <p class="text-[11px] font-bold leading-snug">{!! \App\Support\Settings::get('budget_hack_text', 'Wissel kip voor kikkererwten en bespaar €2,40!') !!}</p>
                             </div>
                         </div>
                     </div>
