@@ -22,6 +22,37 @@ class Boodschappen extends Component
         $this->getList()->items()->findOrFail($itemId)->delete();
     }
 
+    public function moveCheckedToInventory(): void
+    {
+        $checkedItems = $this->getList()->items()->where('is_checked', true)->get();
+        $inventory = auth()->user()->inventory()->firstOrCreate([]);
+
+        foreach ($checkedItems as $item) {
+            $existing = $inventory->items()
+                ->when($item->ingredient_id, fn($q) => $q->where('ingredient_id', $item->ingredient_id))
+                ->when(!$item->ingredient_id, fn($q) => $q->where('name', $item->name))
+                ->first();
+
+            if ($existing) {
+                $existing->increment('quantity', $item->quantity ?? 1);
+            } else {
+                $inventory->items()->create([
+                    'ingredient_id' => $item->ingredient_id,
+                    'name'          => $item->name,
+                    'quantity'      => $item->quantity ?? 1,
+                    'unit'          => $item->unit,
+                ]);
+            }
+        }
+
+        $this->getList()->items()->where('is_checked', true)->delete();
+    }
+
+    public function removeCheckedItems(): void
+    {
+        $this->getList()->items()->where('is_checked', true)->delete();
+    }
+
     private function getList(): ShoppingList
     {
         return auth()->user()->shoppingLists()->firstOrCreate([]);

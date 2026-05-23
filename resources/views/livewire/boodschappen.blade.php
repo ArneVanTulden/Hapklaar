@@ -106,6 +106,17 @@
                             <span class="text-[12px] font-black">{{ $checkedItems }} / {{ $totalItems }}</span>
                         </div>
 
+                        @if($checkedItems > 0)
+                            <button wire:click="moveCheckedToInventory"
+                                    class="w-full bg-[var(--lime)] text-black text-[10px] font-black uppercase tracking-widest py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 mb-2">
+                                NAAR INVENTARIS ({{ $checkedItems }})
+                            </button>
+                            <button wire:click="removeCheckedItems"
+                                    class="w-full bg-red-500 text-white text-[10px] font-black uppercase tracking-widest py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 mb-3">
+                                VERWIJDER AANGEVINKTE ({{ $checkedItems }})
+                            </button>
+                        @endif
+
                         @if($totalPrice > 0)
                             <div class="border-t-2 border-dashed border-gray-300 mb-3"></div>
                             <div class="flex justify-between items-center mb-5">
