@@ -9,6 +9,8 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700,800,900&display=swap" rel="stylesheet" />
 
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mux/mux-player@3"></script>
+
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
@@ -41,24 +43,25 @@
                     {{-- A: image + action buttons (col 1, row 1) --}}
                     <div class="min-w-0 lg:col-start-1 lg:row-start-1">
 
-                        {{-- Recipe image --}}
+                        {{-- Recipe image / video --}}
                         <div class="relative mb-4">
-                        <div class="absolute -top-5 -right-5 z-10">
-                            <livewire:toggle-favorite :recipe-id="$recipe->id" />
-                        </div>
-                        <div class="relative border-2 border-black overflow-hidden" style="aspect-ratio: 16/10;">
-                            <img src="{{ asset($recipe->image_path) }}"
-                                 alt="{{ $recipe->title }}"
-                                 class="w-full h-full object-cover">
-                            <button class="absolute inset-0 flex items-center justify-center group">
-                                <span class="w-16 h-16 rounded-full bg-brand flex items-center justify-center shadow-[3px_3px_0px_0px_#000] group-hover:scale-105 transition-transform duration-100">
-                                    <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8 5v14l11-7z"/>
-                                    </svg>
-                                </span>
-                            </button>
-                            <span class="absolute bottom-3 left-3 text-[8px] font-black uppercase tracking-widest bg-[var(--lime)] border border-black px-2 py-1">RECEPT VIDEO</span>
-                        </div>
+                            <div class="absolute -top-5 -right-5 z-10">
+                                <livewire:toggle-favorite :recipe-id="$recipe->id" />
+                            </div>
+                            <div class="border-2 border-black overflow-hidden" style="aspect-ratio: 16/10;">
+                                @if($recipe->video_url)
+                                    <mux-player
+                                        src="{{ $recipe->video_url }}"
+                                        poster="{{ asset($recipe->image_path) }}"
+                                        style="width: 100%; height: 100%; --media-object-fit: cover;"
+                                        playsinline
+                                    ></mux-player>
+                                @else
+                                    <img src="{{ asset($recipe->image_path) }}"
+                                         alt="{{ $recipe->title }}"
+                                         class="w-full h-full object-cover">
+                                @endif
+                            </div>
                         </div>
 
                         {{-- Action buttons --}}

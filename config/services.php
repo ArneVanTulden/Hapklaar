@@ -43,4 +43,8 @@ return [
         ],
     ],
 
+    'mux' => [
+        'data_env_key' => env('MUX_DATA_ENV_KEY'),
+    ],
+
 ];
