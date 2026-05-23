@@ -12,6 +12,7 @@
         "laravel/framework": "^13.0",
         "laravel/tinker": "^3.0",
         "livewire/livewire": "^4.3",
+        "muxinc/mux-php": "^5.1",
         "resend/resend-laravel": "^1.4"
     },
     "require-dev": {
