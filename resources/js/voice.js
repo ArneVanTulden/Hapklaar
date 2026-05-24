@@ -16,11 +16,9 @@ window.VAD = {
 
         try {
             vadInstance = await MicVAD.new({
-                workletURL:  '/vad/vad.worklet.bundle.min.js',
-                modelURL:    '/vad/silero_vad_v5.onnx',
-                ortConfig(ort) {
-                    ort.env.wasm.wasmPaths = '/vad/'
-                },
+                baseAssetPath:   '/vad/',
+                onnxWASMBasePath: '/vad/',
+                model:           'v5',
                 onSpeechStart() {
                     onStatus('Luisteren...')
                 },
@@ -35,6 +33,7 @@ window.VAD = {
                         form.append('_token', csrfToken)
 
                         const res  = await fetch(`/recepten/${recipeId}/voice`, { method: 'POST', body: form })
+                        if (!res.ok) throw new Error(`HTTP ${res.status}`)
                         const data = await res.json()
 
                         if (data.wakeword_found) {

@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Ultieme Kater Ramen - Hapklaar</title>
         <x-pwa-head />
 
@@ -37,15 +38,16 @@
                         return active;
                     },
                     init() {
-                        const p = document.getElementById('recipe-player');
+                        const p = this.$refs.player;
                         if (p) p.addEventListener('timeupdate', () => { this.currentTime = p.currentTime; });
                     },
                     jumpTo(t) {
-                        const p = document.getElementById('recipe-player');
-                        if (!p) return;
+                        const p = this.$refs.player;
+                        if (!p || t == null) return;
                         const sec = String(t).includes(':')
                             ? t.split(':').reduce((acc, v, i, a) => acc + +v * Math.pow(60, a.length - 1 - i), 0)
                             : +t;
+                        if (isNaN(sec)) return;
                         p.currentTime = sec;
                         p.play();
                         p.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -60,7 +62,7 @@
 
                         await window.VAD.toggle({
                             recipeId:  {{ $recipe->id }},
-                            csrfToken: '{{ csrf_token() }}',
+                            csrfToken: document.querySelector('meta[name="csrf-token"]')?.content ?? '',
                             onMatch:   (timestamp) => this.jumpTo(timestamp),
                             onStatus:  (msg) => { this.voiceStatus = msg },
                             onToggle:  (active) => { this.voiceActive = active },
@@ -103,6 +105,7 @@
                                 @if($recipe->video_url)
                                     <mux-player
                                         id="recipe-player"
+                                        x-ref="player"
                                         src="{{ $recipe->video_url }}"
                                         poster="{{ asset('storage/' . $recipe->image_path) }}"
                                         env-key="{{ config('services.mux.data_env_key') }}"

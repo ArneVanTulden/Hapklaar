@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Recipe;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use OpenAI;
 
 class VoiceController extends Controller
 {
-    private const WAKE_WORD = 'hey hapklaar';
+    private const WAKE_WORD = 'hapklaar';
 
     private const STOP_WORDS = [
         'de', 'het', 'een', 'en', 'van', 'in', 'op', 'aan', 'met', 'voor',
@@ -21,17 +22,29 @@ class VoiceController extends Controller
     {
         $request->validate(['audio' => 'required|file|max:10240']);
 
-        $recipe = Recipe::with('steps')->findOrFail($id);
+        $recipe = Recipe::with(['steps', 'ingredients'])->findOrFail($id);
 
         $client = OpenAI::client(config('services.openai.key'));
 
-        $response = $client->audio()->transcribe([
-            'model'    => 'whisper-1',
-            'file'     => fopen($request->file('audio')->getRealPath(), 'r'),
-            'language' => 'nl',
-        ]);
+        Storage::makeDirectory('temp');
+        $filename = uniqid('voice_') . '.wav';
+        $request->file('audio')->storeAs('temp', $filename);
+        $handle = fopen(Storage::path('temp/' . $filename), 'r');
+
+        try {
+            $response = $client->audio()->transcribe([
+                'model'    => 'whisper-1',
+                'file'     => $handle,
+                'language' => 'nl',
+                'prompt'   => $this->buildPrompt($recipe),
+            ]);
+        } finally {
+            is_resource($handle) && fclose($handle);
+            Storage::delete('temp/' . $filename);
+        }
 
         $transcript = strtolower(trim($response->text));
+        $transcript = strtr($transcript, ['hé ' => 'hey ', 'hè ' => 'hey ', 'he ' => 'hey ']);
 
         // No wake word → ignore silently
         $wakePos = strpos($transcript, self::WAKE_WORD);
@@ -84,6 +97,16 @@ class VoiceController extends Controller
         }
 
         return response()->json(['wakeword_found' => true, 'command' => $command, 'timestamp' => null, 'step' => null]);
+    }
+
+    private function buildPrompt(Recipe $recipe): string
+    {
+        $ingredients = $recipe->ingredients->pluck('canonical_name')->implode(', ');
+        $stepWords   = $recipe->steps->pluck('description')
+            ->flatMap(fn($d) => $this->tokenize($d))
+            ->unique()->implode(', ');
+
+        return "Hey Hapklaar, stap, recept, {$recipe->title}, {$ingredients}, {$stepWords}.";
     }
 
     private function matchTranscript(string $command, array $segments): ?array
