@@ -1,9 +1,9 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
     @foreach($recipe->steps as $step)
-        <div class="bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] flex overflow-hidden h-28 cursor-pointer transition-all duration-150 hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
+        <div class="bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] flex overflow-hidden min-h-28 cursor-pointer transition-all duration-150 hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
              :class="activeStep === {{ $step->step_number }} ? '!bg-[var(--lime)] !border-brand !shadow-[3px_3px_0px_0px_var(--brand)]' : ''"
              @click="{{ $step->video_timestamp ? 'jumpTo(\'' . $step->video_timestamp . '\')' : '' }}">
-            <div class="relative flex-shrink-0 w-32 sm:w-44 h-28 border-r-2 border-black">
+            <div class="relative flex-shrink-0 w-32 sm:w-44 self-stretch border-r-2 border-black">
                 <img src="{{ asset('storage/' . $recipe->image_path) }}"
                      alt="Stap {{ $step->step_number }}"
                      class="w-full h-full object-cover">
