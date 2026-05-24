@@ -157,7 +157,7 @@
                     <div class="min-w-0 lg:col-start-1 lg:row-start-2">
 
                         {{-- Tabs --}}
-                        <div class="flex gap-4 md:gap-6 border-b-2 border-black mb-6 items-end overflow-x-auto">
+                        <div class="flex gap-4 md:gap-6 border-b-2 border-black mb-6 items-end">
                             <button @click="tab = 'stappen'" class="text-[11px] font-black uppercase tracking-widest">
                                 <span x-show="tab === 'stappen'" class="block bg-[var(--lime)] border-2 border-black px-4 py-2.5 mb-[-2px]">STAPPEN</span>
                                 <span x-show="tab !== 'stappen'" x-cloak class="block text-gray-400 hover:text-black italic pb-2.5 transition-colors">STAPPEN</span>
