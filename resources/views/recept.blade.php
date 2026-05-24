@@ -13,6 +13,9 @@
 
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
+            @if($recipe->video_url)
+                @vite('resources/js/voice.js')
+            @endif
         @endif
     </head>
     <body class="m-0 bg-[var(--pink-soft)] min-h-screen flex flex-col overflow-x-hidden">
@@ -40,11 +43,29 @@
                     jumpTo(t) {
                         const p = document.getElementById('recipe-player');
                         if (!p) return;
-                        const parts = String(t).split(':');
-                        p.currentTime = parts.length === 2 ? +parts[0] * 60 + +parts[1] : +parts[0];
+                        const sec = String(t).includes(':')
+                            ? t.split(':').reduce((acc, v, i, a) => acc + +v * Math.pow(60, a.length - 1 - i), 0)
+                            : +t;
+                        p.currentTime = sec;
                         p.play();
                         p.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+                    },
+
+                    // Voice control
+                    voiceActive: false,
+                    voiceStatus: '',
+
+                    async toggleVoice() {
+                        if (!window.VAD) { this.voiceStatus = 'Voice laden...'; return; }
+
+                        await window.VAD.toggle({
+                            recipeId:  {{ $recipe->id }},
+                            csrfToken: '{{ csrf_token() }}',
+                            onMatch:   (timestamp) => this.jumpTo(timestamp),
+                            onStatus:  (msg) => { this.voiceStatus = msg },
+                            onToggle:  (active) => { this.voiceActive = active },
+                        });
+                    },
                 };
             }
         </script>
@@ -98,12 +119,19 @@
 
                         {{-- Action buttons --}}
                         <div class="flex items-center gap-3 flex-wrap">
-                            <button class="flex items-center gap-2 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 016 0v6a3 3 0 01-3 3z"/>
-                                </svg>
-                                VOICE CONTROL AAN
-                            </button>
+                            @if($recipe->video_url)
+                            <div class="flex flex-col gap-1">
+                                <button @click="toggleVoice()"
+                                        :class="voiceActive ? 'bg-green-500 border-green-700' : 'bg-brand'"
+                                        class="flex items-center gap-2 text-white text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                    <svg class="w-4 h-4" :class="voiceActive ? 'animate-pulse' : ''" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 016 0v6a3 3 0 01-3 3z"/>
+                                    </svg>
+                                    <span x-text="voiceActive ? 'VOICE AAN' : 'VOICE CONTROL'"></span>
+                                </button>
+                                <span x-show="voiceStatus" x-text="voiceStatus" class="text-[10px] font-bold text-brand px-1"></span>
+                            </div>
+                            @endif
                             <button class="flex items-center gap-2 bg-white text-black text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>

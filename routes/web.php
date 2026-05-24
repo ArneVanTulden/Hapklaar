@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\VoiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -25,5 +26,6 @@ Route::middleware('guest')->group(function () {
 Route::get('/recepten/random', [RecipeController::class, 'random'])->name('recept.random');
 Route::get('/recepten/{id}', [RecipeController::class, 'show'])->name('recept');
 Route::post('/recepten/{id}/boodschappen', [RecipeController::class, 'addToShoppingList'])->middleware('auth')->name('recept.boodschappen');
+Route::post('/recepten/{id}/voice', [VoiceController::class, 'match'])->middleware('throttle:20,1')->name('recept.voice');
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
