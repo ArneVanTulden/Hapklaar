@@ -19,18 +19,37 @@
 
         <x-navbar />
 
-        <main class="flex-1 py-6 md:py-8" x-data="{
-            tab: 'stappen',
-            portions: 1,
-            jumpTo(t) {
-                const p = document.getElementById('recipe-player');
-                if (!p) return;
-                const parts = String(t).split(':');
-                p.currentTime = parts.length === 2 ? +parts[0] * 60 + +parts[1] : +parts[0];
-                p.play();
-                p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        <script>
+            function receptPageData() {
+                return {
+                    tab: 'stappen',
+                    portions: 1,
+                    currentTime: 0,
+                    steps: @json($recipe->steps->map(fn($s) => ['n' => $s->step_number, 'ts' => $s->video_timestamp])),
+                    get activeStep() {
+                        const toSec = t => { if (!t) return null; const p = String(t).split(':'); return p.length === 2 ? +p[0]*60 + +p[1] : +p[0]; };
+                        const timed = this.steps.filter(s => s.ts).map(s => ({ n: s.n, sec: toSec(s.ts) })).sort((a,b) => a.sec - b.sec);
+                        let active = null;
+                        for (const s of timed) { if (this.currentTime >= s.sec) active = s.n; }
+                        return active;
+                    },
+                    init() {
+                        const p = document.getElementById('recipe-player');
+                        if (p) p.addEventListener('timeupdate', () => { this.currentTime = p.currentTime; });
+                    },
+                    jumpTo(t) {
+                        const p = document.getElementById('recipe-player');
+                        if (!p) return;
+                        const parts = String(t).split(':');
+                        p.currentTime = parts.length === 2 ? +parts[0] * 60 + +parts[1] : +parts[0];
+                        p.play();
+                        p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                };
             }
-        }">
+        </script>
+
+        <main class="flex-1 py-6 md:py-8" x-data="receptPageData()">
             <div class="max-w-6xl mx-auto px-4 md:px-6">
 
                 {{-- ============================================================
