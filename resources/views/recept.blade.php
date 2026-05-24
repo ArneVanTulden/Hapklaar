@@ -19,7 +19,18 @@
 
         <x-navbar />
 
-        <main class="flex-1 py-6 md:py-8" x-data="{ tab: 'stappen', portions: 1 }">
+        <main class="flex-1 py-6 md:py-8" x-data="{
+            tab: 'stappen',
+            portions: 1,
+            jumpTo(t) {
+                const p = document.getElementById('recipe-player');
+                if (!p) return;
+                const parts = String(t).split(':');
+                p.currentTime = parts.length === 2 ? +parts[0] * 60 + +parts[1] : +parts[0];
+                p.play();
+                p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }">
             <div class="max-w-6xl mx-auto px-4 md:px-6">
 
                 {{-- ============================================================
@@ -51,6 +62,7 @@
                             <div class="border-2 border-black overflow-hidden" style="aspect-ratio: 16/10;">
                                 @if($recipe->video_url)
                                     <mux-player
+                                        id="recipe-player"
                                         src="{{ $recipe->video_url }}"
                                         poster="{{ asset($recipe->image_path) }}"
                                         env-key="{{ config('services.mux.data_env_key') }}"

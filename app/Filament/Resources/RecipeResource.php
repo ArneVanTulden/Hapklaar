@@ -125,6 +125,10 @@ class RecipeResource extends Resource
                             ->required()
                             ->rows(3)
                             ->columnSpanFull(),
+                        Forms\Components\TextInput::make('video_timestamp')
+                            ->label('Timestamp (bijv. 1:30 of 90)')
+                            ->placeholder('mm:ss of seconden')
+                            ->nullable(),
                     ])
                     ->columns(1)
                     ->orderColumn('step_number')
