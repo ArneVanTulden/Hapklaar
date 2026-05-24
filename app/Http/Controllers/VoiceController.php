@@ -101,12 +101,23 @@ class VoiceController extends Controller
 
     private function buildPrompt(Recipe $recipe): string
     {
-        $ingredients = $recipe->ingredients->pluck('canonical_name')->implode(', ');
-        $stepWords   = $recipe->steps->pluck('description')
-            ->flatMap(fn($d) => $this->tokenize($d))
-            ->unique()->implode(', ');
+        $sentences = collect($recipe->transcript ?? [])
+            ->pluck('text')
+            ->map(fn($t) => trim($t))
+            ->filter()
+            ->values();
 
-        return "Hey Hapklaar, stap, recept, {$recipe->title}, {$ingredients}, {$stepWords}.";
+        // Pack as many transcript sentences as fit in ~700 chars
+        $context = '';
+        foreach ($sentences as $sentence) {
+            if (mb_strlen($context) + mb_strlen($sentence) + 1 > 700) break;
+            $context .= ' ' . $sentence;
+        }
+
+        $ingredients = $recipe->ingredients->pluck('canonical_name')->unique()->implode(', ');
+        $prefix      = "Hey Hapklaar. {$recipe->title}. {$ingredients}.";
+
+        return mb_substr(trim($prefix . $context), 0, 900);
     }
 
     private function matchTranscript(string $command, array $segments): ?array
@@ -129,33 +140,67 @@ class VoiceController extends Controller
     private function matchSteps(string $command, $steps): ?array
     {
         $commandWords = $this->tokenize($command);
-        $bestStep     = null;
-        $bestScore    = 0;
+        if (empty($commandWords)) return null;
 
-        foreach ($steps as $step) {
-            if (! $step->video_timestamp) {
-                continue;
+        $timedSteps = $steps->filter(fn($s) => $s->video_timestamp)->values();
+
+        // IDF: words appearing in fewer steps are more discriminating
+        $wordStepCount = [];
+        foreach ($timedSteps as $step) {
+            foreach (array_unique($this->tokenize($step->description)) as $w) {
+                $wordStepCount[$w] = ($wordStepCount[$w] ?? 0) + 1;
             }
+        }
+        $total = max(1, $timedSteps->count());
 
-            $overlap = count(array_intersect($commandWords, $this->tokenize($step->description)));
-            if ($overlap > $bestScore) {
-                $bestScore = $overlap;
+        $bestStep  = null;
+        $bestScore = 0.0;
+
+        foreach ($timedSteps as $step) {
+            $stepWords = $this->tokenize($step->description);
+            $score     = 0.0;
+            foreach (array_intersect($commandWords, $stepWords) as $w) {
+                $score += log($total / ($wordStepCount[$w] ?? 1) + 1);
+            }
+            if ($score > $bestScore) {
+                $bestScore = $score;
                 $bestStep  = $step;
             }
         }
 
-        if ($bestStep && $bestScore >= 1) {
+        if ($bestStep && $bestScore > 0) {
             return ['timestamp' => $bestStep->video_timestamp, 'step' => $bestStep->step_number];
         }
 
         return null;
     }
 
+    private function stem(string $word): string
+    {
+        static $prefixes = ['ge', 'be', 'ver', 'ont', 'her', 'over'];
+        static $suffixes = ['enden', 'ingen', 'heid', 'elijk', 'sten', 'nden',
+                            'den', 'ten', 'nen', 'ing', 'en', 'de', 'te', 'd', 't', 's'];
+
+        foreach ($prefixes as $p) {
+            if (str_starts_with($word, $p) && strlen($word) > strlen($p) + 3) {
+                $word = substr($word, strlen($p));
+                break;
+            }
+        }
+        foreach ($suffixes as $s) {
+            if (str_ends_with($word, $s) && strlen($word) > strlen($s) + 3) {
+                return substr($word, 0, -strlen($s));
+            }
+        }
+
+        return $word;
+    }
+
     private function tokenize(string $text): array
     {
-        return array_diff(
-            array_filter(explode(' ', preg_replace('/[^a-z\s]/', '', strtolower($text)))),
-            self::STOP_WORDS
-        );
+        $words = array_filter(explode(' ', preg_replace('/[^a-z\s]/', '', strtolower($text))));
+        $words = array_diff($words, self::STOP_WORDS);
+
+        return array_values(array_map([$this, 'stem'], $words));
     }
 }
