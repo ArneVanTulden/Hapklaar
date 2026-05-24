@@ -44,7 +44,67 @@
                         p.currentTime = parts.length === 2 ? +parts[0] * 60 + +parts[1] : +parts[0];
                         p.play();
                         p.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+                    },
+
+                    // Voice control
+                    voiceRecording: false,
+                    voiceProcessing: false,
+                    voiceStatus: '',
+                    _mediaRecorder: null,
+                    _audioChunks: [],
+                    _stream: null,
+
+                    async toggleVoice() {
+                        if (this.voiceRecording) {
+                            this._mediaRecorder?.stop();
+                            return;
+                        }
+                        this.voiceStatus = '';
+                        try {
+                            this._stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                            this._audioChunks = [];
+                            this._mediaRecorder = new MediaRecorder(this._stream);
+                            this._mediaRecorder.ondataavailable = e => { if (e.data.size > 0) this._audioChunks.push(e.data); };
+                            this._mediaRecorder.onstop = () => this._sendVoice();
+                            this._mediaRecorder.start();
+                            this.voiceRecording = true;
+                            this.voiceStatus = 'Luisteren...';
+                            setTimeout(() => { if (this.voiceRecording) this._mediaRecorder?.stop(); }, 6000);
+                        } catch {
+                            this.voiceStatus = 'Microfoon toegang geweigerd';
+                            setTimeout(() => { this.voiceStatus = ''; }, 3000);
+                        }
+                    },
+
+                    async _sendVoice() {
+                        this.voiceRecording = false;
+                        this.voiceProcessing = true;
+                        this.voiceStatus = 'Verwerken...';
+                        this._stream?.getTracks().forEach(t => t.stop());
+
+                        const mime = this._audioChunks[0]?.type || 'audio/webm';
+                        const ext  = mime.includes('mp4') ? 'mp4' : mime.includes('ogg') ? 'ogg' : 'webm';
+                        const blob = new Blob(this._audioChunks, { type: mime });
+                        const form = new FormData();
+                        form.append('audio', blob, `voice.${ext}`);
+                        form.append('_token', '{{ csrf_token() }}');
+
+                        try {
+                            const res  = await fetch('{{ route('recept.voice', $recipe->id) }}', { method: 'POST', body: form });
+                            const data = await res.json();
+                            if (data.timestamp) {
+                                this.jumpTo(data.timestamp);
+                                this.voiceStatus = `Stap ${data.step} gevonden`;
+                            } else {
+                                this.voiceStatus = data.transcript ? `"${data.transcript}" — niet gevonden` : 'Niet gevonden';
+                            }
+                        } catch {
+                            this.voiceStatus = 'Fout opgetreden';
+                        }
+
+                        this.voiceProcessing = false;
+                        setTimeout(() => { this.voiceStatus = ''; }, 4000);
+                    },
                 };
             }
         </script>
@@ -98,12 +158,20 @@
 
                         {{-- Action buttons --}}
                         <div class="flex items-center gap-3 flex-wrap">
-                            <button class="flex items-center gap-2 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 016 0v6a3 3 0 01-3 3z"/>
-                                </svg>
-                                VOICE CONTROL AAN
-                            </button>
+                            @if($recipe->video_url)
+                            <div class="flex flex-col gap-1">
+                                <button @click="toggleVoice()"
+                                        :disabled="voiceProcessing"
+                                        :class="voiceRecording ? 'bg-red-500 animate-pulse border-red-700' : 'bg-brand'"
+                                        class="flex items-center gap-2 text-white text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-x-0 disabled:translate-y-0 disabled:shadow-[3px_3px_0px_0px_#000]">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 016 0v6a3 3 0 01-3 3z"/>
+                                    </svg>
+                                    <span x-text="voiceRecording ? 'OPNEMEN... (STOP)' : voiceProcessing ? 'VERWERKEN...' : 'VOICE CONTROL'"></span>
+                                </button>
+                                <span x-show="voiceStatus" x-text="voiceStatus" class="text-[10px] font-bold text-brand px-1"></span>
+                            </div>
+                            @endif
                             <button class="flex items-center gap-2 bg-white text-black text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
