@@ -83,13 +83,13 @@
                                     <mux-player
                                         id="recipe-player"
                                         src="{{ $recipe->video_url }}"
-                                        poster="{{ asset($recipe->image_path) }}"
+                                        poster="{{ asset('storage/' . $recipe->image_path) }}"
                                         env-key="{{ config('services.mux.data_env_key') }}"
                                         style="width: 100%; height: 100%; --media-object-fit: cover;"
                                         playsinline
                                     ></mux-player>
                                 @else
-                                    <img src="{{ asset($recipe->image_path) }}"
+                                    <img src="{{ asset('storage/' . $recipe->image_path) }}"
                                          alt="{{ $recipe->title }}"
                                          class="w-full h-full object-cover">
                                 @endif

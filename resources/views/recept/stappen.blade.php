@@ -4,7 +4,7 @@
              :class="activeStep === {{ $step->step_number }} ? '!bg-[var(--lime)] !border-brand !shadow-[3px_3px_0px_0px_var(--brand)]' : ''"
              @click="{{ $step->video_timestamp ? 'jumpTo(\'' . $step->video_timestamp . '\')' : '' }}">
             <div class="relative flex-shrink-0 w-32 sm:w-44 h-28 border-r-2 border-black">
-                <img src="{{ asset($recipe->image_path) }}"
+                <img src="{{ asset('storage/' . $recipe->image_path) }}"
                      alt="Stap {{ $step->step_number }}"
                      class="w-full h-full object-cover">
                 <span class="absolute top-1 left-1 text-[6px] font-black uppercase tracking-widest bg-[var(--lime)] border border-black px-1 py-0.5 leading-tight">STAP {{ $step->step_number }} VIDEO</span>
