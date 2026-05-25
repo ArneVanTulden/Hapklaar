@@ -9,7 +9,6 @@ use Livewire\Component;
 
 class Boodschappen extends Component
 {
-    public bool $fetchingPrices = false;
     public ?string $ahFetchMessage = null;
 
     #[On('shopping-list-updated')]
@@ -28,11 +27,10 @@ class Boodschappen extends Component
 
     public function fetchAhPrices(): void
     {
-        $this->fetchingPrices = true;
         $this->ahFetchMessage = null;
 
         $service = app(AlbertHeijnService::class);
-        $items   = $this->getList()->items()->with('ingredient')->get();
+        $items   = $this->getList()->items()->get();
         $updated = 0;
 
         foreach ($items as $item) {
@@ -46,7 +44,6 @@ class Boodschappen extends Component
             }
         }
 
-        $this->fetchingPrices = false;
         $this->ahFetchMessage = $updated > 0
             ? "{$updated} PRIJS" . ($updated === 1 ? '' : 'EN') . ' GEVONDEN'
             : 'GEEN PRIJZEN GEVONDEN';

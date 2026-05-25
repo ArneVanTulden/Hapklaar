@@ -18,7 +18,7 @@ class AlbertHeijnService
             return null;
         }
 
-        $response = Http::withToken($token)
+        $response = Http::timeout(10)->withToken($token)
             ->withHeaders([
                 'User-Agent'    => 'Appie/8.22.3',
                 'x-application' => 'AHWEBSHOP',
@@ -54,16 +54,24 @@ class AlbertHeijnService
 
     private function getAnonymousToken(): ?string
     {
-        return Cache::remember(self::TOKEN_CACHE_KEY, now()->addMinutes(110), function () {
-            $response = Http::post(self::BASE_URL . '/mobile-auth/v1/auth/token/anonymous', [
-                'clientId' => 'appie',
-            ]);
+        if ($cached = Cache::get(self::TOKEN_CACHE_KEY)) {
+            return $cached;
+        }
 
-            if (! $response->ok()) {
-                return null;
-            }
+        $response = Http::timeout(10)->post(self::BASE_URL . '/mobile-auth/v1/auth/token/anonymous', [
+            'clientId' => 'appie',
+        ]);
 
-            return $response->json('access_token');
-        });
+        if (! $response->ok()) {
+            return null;
+        }
+
+        $token = $response->json('access_token');
+
+        if ($token) {
+            Cache::put(self::TOKEN_CACHE_KEY, $token, now()->addMinutes(110));
+        }
+
+        return $token;
     }
 }
