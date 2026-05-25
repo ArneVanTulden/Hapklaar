@@ -1,5 +1,3 @@
-import { MicVAD, utils } from '@ricky0123/vad-web'
-
 let vadInstance = null
 
 window.VAD = {
@@ -15,6 +13,8 @@ window.VAD = {
         onStatus('Opstarten...')
 
         try {
+            const { MicVAD, utils } = await import('@ricky0123/vad-web')
+
             vadInstance = await MicVAD.new({
                 baseAssetPath:   '/vad/',
                 onnxWASMBasePath: '/vad/',

@@ -10,6 +10,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        chunkSizeWarningLimit: 1000,
+    },
     optimizeDeps: {
         exclude: ['@ricky0123/vad-web', 'onnxruntime-web'],
     },
