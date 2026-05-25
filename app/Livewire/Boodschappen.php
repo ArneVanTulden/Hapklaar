@@ -3,11 +3,15 @@
 namespace App\Livewire;
 
 use App\Models\ShoppingList;
+use App\Services\AlbertHeijnService;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Boodschappen extends Component
 {
+    public bool $fetchingPrices = false;
+    public ?string $ahFetchMessage = null;
+
     #[On('shopping-list-updated')]
     public function refresh(): void {}
 
@@ -22,10 +26,36 @@ class Boodschappen extends Component
         $this->getList()->items()->findOrFail($itemId)->delete();
     }
 
+    public function fetchAhPrices(): void
+    {
+        $this->fetchingPrices = true;
+        $this->ahFetchMessage = null;
+
+        $service = app(AlbertHeijnService::class);
+        $items   = $this->getList()->items()->with('ingredient')->get();
+        $updated = 0;
+
+        foreach ($items as $item) {
+            $searchName = $item->name;
+
+            $result = $service->searchProduct($searchName);
+
+            if ($result && $result['price']) {
+                $item->update(['price_estimate' => $result['price']]);
+                $updated++;
+            }
+        }
+
+        $this->fetchingPrices = false;
+        $this->ahFetchMessage = $updated > 0
+            ? "{$updated} PRIJS" . ($updated === 1 ? '' : 'EN') . ' GEVONDEN'
+            : 'GEEN PRIJZEN GEVONDEN';
+    }
+
     public function moveCheckedToInventory(): void
     {
         $checkedItems = $this->getList()->items()->where('is_checked', true)->get();
-        $inventory = auth()->user()->inventory()->firstOrCreate([]);
+        $inventory    = auth()->user()->inventory()->firstOrCreate([]);
 
         foreach ($checkedItems as $item) {
             $existing = $inventory->items()

@@ -126,9 +126,22 @@
                         @endif
 
                         <div class="space-y-2.5">
-                            <button class="w-full bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-                                BEKIJK BIJ ALBERT HE<span class="italic">IJ</span>N
+                            <button wire:click="fetchAhPrices"
+                                    wire:loading.attr="disabled"
+                                    wire:target="fetchAhPrices"
+                                    class="w-full bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 disabled:opacity-60 disabled:cursor-wait">
+                                <span wire:loading.remove wire:target="fetchAhPrices">
+                                    PRIJZEN OPHALEN <span class="font-normal opacity-75">(AH)</span>
+                                </span>
+                                <span wire:loading wire:target="fetchAhPrices">
+                                    BEZIG...
+                                </span>
                             </button>
+                            @if($ahFetchMessage)
+                                <p class="text-center text-[9px] font-black uppercase tracking-widest text-blue-600 mt-1">
+                                    {{ $ahFetchMessage }}
+                                </p>
+                            @endif
                             <button class="w-full bg-[var(--yellow)] text-black text-[10px] font-black uppercase tracking-widest py-3.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                 BEKIJK BIJ COLRUYT
                             </button>
