@@ -10,11 +10,13 @@ use App\Models\User;
 use BackedEnum;
 use Filament\Actions;
 use Filament\Forms;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
 use Filament\Tables\Table;
+use OpenAI;
 
 class RecipeResource extends Resource
 {
@@ -134,6 +136,60 @@ class RecipeResource extends Resource
                     ->orderColumn('step_number')
                     ->addActionLabel('Stap toevoegen')
                     ->columnSpanFull(),
+
+                Forms\Components\Section::make('Voice Control Transcript')
+                    ->description('Upload de audio van de video om een tijdgestempeld transcript te genereren voor voice search.')
+                    ->schema([
+                        Forms\Components\Placeholder::make('transcript_status')
+                            ->label('Status')
+                            ->content(fn (?Recipe $record) => $record?->transcript
+                                ? count($record->transcript) . ' segmenten gegenereerd'
+                                : 'Geen transcript'),
+                        Forms\Components\Actions::make([
+                            Forms\Components\Actions\Action::make('generateTranscript')
+                                ->label('Genereer Transcript')
+                                ->icon(Heroicon::OutlinedMicrophone)
+                                ->color('warning')
+                                ->form([
+                                    Forms\Components\FileUpload::make('audio_file')
+                                        ->label('Audio of video bestand')
+                                        ->acceptedFileTypes(['audio/*', 'video/*', 'audio/mpeg', 'audio/mp4', 'audio/wav', 'video/mp4'])
+                                        ->maxSize(512000)
+                                        ->required(),
+                                ])
+                                ->action(function (array $data, ?Recipe $record) {
+                                    if (! $record) return;
+
+                                    $path   = storage_path('app/public/' . $data['audio_file']);
+                                    $client = OpenAI::client(config('services.openai.key'));
+
+                                    $response = $client->audio()->transcribe([
+                                        'model'           => 'whisper-1',
+                                        'file'            => fopen($path, 'r'),
+                                        'language'        => 'nl',
+                                        'response_format' => 'verbose_json',
+                                    ]);
+
+                                    $segments = collect($response->segments)->map(fn ($s) => [
+                                        'start' => round($s->start, 2),
+                                        'end'   => round($s->end, 2),
+                                        'text'  => trim($s->text),
+                                    ])->values()->all();
+
+                                    $record->update(['transcript' => $segments]);
+
+                                    // Clean up uploaded file
+                                    @unlink($path);
+
+                                    Notification::make()
+                                        ->title(count($segments) . ' transcript segmenten opgeslagen')
+                                        ->success()
+                                        ->send();
+                                }),
+                        ]),
+                    ])
+                    ->columnSpanFull()
+                    ->collapsible(),
             ]);
     }
 
