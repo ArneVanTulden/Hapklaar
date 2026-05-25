@@ -31,12 +31,14 @@ class Boodschappen extends Component
 
         $service = app(AlbertHeijnService::class);
         $items   = $this->getList()->items()->get();
+
+        $queries = $items->mapWithKeys(fn ($item) => [$item->id => $item->name])->all();
+        $results = $service->searchProducts($queries);
+
         $updated = 0;
 
         foreach ($items as $item) {
-            $searchName = $item->name;
-
-            $result = $service->searchProduct($searchName);
+            $result = $results[$item->id] ?? null;
 
             if ($result && $result['price']) {
                 $item->update(['price_estimate' => $result['price']]);

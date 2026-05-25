@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Client\Pool;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -9,6 +10,65 @@ class AlbertHeijnService
 {
     private const BASE_URL = 'https://api.ah.nl';
     private const TOKEN_CACHE_KEY = 'ah_anonymous_token';
+
+    /**
+     * Search multiple products concurrently. Keys in returned array match keys of $queries.
+     */
+    public function searchProducts(array $queries): array
+    {
+        $token = $this->getAnonymousToken();
+        if (! $token) {
+            return [];
+        }
+
+        $responses = Http::pool(function (Pool $pool) use ($queries, $token) {
+            foreach ($queries as $key => $query) {
+                $pool->as((string) $key)
+                    ->timeout(10)
+                    ->withToken($token)
+                    ->withHeaders([
+                        'User-Agent'    => 'Appie/8.22.3',
+                        'x-application' => 'AHWEBSHOP',
+                    ])
+                    ->get(self::BASE_URL . '/mobile-services/product/search/v2', [
+                        'query'  => $query,
+                        'size'   => 10,
+                        'sortOn' => 'RELEVANCE',
+                    ]);
+            }
+        });
+
+        $results = [];
+
+        foreach ($queries as $key => $query) {
+            $response = $responses[(string) $key] ?? null;
+
+            if (! $response || ! $response->ok()) {
+                $results[$key] = null;
+                continue;
+            }
+
+            $products = $response->json('products', []);
+
+            if (empty($products)) {
+                $results[$key] = null;
+                continue;
+            }
+
+            $product = collect($products)
+                ->sortBy(fn ($p) => $p['currentPrice'] ?? $p['priceBeforeBonus'] ?? PHP_INT_MAX)
+                ->first();
+
+            $price = (float) ($product['currentPrice'] ?? $product['priceBeforeBonus'] ?? 0) ?: null;
+
+            $results[$key] = [
+                'title' => $product['title'] ?? null,
+                'price' => $price,
+            ];
+        }
+
+        return $results;
+    }
 
     public function searchProduct(string $query): ?array
     {
