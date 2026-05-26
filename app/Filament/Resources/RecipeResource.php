@@ -161,7 +161,7 @@ class RecipeResource extends Resource
                                     if (! $record) return;
 
                                     $path   = storage_path('app/public/' . $data['audio_file']);
-                                    $client = OpenAI::client(config('services.openai.key'));
+                                    $client = OpenAI::client((string) config('services.openai.key'));
 
                                     $response = $client->audio()->transcribe([
                                         'model'           => 'whisper-1',
