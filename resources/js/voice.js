@@ -1,7 +1,7 @@
 let vadInstance = null
 
 window.VAD = {
-    async toggle({ recipeId, csrfToken, onMatch, onStatus, onToggle }) {
+    async toggle({ recipeId, csrfToken, getCurrentStep, onMatch, onStatus, onToggle }) {
         if (vadInstance) {
             vadInstance.destroy()
             vadInstance = null
@@ -31,6 +31,8 @@ window.VAD = {
                         const form = new FormData()
                         form.append('audio', blob, 'speech.wav')
                         form.append('_token', csrfToken)
+                        const step = getCurrentStep ? (getCurrentStep() ?? 0) : 0
+                        form.append('current_step', step)
 
                         const res  = await fetch(`/recepten/${recipeId}/voice`, { method: 'POST', body: form })
                         if (!res.ok) throw new Error(`HTTP ${res.status}`)

@@ -82,6 +82,7 @@
                     // Voice control
                     voiceActive: false,
                     voiceStatus: '',
+                    lastKnownStep: null,
 
                     async toggleVoice() {
                         if (!window.VAD) { this.voiceStatus = 'Voice laden...'; return; }
@@ -89,7 +90,8 @@
                         await window.VAD.toggle({
                             recipeId:  {{ $recipe->id }},
                             csrfToken: document.querySelector('meta[name="csrf-token"]')?.content ?? '',
-                            onMatch:   (timestamp) => this.jumpTo(timestamp),
+                            getCurrentStep: () => this.activeStep ?? this.lastKnownStep ?? 0,
+                            onMatch:   (timestamp, step) => { if (step) this.lastKnownStep = step; this.jumpTo(timestamp); },
                             onStatus:  (msg) => { this.voiceStatus = msg },
                             onToggle:  (active) => { this.voiceActive = active },
                         });

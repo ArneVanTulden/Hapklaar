@@ -72,7 +72,37 @@ class VoiceController extends Controller
             }
         }
 
-        // Priority 2: "stap X" in command
+        // Priority 2: "volgende stap" / "vorige stap"
+        $currentStepNr = (int) $request->input('current_step', 0);
+        if (preg_match('/\b(volgende|verder|door)\b/i', $command)) {
+            $next = $recipe->steps
+                ->filter(fn($s) => $s->video_timestamp && $s->step_number > $currentStepNr)
+                ->sortBy('step_number')
+                ->first();
+            if ($next) {
+                return response()->json([
+                    'wakeword_found' => true,
+                    'command'        => $command,
+                    'timestamp'      => $next->video_timestamp,
+                    'step'           => $next->step_number,
+                ]);
+            }
+        }
+        if (preg_match('/\b(vorige|terug)\b/i', $command)) {
+            $prev = $currentStepNr > 0
+                ? $recipe->steps->filter(fn($s) => $s->video_timestamp && $s->step_number < $currentStepNr)->sortByDesc('step_number')->first()
+                : $recipe->steps->filter(fn($s) => $s->video_timestamp)->sortBy('step_number')->first();
+            if ($prev) {
+                return response()->json([
+                    'wakeword_found' => true,
+                    'command'        => $command,
+                    'timestamp'      => $prev->video_timestamp,
+                    'step'           => $prev->step_number,
+                ]);
+            }
+        }
+
+        // Priority 3: "stap X" in command
         if (preg_match('/\bstap\s+(\d+)\b/i', $command, $m)) {
             $step = $recipe->steps->firstWhere('step_number', (int) $m[1]);
             if ($step?->video_timestamp) {
