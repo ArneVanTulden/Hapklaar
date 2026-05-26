@@ -37,10 +37,36 @@
                         for (const s of timed) { if (this.currentTime >= s.sec) active = s.n; }
                         return active;
                     },
+                    isFullscreen: false,
+
                     init() {
                         const p = this.$refs.player;
                         if (p) p.addEventListener('timeupdate', () => { this.currentTime = p.currentTime; });
+
+                        const onFsChange = () => {
+                            const fs = document.fullscreenElement || document.webkitFullscreenElement;
+                            this.isFullscreen = !!fs;
+                            const overlay = this.$refs.voiceOverlay;
+                            if (!overlay) return;
+                            if (fs && !fs.contains(overlay)) {
+                                fs.appendChild(overlay);
+                            } else if (!fs) {
+                                const wrapper = this.$refs.videoWrapper;
+                                if (wrapper && !wrapper.contains(overlay)) wrapper.appendChild(overlay);
+                            }
+                        };
+                        document.addEventListener('fullscreenchange', onFsChange);
+                        document.addEventListener('webkitfullscreenchange', onFsChange);
                     },
+                    toggleFullscreen() {
+                        if (document.fullscreenElement || document.webkitFullscreenElement) {
+                            (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+                        } else {
+                            const w = this.$refs.videoWrapper;
+                            (w.requestFullscreen || w.webkitRequestFullscreen).call(w);
+                        }
+                    },
+
                     jumpTo(t) {
                         const p = this.$refs.player;
                         if (!p || t == null) return;
@@ -101,7 +127,9 @@
                             <div class="absolute -top-5 -right-5 z-10">
                                 <livewire:toggle-favorite :recipe-id="$recipe->id" />
                             </div>
-                            <div class="border-2 border-black overflow-hidden" style="aspect-ratio: 16/10;">
+                            <div x-ref="videoWrapper"
+                             class="border-2 border-black overflow-hidden relative"
+                             :style="isFullscreen ? 'width:100%;height:100%;' : 'aspect-ratio:16/10;'">
                                 @if($recipe->video_url)
                                     <mux-player
                                         id="recipe-player"
@@ -112,6 +140,23 @@
                                         style="width: 100%; height: 100%; --media-object-fit: cover;"
                                         playsinline
                                     ></mux-player>
+
+                                    {{-- Voice overlay: injected into fullscreen element via JS --}}
+                                    <div x-ref="voiceOverlay" x-show="isFullscreen" x-cloak
+                                         style="position:fixed;top:16px;left:16px;z-index:2147483647;"
+                                         class="flex flex-col items-start gap-1 pointer-events-none">
+                                        <div class="pointer-events-auto flex flex-col items-start gap-1">
+                                            <button @click="toggleVoice()"
+                                                    :class="voiceActive ? 'bg-green-500 border-green-700' : 'bg-brand'"
+                                                    class="flex items-center gap-2 text-white text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                                <svg class="w-4 h-4" :class="voiceActive ? 'animate-pulse' : ''" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 016 0v6a3 3 0 01-3 3z"/>
+                                                </svg>
+                                                <span x-text="voiceActive ? 'VOICE AAN' : 'VOICE CONTROL'"></span>
+                                            </button>
+                                            <span x-show="voiceStatus" x-text="voiceStatus" class="text-[10px] font-bold text-white bg-black/60 px-2 py-0.5"></span>
+                                        </div>
+                                    </div>
                                 @else
                                     <img src="{{ asset('storage/' . $recipe->image_path) }}"
                                          alt="{{ $recipe->title }}"
