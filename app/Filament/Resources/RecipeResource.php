@@ -137,7 +137,7 @@ class RecipeResource extends Resource
                     ->addActionLabel('Stap toevoegen')
                     ->columnSpanFull(),
 
-                Forms\Components\Section::make('Voice Control Transcript')
+                \Filament\Schemas\Components\Section::make('Voice Control Transcript')
                     ->description('Upload de audio van de video om een tijdgestempeld transcript te genereren voor voice search.')
                     ->schema([
                         Forms\Components\Placeholder::make('transcript_status')
@@ -145,8 +145,8 @@ class RecipeResource extends Resource
                             ->content(fn (?Recipe $record) => $record?->transcript
                                 ? count($record->transcript) . ' segmenten gegenereerd'
                                 : 'Geen transcript'),
-                        Forms\Components\Actions::make([
-                            Forms\Components\Actions\Action::make('generateTranscript')
+                        \Filament\Schemas\Components\Actions::make([
+                            \Filament\Actions\Action::make('generateTranscript')
                                 ->label('Genereer Transcript')
                                 ->icon(Heroicon::OutlinedMicrophone)
                                 ->color('warning')
