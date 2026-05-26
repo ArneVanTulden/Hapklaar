@@ -9,17 +9,27 @@
 
     {{-- Tags --}}
     @php
-        $tagStyles = [
-            'bg-brand text-white border-brand',
-            'bg-[var(--lime)] text-black border-black',
-            'bg-gray-800 text-white border-gray-800',
-            'bg-white text-black border-black',
-        ];
+        $catClass = fn(?string $cat) => match ($cat) {
+            'zuivel'       => 'bg-sky-200 text-sky-900 border-black',
+            'groenten'     => 'bg-lime-300 text-black border-black',
+            'vlees'        => 'bg-pink-500 text-white border-black',
+            'vis'          => 'bg-cyan-300 text-cyan-900 border-black',
+            'granen'       => 'bg-amber-300 text-black border-black',
+            'kruiden'      => 'bg-lime-300 text-black border-black',
+            'specerijen'   => 'bg-orange-300 text-black border-black',
+            'peulvruchten' => 'bg-amber-300 text-black border-black',
+            'fruit'        => 'bg-yellow-300 text-black border-black',
+            'sauzen'       => 'bg-red-400 text-white border-black',
+            'diepvries'    => 'bg-slate-800 text-white border-black',
+            'blik'         => 'bg-gray-300 text-black border-black',
+            'dranken'      => 'bg-purple-400 text-white border-black',
+            default        => 'bg-gray-300 text-black border-black',
+        };
     @endphp
 
     <div class="flex flex-wrap gap-2 mb-4 items-start content-start">
         @forelse($items as $index => $item)
-                <span class="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 {{ $tagStyles[$index % count($tagStyles)] }}">
+                <span class="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 {{ $catClass($item['category'] ?? null) }}">
                 {{ $item['label'] }}
                 <button wire:click="removeItem({{ $index }})"
                     class="font-black text-[14px] inline-flex items-center justify-center hover:opacity-70 transition-opacity leading-none">×</button>

@@ -20,13 +20,14 @@ class ScannerResults extends Component
     }
 
     #[On('scanner-ingredient-added')]
-    public function addIngredient(?int $id, string $name, string $qty, string $unit): void
+    public function addIngredient(?int $id, string $name, string $qty, string $unit, ?string $category = null): void
     {
         $this->items[] = [
             'label'         => strtoupper($name),
             'ingredient_id' => $id,
             'qty'           => $qty,
             'unit'          => $unit,
+            'category'      => $category,
         ];
         $this->flash = null;
         $this->broadcastItems();

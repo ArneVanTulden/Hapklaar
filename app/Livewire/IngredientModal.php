@@ -67,10 +67,11 @@ class IngredientModal extends Component
 
         if ($this->mode === 'scanner') {
             $this->dispatch('scanner-ingredient-added',
-                id:   $ingredient->id,
-                name: $ingredient->canonical_name,
-                qty:  $this->qty,
-                unit: $this->unit,
+                id:       $ingredient->id,
+                name:     $ingredient->canonical_name,
+                qty:      $this->qty,
+                unit:     $this->unit,
+                category: $ingredient->category,
             );
         } elseif ($this->mode === 'shopping') {
             $list = auth()->user()->shoppingLists()->firstOrCreate([]);

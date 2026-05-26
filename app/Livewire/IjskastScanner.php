@@ -87,7 +87,7 @@ class IjskastScanner extends Component
             }
 
             $allIngredients = Cache::remember('ingredients_for_matching', 3600, fn () =>
-                Ingredient::all(['id', 'canonical_name'])->toArray()
+                Ingredient::all(['id', 'canonical_name', 'category'])->toArray()
             );
 
             foreach ($ingredients as $item) {
@@ -103,10 +103,11 @@ class IjskastScanner extends Component
                 }
 
                 $this->dispatch('scanner-ingredient-added',
-                    id: $ingredient['id'],
-                    name: $ingredient['canonical_name'],
-                    qty: $item['qty'] ?? '1',
-                    unit: $this->normalizeUnit($item['unit'] ?? 'stuks'),
+                    id:       $ingredient['id'],
+                    name:     $ingredient['canonical_name'],
+                    qty:      $item['qty'] ?? '1',
+                    unit:     $this->normalizeUnit($item['unit'] ?? 'stuks'),
+                    category: $ingredient['category'] ?? null,
                 );
             }
 
