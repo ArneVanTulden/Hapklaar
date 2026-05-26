@@ -91,16 +91,20 @@
                             </div>
 
                             @if(! empty($missing))
-                                <div class="flex flex-wrap gap-1.5 mb-4">
-                                    @foreach(array_slice($missing, 0, 4) as $miss)
-                                        <span class="flex items-center gap-1 text-[8px] font-black uppercase tracking-widest px-2 py-1 border border-black text-gray-600">
+                                <div class="flex flex-wrap gap-1.5 mb-4" x-data="{ expanded: false }">
+                                    @foreach($missing as $idx => $miss)
+                                        <span
+                                            @if($idx >= 4) x-show="expanded" x-cloak @endif
+                                            class="flex items-center gap-1 text-[8px] font-black uppercase tracking-widest px-2 py-1 border border-black text-gray-600">
                                             <span class="text-brand font-black">✕</span> MIST: {{ $miss }}
                                         </span>
                                     @endforeach
                                     @if(count($missing) > 4)
-                                        <span class="text-[8px] font-black uppercase tracking-widest px-2 py-1 text-gray-500">
-                                            +{{ count($missing) - 4 }}
-                                        </span>
+                                        <button @click="expanded = !expanded"
+                                                class="text-[8px] font-black uppercase tracking-widest px-2 py-1 border border-black bg-[var(--lime)] text-black hover:opacity-80 transition-opacity">
+                                            <span x-show="!expanded">+{{ count($missing) - 4 }}</span>
+                                            <span x-show="expanded" x-cloak>MINDER</span>
+                                        </button>
                                     @endif
                                 </div>
                             @endif
