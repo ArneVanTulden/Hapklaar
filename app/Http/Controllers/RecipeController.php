@@ -19,8 +19,8 @@ class RecipeController extends Controller
             $query->whereHas('dietTags', fn($q) => $q->where('name', $diet));
         }
 
-        $maxCal = $request->integer('max_calories', 1000);
-        if ($maxCal < 1000) {
+        $maxCal = $request->integer('max_calories', 1500);
+        if ($maxCal < 1500) {
             $query->where('calories_per_portion', '<=', $maxCal);
         }
 

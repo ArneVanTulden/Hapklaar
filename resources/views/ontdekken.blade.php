@@ -31,7 +31,7 @@
                         ['label' => 'GLUTENVRIJ',  'value' => 'Glutenvrij'],
                     ];
                     $activeDiets      = request('diets', []);
-                    $activeMaxCal     = request('max_calories', 1000);
+                    $activeMaxCal     = request('max_calories', 1500);
                     $activeMaxAfwas   = request()->has('max_afwas') ? (int) request('max_afwas') : null;
                     $activeFilterCount = count((array)$activeDiets)
                         + ((int)$activeMaxCal < 1000 ? 1 : 0)
@@ -117,7 +117,7 @@
                         {{-- Calorieën --}}
                         <div class="mb-6">
                             <p class="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-3">CALORIEËN</p>
-                            <input type="range" min="0" max="1000" step="25"
+                            <input type="range" min="500" max="1500" step="25"
                                    x-model="maxCal"
                                    @change="submit()"
                                    class="w-full h-1.5 accent-black cursor-pointer mb-2.5">
