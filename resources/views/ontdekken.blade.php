@@ -121,7 +121,8 @@
                                    x-model="maxCal"
                                    @change="submit()"
                                    class="w-full h-1.5 accent-black cursor-pointer mb-2.5">
-                            <span class="inline-block bg-[var(--lime)] border-2 border-black px-2 py-0.5 text-[9px] font-black uppercase tracking-widest">
+                            <span :class="maxCal > 1000 ? 'bg-red-400' : (maxCal > 700 ? 'bg-orange-400' : 'bg-[var(--lime)]')"
+                                  class="inline-block border-2 border-black px-2 py-0.5 text-[9px] font-black uppercase tracking-widest">
                                 MAX <span x-text="maxCal"></span> KCAL
                             </span>
                         </div>
