@@ -4,9 +4,15 @@
 <div
     x-data="{
         drag: false,
+        uploading: false,
+        uploadProgress: 0,
         triggerCamera() { this.$refs.cameraInput.click(); },
         triggerGallery() { this.$refs.galleryInput.click(); },
     }"
+    x-on:livewire-upload-start="uploading = true; uploadProgress = 0"
+    x-on:livewire-upload-finish="uploading = false; uploadProgress = 0"
+    x-on:livewire-upload-error="uploading = false; uploadProgress = 0"
+    x-on:livewire-upload-progress="uploadProgress = $event.detail.progress"
     @dragover.prevent="drag = true"
     @dragleave.prevent="drag = false"
     @drop.prevent="
@@ -34,6 +40,17 @@
 
         {{-- Photo area --}}
         <div class="relative flex-1" style="aspect-ratio: 4/3;">
+
+            {{-- UPLOAD LOADING OVERLAY --}}
+            <div x-show="uploading" x-cloak
+                 class="absolute inset-0 z-40 bg-black/85 flex flex-col items-center justify-center px-6">
+                <p class="text-white text-[14px] font-black italic uppercase tracking-wide mb-3">Foto uploaden...</p>
+                <div class="w-48 h-2 bg-white/20 border border-white/40 overflow-hidden">
+                    <div class="h-full bg-[var(--lime)] transition-all duration-150"
+                         :style="`width: ${uploadProgress}%`"></div>
+                </div>
+                <p class="text-white/60 text-[9px] font-black uppercase tracking-widest mt-2" x-text="`${uploadProgress}%`"></p>
+            </div>
 
             {{-- SCAN LOADING OVERLAY (alleen tijdens scan-request) --}}
             <div wire:loading.flex wire:target="scan"
