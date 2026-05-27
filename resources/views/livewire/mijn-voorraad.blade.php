@@ -273,7 +273,7 @@
                                                     </span>
                                                     <div class="flex-1 min-w-0 flex flex-col md:flex-row md:items-center md:gap-2">
                                                         <div class="flex items-center gap-2 mb-1 md:mb-0 md:flex-1 min-w-0">
-                                                            <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] flex-shrink-0 {{ $item['catClass'] }}">{{ $item['category'] }}</span>
+                                                            <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] flex-shrink-0 w-20 text-center {{ $item['catClass'] }}">{{ $item['category'] }}</span>
                                                             <p class="text-[11px] font-black uppercase truncate">{{ $item['name'] }}</p>
                                                         </div>
                                                         @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
@@ -370,7 +370,7 @@
                                                     </span>
                                                     <div class="flex-1 min-w-0 flex flex-col md:flex-row md:items-center md:gap-2">
                                                         <div class="flex items-center gap-2 mb-1 md:mb-0 md:flex-1 min-w-0">
-                                                            <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] flex-shrink-0 {{ $item['catClass'] }}">{{ $item['category'] }}</span>
+                                                            <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] flex-shrink-0 w-20 text-center {{ $item['catClass'] }}">{{ $item['category'] }}</span>
                                                             <p class="text-[11px] font-black uppercase text-white/90 truncate">{{ $item['name'] }}</p>
                                                         </div>
                                                         @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
@@ -535,7 +535,7 @@
                                             </span>
                                             <div class="flex-1 min-w-0 flex flex-col md:flex-row md:items-center md:gap-2">
                                                 <div class="flex items-center gap-2 mb-1 md:mb-0 md:flex-1 min-w-0">
-                                                    <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] flex-shrink-0 {{ $item['catClass'] }}">{{ $item['category'] }}</span>
+                                                    <span class="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 border-2 border-black shadow-[1px_1px_0px_0px_#000] flex-shrink-0 w-20 text-center {{ $item['catClass'] }}">{{ $item['category'] }}</span>
                                                     <p class="text-[11px] font-black uppercase truncate">{{ $item['name'] }}</p>
                                                 </div>
                                                 @php $step = in_array($item['unit'], ['G', 'ML']) ? 50 : 1; @endphp
