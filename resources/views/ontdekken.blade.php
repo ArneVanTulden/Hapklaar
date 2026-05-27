@@ -74,7 +74,7 @@
                         setAfwas(v)   { this.maxAfwas = (this.maxAfwas === v) ? null : v; this.submit(); }
                     }"
                     :class="filtersOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
-                    class="fixed md:static md:transform-none inset-y-0 left-0 z-50 w-80 max-w-[85vw] md:w-64 md:max-w-none flex-shrink-0 bg-white border-r-2 md:border-2 border-black md:shadow-[4px_4px_0px_0px_#000] p-6 overflow-y-auto md:overflow-visible transition-transform duration-200"
+                    class="fixed md:sticky md:top-6 md:transform-none inset-y-0 left-0 z-50 w-80 max-w-[85vw] md:w-64 md:max-w-none flex-shrink-0 bg-white border-r-2 md:border-2 border-black md:shadow-[4px_4px_0px_0px_#000] p-6 overflow-y-auto md:overflow-visible transition-transform duration-200"
                 >
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="text-4xl font-black uppercase italic leading-none">FILTERS</h2>
