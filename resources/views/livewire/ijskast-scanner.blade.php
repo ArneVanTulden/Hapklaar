@@ -12,12 +12,18 @@
     @drop.prevent="
         drag = false;
         if ($event.dataTransfer.files.length) {
+            const file = $event.dataTransfer.files[0];
+            if (!file.type.startsWith('image/')) {
+                $dispatch('invalid-file-type');
+                return;
+            }
             const dt = new DataTransfer();
-            dt.items.add($event.dataTransfer.files[0]);
+            dt.items.add(file);
             $refs.cameraInput.files = dt.files;
             $refs.cameraInput.dispatchEvent(new Event('change', { bubbles: true }));
         }
     "
+    @invalid-file-type.window="$wire.set('error', 'Alleen afbeeldingen (JPG, PNG, WebP) zijn toegestaan.')"
     class="relative flex flex-col"
 >
     {{-- ============================================================

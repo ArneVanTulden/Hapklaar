@@ -23,6 +23,17 @@ class IjskastScanner extends Component
     public function updatedPhoto(): void
     {
         $this->error = null;
+
+        if (! $this->photo) {
+            return;
+        }
+
+        try {
+            $this->validateOnly('photo', ['photo' => 'image|mimes:jpg,jpeg,png,gif,webp|max:20480']);
+        } catch (\Illuminate\Validation\ValidationException) {
+            $this->error = 'Alleen afbeeldingen (JPG, PNG, WebP) zijn toegestaan. Max 20 MB.';
+            $this->photo = null;
+        }
     }
 
     public function scan(): void
