@@ -59,6 +59,14 @@ class VoiceController extends Controller
             return response()->json(['wakeword_found' => true, 'command' => '', 'timestamp' => null, 'step' => null]);
         }
 
+        // Priority 0: pause / play
+        if (preg_match('/\b(pauze|pauzeer)\b/i', $command)) {
+            return response()->json(['wakeword_found' => true, 'command' => $command, 'action' => 'pause', 'timestamp' => null, 'step' => null]);
+        }
+        if (preg_match('/\b(start|speel|hervat)\b/i', $command)) {
+            return response()->json(['wakeword_found' => true, 'command' => $command, 'action' => 'play', 'timestamp' => null, 'step' => null]);
+        }
+
         // Priority 1: match against video transcript segments
         if ($recipe->transcript) {
             $segment = $this->matchTranscript($command, $recipe->transcript);

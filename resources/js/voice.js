@@ -1,7 +1,7 @@
 let vadInstance = null
 
 window.VAD = {
-    async toggle({ recipeId, csrfToken, getCurrentStep, onMatch, onStatus, onToggle }) {
+    async toggle({ recipeId, csrfToken, getCurrentStep, onMatch, onAction, onStatus, onToggle }) {
         if (vadInstance) {
             vadInstance.destroy()
             vadInstance = null
@@ -39,7 +39,10 @@ window.VAD = {
                         const data = await res.json()
 
                         if (data.wakeword_found) {
-                            if (data.timestamp !== null && data.timestamp !== undefined) {
+                            if (data.action) {
+                                onAction(data.action)
+                                onStatus(data.action === 'pause' ? 'Gepauzeerd' : 'Gestart')
+                            } else if (data.timestamp !== null && data.timestamp !== undefined) {
                                 onMatch(data.timestamp, data.step)
                                 onStatus(data.step ? `Stap ${data.step} gevonden` : 'Gevonden')
                             } else {

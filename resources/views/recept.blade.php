@@ -92,6 +92,7 @@
                             csrfToken: document.querySelector('meta[name="csrf-token"]')?.content ?? '',
                             getCurrentStep: () => this.activeStep ?? this.lastKnownStep ?? 0,
                             onMatch:   (timestamp, step) => { if (step) this.lastKnownStep = step; this.jumpTo(timestamp); },
+                            onAction:  (action) => { const p = this.$refs.player; if (!p) return; action === 'pause' ? p.pause() : p.play(); },
                             onStatus:  (msg) => { this.voiceStatus = msg },
                             onToggle:  (active) => { this.voiceActive = active },
                         });
