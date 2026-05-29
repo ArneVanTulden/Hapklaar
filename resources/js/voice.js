@@ -16,9 +16,12 @@ window.VAD = {
             const { MicVAD, utils } = await import('@ricky0123/vad-web')
 
             vadInstance = await MicVAD.new({
-                baseAssetPath:   '/vad/',
-                onnxWASMBasePath: '/vad/',
-                model:           'v5',
+                baseAssetPath:        '/vad/',
+                onnxWASMBasePath:     '/vad/',
+                model:                'v5',
+                redemptionFrames:     4,
+                minSpeechFrames:      2,
+                preSpeechPadFrames:   1,
                 onSpeechStart() {
                     onStatus('Luisteren...')
                 },
