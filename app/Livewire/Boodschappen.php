@@ -16,13 +16,14 @@ class Boodschappen extends Component
 
     public function toggleItem(int $itemId): void
     {
-        $item = $this->getList()->items()->findOrFail($itemId);
+        $item = $this->getList()->items()->find($itemId);
+        if (! $item) return;
         $item->update(['is_checked' => !$item->is_checked]);
     }
 
     public function removeItem(int $itemId): void
     {
-        $this->getList()->items()->findOrFail($itemId)->delete();
+        $this->getList()->items()->where('id', $itemId)->delete();
     }
 
     public function fetchAhPrices(): void
