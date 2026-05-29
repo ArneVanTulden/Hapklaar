@@ -49,6 +49,7 @@
             ] as [$r,$label])
                 <li>
                     <a href="{{ route($r) }}"
+                       @click="$el.style.boxShadow = 'inset 0 0 0 2px var(--pink)'"
                        @class([
                            'flex items-center w-full px-5 py-4 text-[12px] font-bold uppercase tracking-widest text-black no-underline border-b border-gray-100',
                            'bg-[var(--lime)]' => request()->routeIs($r),
