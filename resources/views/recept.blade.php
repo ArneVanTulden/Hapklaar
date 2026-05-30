@@ -38,22 +38,28 @@
                         return active;
                     },
                     isFullscreen: false,
+                    videoEnded: false,
 
                     init() {
                         const p = this.$refs.player;
-                        if (p) p.addEventListener('timeupdate', () => { this.currentTime = p.currentTime; });
+                        if (p) {
+                            p.addEventListener('timeupdate', () => { this.currentTime = p.currentTime; });
+                            p.addEventListener('ended', () => { this.videoEnded = true; });
+                            p.addEventListener('play', () => { this.videoEnded = false; });
+                        }
 
                         const onFsChange = () => {
                             const fs = document.fullscreenElement || document.webkitFullscreenElement;
                             this.isFullscreen = !!fs;
-                            const overlay = this.$refs.voiceOverlay;
-                            if (!overlay) return;
-                            if (fs && !fs.contains(overlay)) {
-                                fs.appendChild(overlay);
-                            } else if (!fs) {
-                                const wrapper = this.$refs.videoWrapper;
-                                if (wrapper && !wrapper.contains(overlay)) wrapper.appendChild(overlay);
-                            }
+                            const wrapper = this.$refs.videoWrapper;
+                            [this.$refs.voiceOverlay, this.$refs.endedOverlay].forEach(el => {
+                                if (!el) return;
+                                if (fs && !fs.contains(el)) {
+                                    fs.appendChild(el);
+                                } else if (!fs && wrapper && !wrapper.contains(el)) {
+                                    wrapper.appendChild(el);
+                                }
+                            });
                         };
                         document.addEventListener('fullscreenchange', onFsChange);
                         document.addEventListener('webkitfullscreenchange', onFsChange);
@@ -143,6 +149,15 @@
                                         style="width: 100%; height: 100%; --media-object-fit: cover;"
                                         playsinline
                                     ></mux-player>
+
+                                    {{-- Video end overlay --}}
+                                    <div x-ref="endedOverlay"
+                                         x-show="videoEnded"
+                                         x-transition:enter="transition-opacity duration-500"
+                                         x-transition:enter-start="opacity-0"
+                                         x-transition:enter-end="opacity-100"
+                                         class="absolute inset-0 z-10 bg-gray-800/80 pointer-events-none">
+                                    </div>
 
                                     {{-- Voice overlay: injected into fullscreen element via JS --}}
                                     <div x-ref="voiceOverlay" x-show="isFullscreen" x-cloak
