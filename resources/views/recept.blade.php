@@ -39,6 +39,8 @@
                     },
                     isFullscreen: false,
                     videoEnded: false,
+                    endVideoSec: (() => { const t = @json($recipe->end_video_timestamp); if (!t) return null; const p = String(t).split(':'); return p.length === 2 ? +p[0]*60 + +p[1] : +p[0]; })(),
+                    get showEndButton() { return this.endVideoSec !== null && this.currentTime >= this.endVideoSec && !this.videoEnded; },
 
                     init() {
                         const p = this.$refs.player;
@@ -137,7 +139,7 @@
                                 <livewire:toggle-favorite :recipe-id="$recipe->id" />
                             </div>
                             <div x-ref="videoWrapper"
-                             class="border-2 border-black overflow-hidden relative"
+                             class="group border-2 border-black overflow-hidden relative"
                              :style="isFullscreen ? 'width:100%;height:100%;' : 'aspect-ratio:16/10;'">
                                 @if($recipe->video_url)
                                     <mux-player
@@ -157,6 +159,21 @@
                                          x-transition:enter-start="opacity-0"
                                          x-transition:enter-end="opacity-100"
                                          class="absolute inset-0 z-10 bg-gray-800/80 pointer-events-none">
+                                    </div>
+
+                                    {{-- End button overlay --}}
+                                    <div x-show="showEndButton"
+                                         x-transition:enter="transition-opacity duration-300"
+                                         x-transition:enter-start="opacity-0"
+                                         x-transition:enter-end="opacity-100"
+                                         class="absolute right-3 bottom-3 group-hover:bottom-14 z-20 pointer-events-auto transition-all duration-200">
+                                        <button @click="$refs.player.currentTime = $refs.player.duration"
+                                                class="flex items-center gap-2 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-4 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                            KLAAR
+                                        </button>
                                     </div>
 
                                     {{-- Voice overlay: injected into fullscreen element via JS --}}
