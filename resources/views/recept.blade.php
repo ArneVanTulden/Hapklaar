@@ -133,7 +133,7 @@
 
                         {{-- Recipe image / video --}}
                         <div class="relative mb-4">
-                            <div class="absolute -top-5 -right-5 z-10">
+                            <div class="absolute -top-5 -right-5 z-20">
                                 <livewire:toggle-favorite :recipe-id="$recipe->id" />
                             </div>
                             <div x-ref="videoWrapper"
