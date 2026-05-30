@@ -55,6 +55,10 @@ class RecipeResource extends Resource
                     ->label('Video URL')
                     ->url()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('end_video_timestamp')
+                    ->label('Einde-knop timestamp')
+                    ->placeholder('bv. 9:24')
+                    ->maxLength(10),
                 Forms\Components\FileUpload::make('image_path')
                     ->label('Afbeelding')
                     ->image()
