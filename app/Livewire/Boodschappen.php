@@ -83,6 +83,11 @@ class Boodschappen extends Component
         $this->getList()->items()->where('is_checked', true)->delete();
     }
 
+    public function clearAll(): void
+    {
+        $this->getList()->items()->delete();
+    }
+
     private function getList(): ShoppingList
     {
         return auth()->user()->shoppingLists()->firstOrCreate([]);

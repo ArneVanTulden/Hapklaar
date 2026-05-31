@@ -1,4 +1,4 @@
-<div>
+<div class="flex-1 flex flex-col">
     <main class="flex-1 py-6 md:py-10">
         <div class="max-w-5xl mx-auto px-4 md:px-6">
 
@@ -22,7 +22,17 @@
             <div class="flex flex-col lg:flex-row gap-6 lg:items-start">
 
                 {{-- LEFT: Shopping list --}}
-                <div class="flex-1 min-w-0 space-y-4">
+                <div class="relative flex-1 min-w-0 space-y-4">
+
+                    @if($totalItems > 0)
+                        <button wire:click="clearAll"
+
+                                class="absolute -top-8 right-0 text-black hover:text-red-500 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                    @endif
 
                     @forelse($sections as $section)
                         <div class="relative bg-[#fffef9] border-2 border-black shadow-[6px_6px_0px_0px_#000] p-6"
