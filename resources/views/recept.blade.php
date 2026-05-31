@@ -180,15 +180,16 @@
                                          x-transition:enter-end="opacity-100"
                                          class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 pointer-events-none">
                                         @auth
-                                        <form method="POST" action="{{ route('recept.gemaakt', $recipe->id) }}" class="pointer-events-auto">
-                                            @csrf
-                                            <button type="submit" class="flex items-center gap-2 bg-brand text-white text-[11px] font-black uppercase tracking-widest px-6 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
+                                        <div x-data="{ cooked: {{ $alreadyCooked ? 'true' : 'false' }} }" class="pointer-events-auto">
+                                            <button @click="fetch('{{ route('recept.gemaakt', $recipe->id) }}', { method: 'POST', headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content, 'Accept': 'application/json' } }).then(() => cooked = true)"
+                                                    :class="cooked ? 'bg-green-500 border-green-700' : 'bg-brand border-black'"
+                                                    class="flex items-center gap-2 text-white text-[11px] font-black uppercase tracking-widest px-6 py-3.5 border-2 shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
                                                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                                 </svg>
-                                                IK HEB DIT GEMAAKT
+                                                <span x-text="cooked ? 'GEMAAKT' : 'IK HEB DIT GEMAAKT'"></span>
                                             </button>
-                                        </form>
+                                        </div>
                                         @else
                                         <a href="{{ route('login') }}" class="pointer-events-auto flex items-center gap-2 bg-brand text-white text-[11px] font-black uppercase tracking-widest px-6 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
                                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">

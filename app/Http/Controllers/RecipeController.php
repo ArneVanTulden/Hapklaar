@@ -42,7 +42,10 @@ class RecipeController extends Controller
     public function show(int $id)
     {
         $recipe = Recipe::with(['ingredients', 'nutritionInfo'])->findOrFail($id);
-        return view('recept', compact('recipe'));
+        /** @var \App\Models\User|null $user */
+        $user = auth()->user();
+        $alreadyCooked = $user && $user->cookedRecipes()->where('recipe_id', $id)->exists();
+        return view('recept', compact('recipe', 'alreadyCooked'));
     }
 
     public function random()
@@ -55,7 +58,9 @@ class RecipeController extends Controller
     {
         $recipe   = Recipe::with('ingredients')->findOrFail($id);
         $portions = max(1, (int) $request->input('portions', 1));
-        $list     = auth()->user()->shoppingLists()->firstOrCreate([]);
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $list = $user->shoppingLists()->firstOrCreate([]);
 
         foreach ($recipe->ingredients as $ingredient) {
             $qty = $ingredient->pivot->quantity ? round($ingredient->pivot->quantity * $portions, 2) : null;
@@ -76,7 +81,11 @@ class RecipeController extends Controller
     public function markAsCooked(int $id)
     {
         $recipe = Recipe::findOrFail($id);
-        auth()->user()->cookedRecipes()->syncWithoutDetaching([$recipe->id => ['cooked_at' => now()]]);
-        return back()->with('gemaakt_success', true);
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $user->cookedRecipes()->syncWithoutDetaching([$recipe->id => ['cooked_at' => now()]]);
+        return request()->wantsJson()
+            ? response()->json(['ok' => true])
+            : back()->with('gemaakt_success', true);
     }
 }
