@@ -39,6 +39,7 @@
                     },
                     isFullscreen: false,
                     videoEnded: false,
+                    controlsVisible: true,
                     endVideoSec: (() => { const t = @json($recipe->end_video_timestamp); if (!t) return null; const p = String(t).split(':'); return p.length === 2 ? +p[0]*60 + +p[1] : +p[0]; })(),
                     get showEndButton() { return this.endVideoSec !== null && this.currentTime >= this.endVideoSec && !this.videoEnded; },
 
@@ -48,6 +49,16 @@
                             p.addEventListener('timeupdate', () => { this.currentTime = p.currentTime; });
                             p.addEventListener('ended', () => { this.videoEnded = true; });
                             p.addEventListener('play', () => { this.videoEnded = false; });
+
+                            let hideTimer;
+                            const showCtrl = () => { this.controlsVisible = true; clearTimeout(hideTimer); };
+                            const hideCtrl = (delay = 3000) => { clearTimeout(hideTimer); hideTimer = setTimeout(() => { this.controlsVisible = false; }, delay); };
+                            const wrapper = this.$refs.videoWrapper;
+                            p.addEventListener('pause', showCtrl);
+                            p.addEventListener('play', () => hideCtrl(3000));
+                            wrapper.addEventListener('mousemove', () => { showCtrl(); if (!p.paused) hideCtrl(2500); });
+                            wrapper.addEventListener('mouseleave', () => { if (!p.paused) hideCtrl(500); });
+                            p.addEventListener('touchstart', () => { showCtrl(); if (!p.paused) hideCtrl(3000); }, { passive: true });
                         }
 
                         const onFsChange = () => {
@@ -139,7 +150,7 @@
                                 <livewire:toggle-favorite :recipe-id="$recipe->id" />
                             </div>
                             <div x-ref="videoWrapper"
-                             class="group border-2 border-black overflow-hidden relative"
+                             class="border-2 border-black overflow-hidden relative"
                              :style="isFullscreen ? 'width:100%;height:100%;' : 'aspect-ratio:16/10;'">
                                 @if($recipe->video_url)
                                     <mux-player
@@ -166,7 +177,8 @@
                                          x-transition:enter="transition-opacity duration-300"
                                          x-transition:enter-start="opacity-0"
                                          x-transition:enter-end="opacity-100"
-                                         class="absolute right-3 bottom-3 group-hover:bottom-14 z-20 pointer-events-auto transition-all duration-200">
+                                         :class="controlsVisible ? 'bottom-14' : 'bottom-3'"
+                                         class="absolute right-3 z-20 pointer-events-auto transition-all duration-200">
                                         <button @click="$refs.player.currentTime = $refs.player.duration"
                                                 class="flex items-center gap-2 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-4 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
