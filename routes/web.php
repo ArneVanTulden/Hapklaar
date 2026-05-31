@@ -26,6 +26,7 @@ Route::middleware('guest')->group(function () {
 Route::get('/recepten/random', [RecipeController::class, 'random'])->name('recept.random');
 Route::get('/recepten/{id}', [RecipeController::class, 'show'])->name('recept');
 Route::post('/recepten/{id}/boodschappen', [RecipeController::class, 'addToShoppingList'])->middleware('auth')->name('recept.boodschappen');
+Route::post('/recepten/{id}/gemaakt', [RecipeController::class, 'markAsCooked'])->middleware('auth')->name('recept.gemaakt');
 Route::post('/recepten/{id}/voice', [VoiceController::class, 'match'])->middleware('throttle:20,1')->name('recept.voice');
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');

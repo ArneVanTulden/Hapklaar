@@ -179,12 +179,24 @@
                                          x-transition:enter-start="opacity-0"
                                          x-transition:enter-end="opacity-100"
                                          class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 pointer-events-none">
-                                        <button class="pointer-events-auto flex items-center gap-2 bg-brand text-white text-[11px] font-black uppercase tracking-widest px-6 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
+                                        @auth
+                                        <form method="POST" action="{{ route('recept.gemaakt', $recipe->id) }}" class="pointer-events-auto">
+                                            @csrf
+                                            <button type="submit" class="flex items-center gap-2 bg-brand text-white text-[11px] font-black uppercase tracking-widest px-6 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
+                                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                                </svg>
+                                                IK HEB DIT GEMAAKT
+                                            </button>
+                                        </form>
+                                        @else
+                                        <a href="{{ route('login') }}" class="pointer-events-auto flex items-center gap-2 bg-brand text-white text-[11px] font-black uppercase tracking-widest px-6 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
                                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                             </svg>
                                             IK HEB DIT GEMAAKT
-                                        </button>
+                                        </a>
+                                        @endauth
                                         <button class="pointer-events-auto flex items-center gap-2 bg-white text-black text-[11px] font-black uppercase tracking-widest px-6 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
                                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>

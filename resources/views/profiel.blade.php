@@ -197,12 +197,19 @@
                 <div x-show="tab === 'gemaakt'" x-cloak>
                     <h2 class="text-sm font-black uppercase tracking-widest mb-5">RECEPTEN DIE JE GEMAAKT HEBT</h2>
 
+                    @if($cooked->isEmpty())
+                        <p class="text-sm text-gray-500 italic">Nog geen recepten gemaakt. Kook iets en kom terug!</p>
+                    @else
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                        {{-- FAKE recept --}}
-                        <a href="#"
+                        @foreach($cooked as $recipe)
+                        <a href="{{ route('recept', $recipe->id) }}"
                            class="bg-black border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 overflow-hidden cursor-pointer group block">
                             <div class="relative overflow-hidden" style="aspect-ratio:16/9;">
-                                <div class="w-full h-full bg-gray-300"></div>
+                                @if($recipe->image_path)
+                                    <img src="{{ asset('storage/' . $recipe->image_path) }}" alt="{{ $recipe->title }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full bg-gray-300"></div>
+                                @endif
                                 <span class="absolute top-3 left-3 bg-[var(--lime)] text-black text-[10px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 border-black flex items-center gap-1.5">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
@@ -210,28 +217,34 @@
                                     GEMAAKT
                                 </span>
                                 <span class="absolute top-3 right-3 text-white text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-black/60">
-                                    31 MEI 2026
+                                    {{ \Carbon\Carbon::parse($recipe->pivot->cooked_at)->translatedFormat('d M Y') }}
                                 </span>
                             </div>
                             <div class="bg-black px-5 pt-4 pb-4">
-                                <h3 class="text-white font-black uppercase italic text-lg leading-tight mb-3">Ultieme Kater Ramen</h3>
+                                <h3 class="text-white font-black uppercase italic text-lg leading-tight mb-3">{{ $recipe->title }}</h3>
                                 <div class="flex items-center gap-5">
+                                    @if($recipe->prep_time_minutes)
                                     <span class="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wide text-white">
                                         <svg class="w-4 h-4 text-[var(--lime)]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                             <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/>
                                         </svg>
-                                        45 MIN
+                                        {{ $recipe->prep_time_minutes }} MIN
                                     </span>
+                                    @endif
+                                    @if($recipe->afwas_score)
                                     <span class="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wide text-white">
                                         <svg class="w-4 h-4 text-[var(--lime)]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
                                         </svg>
-                                        AFWAS-SCORE: 3/5
+                                        AFWAS-SCORE: {{ $recipe->afwas_score }}/5
                                     </span>
+                                    @endif
                                 </div>
                             </div>
                         </a>
+                        @endforeach
                     </div>
+                    @endif
                 </div>{{-- end gemaakt --}}
 
                 {{-- ============================================================

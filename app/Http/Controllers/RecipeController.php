@@ -72,4 +72,11 @@ class RecipeController extends Controller
 
         return back()->with('boodschappen_success', 'Ingrediënten toegevoegd aan boodschappenlijst.');
     }
+
+    public function markAsCooked(int $id)
+    {
+        $recipe = Recipe::findOrFail($id);
+        auth()->user()->cookedRecipes()->syncWithoutDetaching([$recipe->id => ['cooked_at' => now()]]);
+        return back()->with('gemaakt_success', true);
+    }
 }
