@@ -65,7 +65,7 @@
                             const fs = document.fullscreenElement || document.webkitFullscreenElement;
                             this.isFullscreen = !!fs;
                             const wrapper = this.$refs.videoWrapper;
-                            [this.$refs.voiceOverlay, this.$refs.endedOverlay].forEach(el => {
+                            [this.$refs.voiceOverlay, this.$refs.endedOverlay, this.$refs.endButton].forEach(el => {
                                 if (!el) return;
                                 if (fs && !fs.contains(el)) {
                                     fs.appendChild(el);
@@ -173,7 +173,8 @@
                                     </div>
 
                                     {{-- End button overlay --}}
-                                    <div x-show="showEndButton"
+                                    <div x-ref="endButton"
+                                         x-show="showEndButton"
                                          x-transition:enter="transition-opacity duration-300"
                                          x-transition:enter-start="opacity-0"
                                          x-transition:enter-end="opacity-100"
