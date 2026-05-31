@@ -179,6 +179,13 @@
                                          x-transition:enter-start="opacity-0"
                                          x-transition:enter-end="opacity-100"
                                          class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 pointer-events-none">
+                                        <button @click="$refs.player.currentTime = 0; $refs.player.play(); videoEnded = false"
+                                                class="pointer-events-auto text-white/70 hover:text-white transition-colors mb-1"
+                                                title="Opnieuw afspelen">
+                                            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                                            </svg>
+                                        </button>
                                         @auth
                                         <div x-data="{ cooked: {{ $alreadyCooked ? 'true' : 'false' }} }" class="pointer-events-auto">
                                             <button @click="fetch('{{ route('recept.gemaakt', $recipe->id) }}', { method: 'POST', headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content, 'Accept': 'application/json' } }).then(() => cooked = true)"
