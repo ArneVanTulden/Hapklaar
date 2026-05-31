@@ -113,7 +113,7 @@
 
                     {{-- Stats row --}}
                     <div class="grid grid-cols-3 border-t-2 border-black divide-x-2 divide-black">
-                        <div class="flex flex-col md:flex-row items-center md:gap-3 gap-2 px-2 md:px-5 py-3 md:py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors text-center md:text-left">
+                        <div class="flex flex-col md:flex-row items-center md:gap-3 gap-2 px-2 md:px-5 py-3 md:py-4 bg-white text-center md:text-left">
                             <div class="w-9 h-9 bg-[var(--lime)] border-2 border-black flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
@@ -124,7 +124,7 @@
                                 <div class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-0.5">RECEPTEN</div>
                             </div>
                         </div>
-                        <div class="flex flex-col md:flex-row items-center md:gap-3 gap-2 px-2 md:px-5 py-3 md:py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors text-center md:text-left">
+                        <div class="flex flex-col md:flex-row items-center md:gap-3 gap-2 px-2 md:px-5 py-3 md:py-4 bg-white text-center md:text-left">
                             <div class="w-9 h-9 bg-[var(--yellow)] border-2 border-black flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
@@ -135,7 +135,7 @@
                                 <div class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-0.5">REVIEWS</div>
                             </div>
                         </div>
-                        <div class="flex flex-col md:flex-row items-center md:gap-3 gap-2 px-2 md:px-5 py-3 md:py-4 bg-white hover:bg-[var(--pink-soft)] transition-colors text-center md:text-left">
+                        <div class="flex flex-col md:flex-row items-center md:gap-3 gap-2 px-2 md:px-5 py-3 md:py-4 bg-white text-center md:text-left">
                             <div class="w-9 h-9 bg-brand border-2 border-black flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
