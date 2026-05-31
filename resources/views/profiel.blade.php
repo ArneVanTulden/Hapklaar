@@ -156,6 +156,14 @@
                 <div x-data="{ tab: 'favorieten' }" id="profiel-tabs" @open-tab.window="tab = $event.detail.tab">
 
                 <div class="flex gap-2 md:gap-3 mb-8 flex-wrap">
+                    <button @click="tab = 'gemaakt'"
+                            :class="tab === 'gemaakt' ? 'bg-brand text-white' : 'bg-white text-black hover:bg-[var(--pink-soft)]'"
+                            class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] transition-colors">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
+                        </svg>
+                        MIJN RECEPTEN
+                    </button>
                     <button @click="tab = 'favorieten'"
                             :class="tab === 'favorieten' ? 'bg-brand text-white' : 'bg-white text-black hover:bg-[var(--pink-soft)]'"
                             class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest px-5 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] transition-colors">
@@ -182,6 +190,49 @@
                         INSTELLINGEN
                     </button>
                 </div>
+
+                {{-- ============================================================
+                     MIJN RECEPTEN SECTION
+                ============================================================ --}}
+                <div x-show="tab === 'gemaakt'" x-cloak>
+                    <h2 class="text-sm font-black uppercase tracking-widest mb-5">RECEPTEN DIE JE GEMAAKT HEBT</h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        {{-- FAKE recept --}}
+                        <a href="#"
+                           class="bg-black border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 overflow-hidden cursor-pointer group block">
+                            <div class="relative overflow-hidden" style="aspect-ratio:16/9;">
+                                <div class="w-full h-full bg-gray-300"></div>
+                                <span class="absolute top-3 left-3 bg-[var(--lime)] text-black text-[10px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 border-black flex items-center gap-1.5">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    GEMAAKT
+                                </span>
+                                <span class="absolute top-3 right-3 text-white text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-black/60">
+                                    31 MEI 2026
+                                </span>
+                            </div>
+                            <div class="bg-black px-5 pt-4 pb-4">
+                                <h3 class="text-white font-black uppercase italic text-lg leading-tight mb-3">Ultieme Kater Ramen</h3>
+                                <div class="flex items-center gap-5">
+                                    <span class="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wide text-white">
+                                        <svg class="w-4 h-4 text-[var(--lime)]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/>
+                                        </svg>
+                                        45 MIN
+                                    </span>
+                                    <span class="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wide text-white">
+                                        <svg class="w-4 h-4 text-[var(--lime)]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
+                                        </svg>
+                                        AFWAS-SCORE: 3/5
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>{{-- end gemaakt --}}
 
                 {{-- ============================================================
                      FAVORIETEN SECTION
