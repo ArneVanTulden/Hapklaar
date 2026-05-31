@@ -115,8 +115,8 @@
                     <div class="grid grid-cols-3 border-t-2 border-black divide-x-2 divide-black">
                         <div class="flex flex-col md:flex-row items-center md:gap-3 gap-2 px-2 md:px-5 py-3 md:py-4 bg-white text-center md:text-left">
                             <div class="w-9 h-9 bg-[var(--lime)] border-2 border-black flex items-center justify-center flex-shrink-0">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
                                 </svg>
                             </div>
                             <div class="leading-tight">
