@@ -214,7 +214,7 @@
                                          x-transition:enter-end="opacity-100"
                                          :class="controlsVisible ? 'bottom-14' : 'bottom-3'"
                                          class="absolute right-3 z-20 pointer-events-auto transition-all duration-200">
-                                        <button @click="$refs.player.currentTime = $refs.player.duration"
+                                        <button @click="$refs.player.currentTime = $refs.player.duration; if ($refs.player.paused) videoEnded = true"
                                                 class="flex items-center gap-2 bg-brand text-white text-[10px] font-black uppercase tracking-widest px-4 py-2.5 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
