@@ -82,6 +82,11 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->hasOne(Inventory::class);
     }
 
+    public function cookedRecipes()
+    {
+        return $this->belongsToMany(Recipe::class, 'recipe_user_cooked')->withPivot('cooked_at');
+    }
+
     public function sendPasswordResetNotification($token): void
     {
         $this->notify(new ResetPasswordNotification($token));

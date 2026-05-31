@@ -120,7 +120,7 @@
                                 </svg>
                             </div>
                             <div class="leading-tight">
-                                <div class="text-xl font-black leading-none">69</div>
+                                <div class="text-xl font-black leading-none">{{ $cookedCount }}</div>
                                 <div class="text-[8px] font-black uppercase tracking-widest text-gray-500 mt-0.5">RECEPTEN</div>
                             </div>
                         </div>

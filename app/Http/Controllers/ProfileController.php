@@ -9,6 +9,7 @@ class ProfileController extends Controller
         $user = auth()->user();
         $favorieten = $user->favoriteRecipes()->with('category')->latest('favorites.created_at')->get();
         $reviews = $user->reviews()->with(['recipe', 'photos'])->latest()->get();
-        return view('profiel', compact('favorieten', 'reviews'));
+        $cookedCount = $user->cookedRecipes()->count();
+        return view('profiel', compact('favorieten', 'reviews', 'cookedCount'));
     }
 }
