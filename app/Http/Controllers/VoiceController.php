@@ -67,19 +67,6 @@ class VoiceController extends Controller
             return response()->json(['wakeword_found' => true, 'command' => $command, 'action' => 'play', 'timestamp' => null, 'step' => null]);
         }
 
-        // Priority 1: match against video transcript segments
-        if ($recipe->transcript) {
-            $segment = $this->matchTranscript($command, $recipe->transcript);
-            if ($segment) {
-                return response()->json([
-                    'wakeword_found' => true,
-                    'command'        => $command,
-                    'timestamp'      => (int) round($segment['start']),
-                    'step'           => null,
-                ]);
-            }
-        }
-
         // Priority 2: "volgende stap" / "vorige stap"
         $currentStepNr = (int) $request->input('current_step', 0);
         if (preg_match('/\b(volgende|verder|door)\b/i', $command)) {
@@ -139,40 +126,9 @@ class VoiceController extends Controller
 
     private function buildPrompt(Recipe $recipe): string
     {
-        $sentences = collect($recipe->transcript ?? [])
-            ->pluck('text')
-            ->map(fn($t) => trim($t))
-            ->filter()
-            ->values();
-
-        // Pack as many transcript sentences as fit in ~700 chars
-        $context = '';
-        foreach ($sentences as $sentence) {
-            if (mb_strlen($context) + mb_strlen($sentence) + 1 > 700) break;
-            $context .= ' ' . $sentence;
-        }
-
         $ingredients = $recipe->ingredients->pluck('canonical_name')->unique()->implode(', ');
-        $prefix      = "Hey Hapklaar. {$recipe->title}. {$ingredients}.";
 
-        return mb_substr(trim($prefix . $context), 0, 900);
-    }
-
-    private function matchTranscript(string $command, array $segments): ?array
-    {
-        $commandWords = $this->tokenize($command);
-        $best         = null;
-        $bestScore    = 0;
-
-        foreach ($segments as $segment) {
-            $overlap = count(array_intersect($commandWords, $this->tokenize($segment['text'])));
-            if ($overlap > $bestScore) {
-                $bestScore = $overlap;
-                $best      = $segment;
-            }
-        }
-
-        return $bestScore >= 1 ? $best : null;
+        return mb_substr("Hey Hapklaar. {$recipe->title}. {$ingredients}.", 0, 900);
     }
 
     private function matchSteps(string $command, $steps): ?array
