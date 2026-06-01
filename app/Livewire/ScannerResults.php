@@ -11,6 +11,13 @@ class ScannerResults extends Component
 
     public ?string $flash = null;
 
+    public function clearAll(): void
+    {
+        $this->items = [];
+        $this->flash = null;
+        $this->broadcastItems();
+    }
+
     public function removeItem(int $index): void
     {
         array_splice($this->items, $index, 1);
