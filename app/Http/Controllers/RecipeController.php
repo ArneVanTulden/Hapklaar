@@ -78,6 +78,31 @@ class RecipeController extends Controller
         return back()->with('boodschappen_success', 'Ingrediënten toegevoegd aan boodschappenlijst.');
     }
 
+    public function removeFromInventory(Request $request, int $id)
+    {
+        $recipe   = Recipe::with('ingredients')->findOrFail($id);
+        $portions = max(1, (int) $request->input('portions', 1));
+        /** @var \App\Models\User $user */
+        $user      = auth()->user();
+        $inventory = $user->inventory()->first();
+
+        if ($inventory) {
+            foreach ($recipe->ingredients as $ingredient) {
+                if (! $ingredient->pivot->quantity) continue;
+
+                $needed = round($ingredient->pivot->quantity * $portions, 2);
+                $item   = $inventory->items()->where('ingredient_id', $ingredient->id)->first();
+
+                if (! $item) continue;
+
+                $remaining = (float) $item->quantity - $needed;
+                $remaining <= 0 ? $item->delete() : $item->update(['quantity' => round($remaining, 2)]);
+            }
+        }
+
+        return response()->json(['ok' => true]);
+    }
+
     public function markAsCooked(int $id)
     {
         $recipe = Recipe::findOrFail($id);

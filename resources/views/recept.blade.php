@@ -205,12 +205,25 @@
                                             IK HEB DIT GEMAAKT
                                         </a>
                                         @endauth
-                                        <button class="pointer-events-auto flex items-center gap-2 bg-white text-black text-[11px] font-black uppercase tracking-widest px-6 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
+                                        @auth
+                                        <div x-data="{ removed: false }" class="pointer-events-auto">
+                                            <button @click="fetch('{{ route('recept.verwijder-uit-voorraad', $recipe->id) }}', { method: 'POST', headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content, 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ portions }) }).then(() => removed = true)"
+                                                    :class="removed ? 'bg-red-500 border-red-700 text-white' : 'bg-white text-black border-black'"
+                                                    class="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest px-6 py-3.5 border-2 shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
+                                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                </svg>
+                                                <span x-text="removed ? 'VERWIJDERD' : 'VERWIJDER UIT VOORRAAD'"></span>
+                                            </button>
+                                        </div>
+                                        @else
+                                        <a href="{{ route('login') }}" class="pointer-events-auto flex items-center gap-2 bg-white text-black text-[11px] font-black uppercase tracking-widest px-6 py-3.5 border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000] transition-all duration-75">
                                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                             </svg>
-                                            VERWIJDER UIT INGREDIËNTEN
-                                        </button>
+                                            VERWIJDER UIT VOORRAAD
+                                        </a>
+                                        @endauth
                                     </div>
 
                                     {{-- End button overlay --}}
