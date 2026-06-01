@@ -111,9 +111,13 @@ class IjskastScanner extends Component
 
                 $ingredient = $this->fuzzyMatch($name, $allIngredients);
 
+                if (! $ingredient) {
+                    continue;
+                }
+
                 $this->dispatch('scanner-ingredient-added',
-                    id:       $ingredient['id'] ?? null,
-                    name:     $ingredient['canonical_name'] ?? $name,
+                    id:       $ingredient['id'],
+                    name:     $ingredient['canonical_name'],
                     qty:      $item['qty'] ?? '1',
                     unit:     $this->normalizeUnit($item['unit'] ?? 'stuks'),
                     category: $ingredient['category'] ?? null,
