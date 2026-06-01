@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Ingredient;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 
 class IngredientSeeder extends Seeder
 {
@@ -81,11 +82,6 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Kabeljauw', 'category' => 'vis', 'name_en' => 'fish, cod, atlantic, raw'],
             ['canonical_name' => 'Zeebaars',  'category' => 'vis', 'name_en' => 'fish, sea bass, mixed species, raw'],
             ['canonical_name' => 'Zalm',      'category' => 'vis', 'name_en' => 'fish, salmon, atlantic, wild, raw'],
-            ['canonical_name' => 'Forel',     'category' => 'vis', 'name_en' => 'fish, trout, rainbow, wild, raw'],
-            ['canonical_name' => 'Makreel',   'category' => 'vis', 'name_en' => 'fish, mackerel, atlantic, raw'],
-            ['canonical_name' => 'Haring',    'category' => 'vis', 'name_en' => 'fish, herring, atlantic, raw'],
-            ['canonical_name' => 'Paling',    'category' => 'vis', 'name_en' => 'fish, eel, mixed species, raw'],
-            ['canonical_name' => 'Tong',      'category' => 'vis', 'name_en' => 'fish, flatfish, raw'],
             ['canonical_name' => 'Mosselen',  'category' => 'vis', 'name_en' => 'mussels, blue, raw'],
             ['canonical_name' => 'Oesters',   'category' => 'vis', 'name_en' => 'oysters, eastern, wild, raw'],
             ['canonical_name' => 'Garnalen',  'category' => 'vis', 'name_en' => 'shrimp, mixed species, raw'],
@@ -95,11 +91,6 @@ class IngredientSeeder extends Seeder
 
             // Granen
             ['canonical_name' => 'Brood',           'category' => 'granen', 'name_en' => 'bread, white, commercially prepared',         'gram_per_unit' => 30],
-            ['canonical_name' => 'Witbrood',         'category' => 'granen', 'name_en' => 'bread, white, commercially prepared',         'gram_per_unit' => 30],
-            ['canonical_name' => 'Bruin brood',      'category' => 'granen', 'name_en' => 'bread, whole-wheat, commercially prepared',   'gram_per_unit' => 30],
-            ['canonical_name' => 'Volkorenbrood',    'category' => 'granen', 'name_en' => 'bread, whole-wheat, commercially prepared',   'gram_per_unit' => 30],
-            ['canonical_name' => 'Ciabatta',         'category' => 'granen', 'name_en' => 'bread, italian',                              'gram_per_unit' => 80],
-            ['canonical_name' => 'Meergranenbrood',  'category' => 'granen', 'name_en' => 'bread, multi-grain, toasted',                 'gram_per_unit' => 30],
             ['canonical_name' => 'Rijst',            'category' => 'granen', 'name_en' => 'rice, white, long-grain, regular, raw, unenriched'],
             ['canonical_name' => 'Pasta',            'category' => 'granen', 'name_en' => 'pasta, dry, enriched'],
             ['canonical_name' => 'Spaghetti',        'category' => 'granen', 'name_en' => 'spaghetti, dry, enriched'],
@@ -109,7 +100,6 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Gist',             'category' => 'granen', 'name_en' => 'leavening agents, yeast, bakers, active dry'],
             ['canonical_name' => 'Bloem',            'category' => 'granen', 'name_en' => 'wheat flour, white, all-purpose, unenriched'],
             ['canonical_name' => 'Koek',             'category' => 'granen', 'name_en' => 'cookies, butter',                             'gram_per_unit' => 15],
-            ['canonical_name' => 'Crackers',         'category' => 'granen', 'name_en' => 'crackers, whole-wheat',                       'gram_per_unit' => 8],
             ['canonical_name' => 'Tortilla',         'category' => 'granen', 'name_en' => 'tortillas, ready-to-bake or fry, flour',      'gram_per_unit' => 40],
             ['canonical_name' => 'Wrap',             'category' => 'granen', 'name_en' => 'tortillas, ready-to-bake or fry, flour',      'gram_per_unit' => 45],
             ['canonical_name' => 'Couscous',         'category' => 'granen', 'name_en' => 'couscous, dry'],
@@ -242,8 +232,6 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Sinaasappelsap',    'category' => 'dranken', 'name_en' => 'orange juice, raw'],
             ['canonical_name' => 'Appelsap',          'category' => 'dranken', 'name_en' => 'apple juice, canned or bottled, unsweetened'],
             ['canonical_name' => 'Bier',              'category' => 'dranken', 'name_en' => 'beer, regular'],
-            ['canonical_name' => 'Blonde bier',       'category' => 'dranken', 'name_en' => 'beer, regular'],
-            ['canonical_name' => 'Bruin bier',        'category' => 'dranken', 'name_en' => 'beer, regular'],
             ['canonical_name' => 'Rode wijn',         'category' => 'dranken', 'name_en' => 'wine, table, red'],
             ['canonical_name' => 'Witte wijn',        'category' => 'dranken', 'name_en' => 'wine, table, white'],
             ['canonical_name' => 'Rosé',              'category' => 'dranken', 'name_en' => 'wine, table, rose'],
@@ -269,5 +257,7 @@ class IngredientSeeder extends Seeder
             ->whereDoesntHave('inventoryItems')
             ->whereDoesntHave('recipeIngredients')
             ->delete();
+
+        Cache::forget('ingredients_for_matching');
     }
 }
