@@ -58,6 +58,12 @@ class IjskastScanner extends Component
             $imageData = base64_encode((string) $encoded);
             $mimeType = 'image/jpeg';
 
+            $allIngredients = Cache::remember('ingredients_for_matching', 3600, fn () =>
+                Ingredient::all(['id', 'canonical_name', 'category'])->toArray()
+            );
+
+            $ingredientNames = implode(', ', array_column($allIngredients, 'canonical_name'));
+
             $response = Http::withToken(config('services.openai.key'))
                 ->timeout(30)
                 ->post('https://api.openai.com/v1/chat/completions', [
@@ -74,12 +80,12 @@ class IjskastScanner extends Component
                                 ],
                                 [
                                     'type' => 'text',
-                                    'text' => "Je bent een koelkast-scanner. Identificeer alle voedselingrediënten die zichtbaar zijn in deze afbeelding.\n\nRegels:\n- Gebruik altijd Nederlandse namen (\"wortel\" niet \"carrot\")\n- Scan alle schappen en vakken volledig\n- Neem alleen op wat je daadwerkelijk ziet, geen aannames\n- Vloeistoffen: identificeer op kleur/label (oranje sap = sinaasappelsap, transparant = water)\n\nGeef ALLEEN een JSON-array terug: [{\"name\":\"nederlandse naam\",\"qty\":\"hoeveelheid\",\"unit\":\"stuks|g|kg|ml|l\"}]. Gebruik altijd de afkorting (g niet gram, ml niet milliliter). Geen uitleg, geen markdown.",
+                                    'text' => "Je bent een koelkast-scanner. Identificeer alle voedselingrediënten die zichtbaar zijn in deze afbeelding.\n\nBekende ingrediënten (gebruik deze exacte namen als het ingredient daarin staat):\n{$ingredientNames}\n\nRegels:\n- Gebruik EXACT de naam uit de lijst hierboven als het ingredient daarin voorkomt\n- Staat het niet in de lijst? Gebruik dan de meest passende Nederlandse naam\n- Scan alle schappen en vakken volledig\n- Neem alleen op wat je daadwerkelijk ziet, geen aannames\n- Vloeistoffen: identificeer op kleur/label (oranje sap = sinaasappelsap, transparant = water)\n\nGeef ALLEEN een JSON-array terug: [{\"name\":\"naam\",\"qty\":\"hoeveelheid\",\"unit\":\"stuks|g|kg|ml|l\"}]. Gebruik altijd de afkorting (g niet gram, ml niet milliliter). Geen uitleg, geen markdown.",
                                 ],
                             ],
                         ],
                     ],
-                    'max_tokens' => 800,
+                    'max_tokens' => 1000,
                 ]);
 
             if (! $response->successful()) {
@@ -97,10 +103,6 @@ class IjskastScanner extends Component
                 return;
             }
 
-            $allIngredients = Cache::remember('ingredients_for_matching', 3600, fn () =>
-                Ingredient::all(['id', 'canonical_name', 'category'])->toArray()
-            );
-
             foreach ($ingredients as $item) {
                 $name = trim($item['name'] ?? '');
                 if (! $name) {
@@ -109,13 +111,9 @@ class IjskastScanner extends Component
 
                 $ingredient = $this->fuzzyMatch($name, $allIngredients);
 
-                if (! $ingredient) {
-                    continue;
-                }
-
                 $this->dispatch('scanner-ingredient-added',
-                    id:       $ingredient['id'],
-                    name:     $ingredient['canonical_name'],
+                    id:       $ingredient['id'] ?? null,
+                    name:     $ingredient['canonical_name'] ?? $name,
                     qty:      $item['qty'] ?? '1',
                     unit:     $this->normalizeUnit($item['unit'] ?? 'stuks'),
                     category: $ingredient['category'] ?? null,

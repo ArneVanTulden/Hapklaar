@@ -29,11 +29,21 @@
 
     <div class="flex flex-wrap gap-2 mb-4 items-start content-start">
         @forelse($items as $index => $item)
+            @if(($item['ingredient_id'] ?? null) === null)
+                <span class="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 border-dashed border-yellow-500 bg-yellow-50 text-yellow-800"
+                      title="Niet herkend in database">
+                    {{ $item['label'] }}
+                    <span class="text-yellow-500 font-black">?</span>
+                    <button wire:click="removeItem({{ $index }})"
+                        class="font-black text-[14px] inline-flex items-center justify-center hover:opacity-70 transition-opacity leading-none">×</button>
+                </span>
+            @else
                 <span class="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 border-2 {{ $catClass($item['category'] ?? null) }}">
-                {{ $item['label'] }}
-                <button wire:click="removeItem({{ $index }})"
-                    class="font-black text-[14px] inline-flex items-center justify-center hover:opacity-70 transition-opacity leading-none">×</button>
-            </span>
+                    {{ $item['label'] }}
+                    <button wire:click="removeItem({{ $index }})"
+                        class="font-black text-[14px] inline-flex items-center justify-center hover:opacity-70 transition-opacity leading-none">×</button>
+                </span>
+            @endif
         @empty
             <p class="text-[10px] font-bold uppercase text-gray-400 tracking-widest">Nog geen ingrediënten gevonden.</p>
         @endforelse
