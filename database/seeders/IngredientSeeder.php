@@ -14,21 +14,11 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Boter',          'category' => 'zuivel', 'name_en' => 'butter'],
             ['canonical_name' => 'Slagroom',        'category' => 'zuivel', 'name_en' => 'heavy whipping cream'],
             ['canonical_name' => 'Melk',            'category' => 'zuivel', 'name_en' => 'whole milk'],
-            ['canonical_name' => 'Halfvolle melk',  'category' => 'zuivel', 'name_en' => 'reduced fat milk 2% milkfat'],
-            ['canonical_name' => 'Karnemelk',       'category' => 'zuivel', 'name_en' => 'buttermilk, low fat'],
             ['canonical_name' => 'Yoghurt',         'category' => 'zuivel', 'name_en' => 'yogurt, plain, whole milk'],
             ['canonical_name' => 'Griekse yoghurt', 'category' => 'zuivel', 'name_en' => 'yogurt, greek, plain, whole milk', 'gram_per_unit' => 15],
-            ['canonical_name' => 'Kwark',           'category' => 'zuivel', 'name_en' => 'cottage cheese, lowfat'],
-            ['canonical_name' => 'Ricotta',         'category' => 'zuivel', 'name_en' => 'cheese, ricotta, whole milk'],
             ['canonical_name' => 'Mozzarella',      'category' => 'zuivel', 'name_en' => 'cheese, mozzarella, whole milk'],
-            ['canonical_name' => 'Cheddar',         'category' => 'zuivel', 'name_en' => 'cheese, cheddar'],
-            ['canonical_name' => 'Gouda',           'category' => 'zuivel', 'name_en' => 'cheese, gouda'],
-            ['canonical_name' => 'Camembert',       'category' => 'zuivel', 'name_en' => 'cheese, camembert'],
-            ['canonical_name' => 'Brie',            'category' => 'zuivel', 'name_en' => 'cheese, brie'],
-            ['canonical_name' => 'Gorgonzola',      'category' => 'zuivel', 'name_en' => 'cheese, blue'],
-            ['canonical_name' => 'Blauwe kaas',     'category' => 'zuivel', 'name_en' => 'cheese, blue'],
+            ['canonical_name' => 'kaas',            'category' => 'zuivel', 'name_en' => 'cheese, blue'],
             ['canonical_name' => 'Parmezaan',       'category' => 'zuivel', 'name_en' => 'cheese, parmesan, hard'],
-            ['canonical_name' => 'Roomkaas',        'category' => 'zuivel', 'name_en' => 'cream cheese'],
             ['canonical_name' => 'Feta',            'category' => 'zuivel', 'name_en' => 'cheese, feta'],
             ['canonical_name' => 'Boursin',         'category' => 'zuivel', 'name_en' => 'cream cheese'],
             ['canonical_name' => 'Smeerkaas',       'category' => 'zuivel', 'name_en' => 'cream cheese spread'],
@@ -76,13 +66,10 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Kippenvlees',      'category' => 'vlees', 'name_en' => 'chicken, broilers or fryers, meat only, raw'],
             ['canonical_name' => 'Varkensgehakt',    'category' => 'vlees', 'name_en' => 'pork, ground, raw'],
             ['canonical_name' => 'Rundgehakt',       'category' => 'vlees', 'name_en' => 'beef, ground, 80% lean meat, raw'],
-            ['canonical_name' => 'Gemengd gehakt',   'category' => 'vlees', 'name_en' => 'beef, ground, 80% lean meat, raw'],
             ['canonical_name' => 'Kipengehakt',      'category' => 'vlees', 'name_en' => 'chicken, ground, raw'],
             ['canonical_name' => 'Ham',              'category' => 'vlees', 'name_en' => 'ham, sliced, regular, approx 11% fat'],
             ['canonical_name' => 'Spek',             'category' => 'vlees', 'name_en' => 'pork, cured, bacon, raw'],
-            ['canonical_name' => 'Pancetta',         'category' => 'vlees', 'name_en' => 'pork, fresh, belly, raw'],
             ['canonical_name' => 'Worst',            'category' => 'vlees', 'name_en' => 'sausage, pork'],
-            ['canonical_name' => 'Rookworst',        'category' => 'vlees', 'name_en' => 'sausage, smoked'],
             ['canonical_name' => 'Runder steak',     'category' => 'vlees', 'name_en' => 'beef, loin, top loin steak, boneless, raw'],
             ['canonical_name' => 'Kipfilet',         'category' => 'vlees', 'name_en' => 'chicken, broilers or fryers, breast, meat only, raw'],
             ['canonical_name' => 'Kipbout',          'category' => 'vlees', 'name_en' => 'chicken, broilers or fryers, leg, meat and skin, raw'],
@@ -266,7 +253,7 @@ class IngredientSeeder extends Seeder
         ];
 
         foreach ($ingredients as $data) {
-            Ingredient::firstOrCreate(
+            Ingredient::updateOrCreate(
                 ['canonical_name' => $data['canonical_name']],
                 [
                     'category'      => $data['category'],
@@ -275,5 +262,12 @@ class IngredientSeeder extends Seeder
                 ]
             );
         }
+
+        $seederNames = array_column($ingredients, 'canonical_name');
+
+        Ingredient::whereNotIn('canonical_name', $seederNames)
+            ->whereDoesntHave('inventoryItems')
+            ->whereDoesntHave('recipeIngredients')
+            ->delete();
     }
 }

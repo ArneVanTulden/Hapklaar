@@ -13,6 +13,11 @@ class Ingredient extends Model
         return $this->hasMany(RecipeIngredient::class, 'ingredients_id');
     }
 
+    public function inventoryItems()
+    {
+        return $this->hasMany(InventoryItem::class, 'ingredient_id');
+    }
+
     public function recipes()
     {
         return $this->belongsToMany(Recipe::class, 'recipe_ingredients', 'ingredients_id', 'recipe_id')
