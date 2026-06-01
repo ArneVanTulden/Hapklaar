@@ -186,7 +186,6 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Rode wijnazijn',  'category' => 'sauzen', 'name_en' => 'vinegar, red wine',              'gram_per_unit' => 5],
             ['canonical_name' => 'Appelazijn',      'category' => 'sauzen', 'name_en' => 'vinegar, cider',                 'gram_per_unit' => 5],
             ['canonical_name' => 'Soja saus',       'category' => 'sauzen', 'name_en' => 'soy sauce, low sodium',          'gram_per_unit' => 15],
-            ['canonical_name' => 'Worcestersaus',   'category' => 'sauzen', 'name_en' => 'sauce, worcestershire',          'gram_per_unit' => 5],
             ['canonical_name' => 'Mosterd',         'category' => 'sauzen', 'name_en' => 'mustard, prepared, yellow',      'gram_per_unit' => 5],
             ['canonical_name' => 'Tomatenketsjup',  'category' => 'sauzen', 'name_en' => 'ketchup',                        'gram_per_unit' => 5],
             ['canonical_name' => 'Mayonaise',       'category' => 'sauzen', 'name_en' => 'mayonnaise, regular',            'gram_per_unit' => 15],
@@ -200,7 +199,6 @@ class IngredientSeeder extends Seeder
             // Diepvries
             ['canonical_name' => 'Diepvrieserwtjes',          'category' => 'diepvries', 'name_en' => 'peas, green, frozen, unprepared'],
             ['canonical_name' => 'Diepvriesbonen',            'category' => 'diepvries', 'name_en' => 'beans, snap, green, frozen, unprepared'],
-            ['canonical_name' => 'Diepvriesgroenten mengsel', 'category' => 'diepvries', 'name_en' => 'vegetables, mixed, frozen, unprepared'],
             ['canonical_name' => 'Diepvriesspinaze',          'category' => 'diepvries', 'name_en' => 'spinach, frozen, chopped or leaf, unprepared'],
             ['canonical_name' => 'Diepvriesbrokkoli',         'category' => 'diepvries', 'name_en' => 'broccoli, frozen, chopped, unprepared'],
             ['canonical_name' => 'Diepvriesbloemkool',        'category' => 'diepvries', 'name_en' => 'cauliflower, frozen, unprepared'],
@@ -211,7 +209,6 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Diepvriesfruit',            'category' => 'diepvries', 'name_en' => 'fruits, mixed, frozen, unsweetened'],
 
             // Blik
-            ['canonical_name' => 'Blik tomatenpuree',   'category' => 'blik', 'name_en' => 'tomato paste, canned',                   'gram_per_unit' => 140],
             ['canonical_name' => 'Blik gehakte tomaten','category' => 'blik', 'name_en' => 'tomatoes, crushed, canned',               'gram_per_unit' => 400],
             ['canonical_name' => 'Blik tomatensaus',    'category' => 'blik', 'name_en' => 'tomato sauce, canned',                    'gram_per_unit' => 400],
             ['canonical_name' => 'Blik tonijn',         'category' => 'blik', 'name_en' => 'tuna, light, canned in water, drained',  'gram_per_unit' => 150],
@@ -225,8 +222,7 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Blik paprika',        'category' => 'blik', 'name_en' => 'peppers, sweet, red, canned, drained',   'gram_per_unit' => 400],
             ['canonical_name' => 'Blik champignons',    'category' => 'blik', 'name_en' => 'mushrooms, canned, drained',             'gram_per_unit' => 400],
             ['canonical_name' => 'Blik pijnboompitten', 'category' => 'blik', 'name_en' => 'pine nuts, dried',                       'gram_per_unit' => 100],
-            ['canonical_name' => 'Blik kokosmelk',      'category' => 'blik', 'name_en' => 'coconut milk, canned',                   'gram_per_unit' => 400],
-
+           
             // Dranken
             ['canonical_name' => 'Water',             'category' => 'dranken', 'name_en' => 'water, tap, drinking'],
             ['canonical_name' => 'Sinaasappelsap',    'category' => 'dranken', 'name_en' => 'orange juice, raw'],
