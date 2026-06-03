@@ -4,6 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Ontdekken - Hapklaar</title>
+        <meta name="description" content="Doorzoek ons receptenaanbod op dieet, bereidingstijd en meer. Vind je perfecte recept op Hapklaar.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url('/ontdekken') }}">
+        <meta property="og:title" content="Ontdekken - Hapklaar">
+        <meta property="og:description" content="Doorzoek ons receptenaanbod op dieet, bereidingstijd en meer.">
+        <meta property="og:image" content="{{ asset('icons/icon-512.png') }}">
+        <meta name="twitter:card" content="summary_large_image">
         <x-pwa-head />
 
         <link rel="preconnect" href="https://fonts.bunny.net">

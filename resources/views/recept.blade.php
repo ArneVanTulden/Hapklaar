@@ -5,6 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ $recipe->title }} - Hapklaar</title>
+        <meta name="description" content="{{ Str::limit($recipe->description, 155) }}">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="{{ $recipe->title }} - Hapklaar">
+        <meta property="og:description" content="{{ Str::limit($recipe->description, 155) }}">
+        <meta property="og:image" content="{{ $recipe->image_path ? asset('storage/' . $recipe->image_path) : asset('icons/icon-512.png') }}">
+        <meta name="twitter:card" content="summary_large_image">
         <x-pwa-head />
 
         <link rel="preconnect" href="https://fonts.bunny.net">
