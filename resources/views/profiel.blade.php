@@ -153,7 +153,7 @@
                 {{-- ============================================================
                      TAB NAV
                 ============================================================ --}}
-                <div x-data="{ tab: 'favorieten' }" id="profiel-tabs" @open-tab.window="tab = $event.detail.tab">
+                <div x-data="{ tab: '{{ request('tab', 'favorieten') }}' }" id="profiel-tabs" @open-tab.window="tab = $event.detail.tab">
 
                 <div class="flex gap-2 md:gap-3 mb-8 flex-wrap">
                     <button @click="tab = 'gemaakt'"
@@ -409,9 +409,18 @@
                             </div>
 
                             {{-- Wachtwoord --}}
-                            <button class="w-full bg-[var(--lime)] text-black text-[10px] font-black uppercase tracking-widest py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
-                                WACHTWOORD WIJZIGEN
-                            </button>
+                            @if(session('password_reset_sent'))
+                                <p class="text-xs font-black uppercase tracking-widest text-green-600 text-center py-3 bg-green-50 border-2 border-green-600 px-3">
+                                    E-mail verstuurd! Check je inbox.
+                                </p>
+                            @else
+                                <form method="POST" action="{{ route('profiel.wachtwoord-reset') }}">
+                                    @csrf
+                                    <button type="submit" class="w-full bg-[var(--lime)] text-black text-[10px] font-black uppercase tracking-widest py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                        WACHTWOORD WIJZIGEN
+                                    </button>
+                                </form>
+                            @endif
                         </div>
 
                     </div>

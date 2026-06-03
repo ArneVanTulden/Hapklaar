@@ -15,6 +15,7 @@ Route::view('/boodschappen', 'boodschappen')->middleware('auth')->name('boodscha
 Route::view('/mijn-voorraad', 'mijn-voorraad')->middleware('auth')->name('mijn-voorraad');
 
 Route::get('/profiel', [ProfileController::class, 'show'])->middleware('auth')->name('profiel');
+Route::post('/profiel/wachtwoord-reset', [ProfileController::class, 'sendPasswordReset'])->middleware('auth')->name('profiel.wachtwoord-reset');
 
 Route::middleware('guest')->group(function () {
     Route::view('/login', 'login')->name('login');
