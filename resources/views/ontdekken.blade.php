@@ -200,10 +200,10 @@
                                 $reviewers   = $recipe->reviews->pluck('user')->filter()->unique('id')->take(3)->values();
                                 $extraCount  = max(0, ($recipe->review_count ?? 0) - $reviewers->count());
                             @endphp
-                            <a data-recipe-card
-                               href="{{ route('recept', $recipe->id) }}"
+                            <div data-recipe-card
+                               @click="window.location.href='{{ route('recept', $recipe->id) }}'"
                                @if($i >= 6) x-show="expanded" style="display:none" @endif
-                               class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] flex flex-col no-underline text-inherit hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                               class="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] flex flex-col no-underline text-inherit hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75 cursor-pointer">
 
                                 {{-- Image --}}
                                 <div class="relative border-b-2 border-black" style="aspect-ratio:4/3;">
@@ -225,7 +225,7 @@
                                             {{ strtoupper($recipe->badge) }}
                                         </span>
                                     @endif
-                                    <div class="absolute top-2 right-2 z-10">
+                                    <div class="absolute top-2 right-2 z-10" @click.stop>
                                         <livewire:toggle-favorite :recipe-id="$recipe->id" :compact="true" :key="'fav-'.$recipe->id" />
                                     </div>
                                 </div>
@@ -294,7 +294,7 @@
                                     @endif
 
                                 </div>
-                            </a>
+                            </div>
                         @empty
                             <div class="col-span-full py-10 flex flex-col items-center gap-3 border-2 border-dashed border-gray-300">
                                 <p class="text-lg font-black uppercase leading-none">Geen recepten gevonden</p>
