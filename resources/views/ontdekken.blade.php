@@ -173,7 +173,7 @@
                     @php $currentSort = $sort ?? request('sort', 'popular'); @endphp
                     <div class="flex gap-5 md:gap-7 border-b-2 border-black mb-6 overflow-x-auto md:overflow-visible"
                          style="scrollbar-width: none;">
-                        @foreach(['popular' => 'POPULAIR', 'snel' => 'SNEL', 'goedkoop' => 'GOEDKOOP'] as $key => $label)
+                        @foreach(['popular' => 'POPULAIR', 'snel' => 'SNEL', 'gezond' => 'GEZOND'] as $key => $label)
                             <a href="{{ request()->fullUrlWithQuery(['sort' => $key]) }}"
                                @class([
                                    'text-[11px] font-black uppercase tracking-widest pb-2.5 -mb-px no-underline transition-colors',
