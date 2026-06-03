@@ -31,7 +31,7 @@ class RecipeController extends Controller
         $sort = $request->input('sort', 'popular');
         match ($sort) {
             'snel'     => $query->orderByRaw('prep_time_minutes IS NULL, prep_time_minutes ASC'),
-            'goedkoop' => $query->orderByRaw('calories_per_portion IS NULL, calories_per_portion ASC'),
+            'gezond'   => $query->orderByRaw('calories_per_portion IS NULL, calories_per_portion ASC'),
             default    => $query->orderByDesc('avg_rating'),
         };
 
