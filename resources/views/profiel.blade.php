@@ -153,7 +153,7 @@
                 {{-- ============================================================
                      TAB NAV
                 ============================================================ --}}
-                <div x-data="{ tab: '{{ request('tab', 'favorieten') }}' }" id="profiel-tabs" @open-tab.window="tab = $event.detail.tab">
+                <div x-data="{ tab: '{{ request('tab', 'gemaakt') }}' }" id="profiel-tabs" @open-tab.window="tab = $event.detail.tab">
 
                 <div class="flex gap-2 md:gap-3 mb-8 flex-wrap">
                     <button @click="tab = 'gemaakt'"
