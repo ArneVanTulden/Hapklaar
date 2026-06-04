@@ -39,7 +39,7 @@
                         <div class="mt-3 bg-[var(--pink-soft)] border-2 border-black p-4 text-sm font-bold space-y-1">
                             <p>HAPKLAAR</p>
                             <p>België</p>
-                            <p>E-mail: <a href="mailto:arne.vantulden@outlook.com" class="underline hover:text-brand">arne.vantulden@outlook.com</a></p>
+                            <p>E-mail: <a href="mailto:info@hapklaar.net" class="underline hover:text-brand">info@hapklaar.net</a></p>
                         </div>
                     </section>
 
@@ -97,7 +97,7 @@
                             <li class="flex gap-3"><span class="font-black text-brand mt-0.5">—</span><span><strong>Bezwaar</strong> — verzet aantekenen tegen verwerking.</span></li>
                         </ul>
                         <p class="text-sm text-gray-700 mt-3">
-                            Stuur een e-mail naar <a href="mailto:arne.vantulden@outlook.com" class="font-bold underline hover:text-brand">arne.vantulden@outlook.com</a> om een recht uit te oefenen. We reageren binnen 30 dagen.
+                            Stuur een e-mail naar <a href="mailto:info@hapklaar.net" class="font-bold underline hover:text-brand">info@hapklaar.net</a> om een recht uit te oefenen. We reageren binnen 30 dagen.
                         </p>
                     </section>
 
