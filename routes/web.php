@@ -11,6 +11,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/ontdekken', [RecipeController::class, 'discover'])->name('ontdekken');
 
 Route::view('/mijn-keuken', 'mijn-keuken')->name('mijn-keuken');
+Route::view('/privacy', 'privacy')->name('privacy');
 Route::view('/boodschappen', 'boodschappen')->middleware('auth')->name('boodschappen');
 Route::view('/mijn-voorraad', 'mijn-voorraad')->middleware('auth')->name('mijn-voorraad');
 

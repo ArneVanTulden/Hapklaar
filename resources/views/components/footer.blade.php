@@ -12,7 +12,7 @@
 
         {{-- Links (center) --}}
         <ul class="flex items-center gap-7 list-none m-0 p-0">
-            <li><a href="#" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 no-underline hover:text-white transition-colors">PRIVACY</a></li>
+            <li><a href="{{ route('privacy') }}" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 no-underline hover:text-white transition-colors">PRIVACY</a></li>
             <li><a href="#" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 no-underline hover:text-white transition-colors">TERMS</a></li>
             <li><a href="#" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 no-underline hover:text-white transition-colors">SUPPORT</a></li>
             <li><a href="#" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 no-underline hover:text-white transition-colors">CONTACT</a></li>
