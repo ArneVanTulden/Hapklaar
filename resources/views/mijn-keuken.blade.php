@@ -62,7 +62,7 @@
                 <div class="bg-[var(--lime)] border-2 border-black shadow-[5px_5px_0px_0px_var(--hot-pink)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-5 sm:px-8 py-5 sm:py-7">
                     <div>
                         <p class="font-black uppercase text-base sm:text-lg leading-tight mb-1">GEEN ZIN IN DEZE OPTIES?</p>
-                        <p class="text-[11px] text-gray-600 uppercase font-bold tracking-wide">WE HEBBEN NOG 142 ANDERE IDEEËN VOOR JE.</p>
+                        <p class="text-[11px] text-gray-600 uppercase font-bold tracking-wide">WE HEBBEN NOG {{ \App\Models\Recipe::count() }} ANDERE IDEEËN VOOR JE.</p>
                     </div>
                     <a href="{{ route('recept.random') }}" class="bg-black text-white text-[11px] font-black uppercase tracking-widest px-6 sm:px-8 py-3 sm:py-4 border-2 border-black hover:bg-gray-900 transition-colors text-center sm:flex-shrink-0">
                         DOE MAAR EEN GOK
