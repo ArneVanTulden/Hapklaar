@@ -414,6 +414,10 @@
                                 <p class="text-xs font-black uppercase tracking-widest text-green-600 text-center py-3 bg-green-50 border-2 border-green-600 px-3">
                                     E-mail verstuurd! Check je inbox.
                                 </p>
+                            @elseif(session('password_reset_error'))
+                                <p class="text-xs font-black uppercase tracking-widest text-red-600 text-center py-3 bg-red-50 border-2 border-red-600 px-3">
+                                    {{ session('password_reset_error') }}
+                                </p>
                             @else
                                 <form method="POST" action="{{ route('profiel.wachtwoord-reset') }}">
                                     @csrf

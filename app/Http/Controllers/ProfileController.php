@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\RateLimiter;
 
 class ProfileController extends Controller
 {
@@ -11,6 +12,16 @@ class ProfileController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = auth()->user();
+
+        $key = 'password-reset-profiel:' . $user->id;
+
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            $minutes = ceil(RateLimiter::availableIn($key) / 60);
+            return redirect()->route('profiel', ['tab' => 'instellingen'])->with('password_reset_error', "Te veel pogingen. Probeer het over {$minutes} minuten opnieuw.");
+        }
+
+        RateLimiter::hit($key, 3600);
+
         Password::sendResetLink(['email' => $user->email]);
 
         return redirect()->route('profiel', ['tab' => 'instellingen'])->with('password_reset_sent', true);
