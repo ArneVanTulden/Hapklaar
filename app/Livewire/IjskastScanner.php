@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Ingredient;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\RateLimiter;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\ImageManager;
@@ -41,6 +42,16 @@ class IjskastScanner extends Component
         if (! $this->photo || $this->isScanning) {
             return;
         }
+
+        $key = 'scanner:' . request()->ip();
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $minutes = ceil(RateLimiter::availableIn($key) / 60);
+            $this->error = "Je hebt het maximum van 5 scans per halfuur bereikt. Probeer het over {$minutes} minuten opnieuw.";
+            return;
+        }
+
+        RateLimiter::hit($key, 1800);
 
         $this->validate(['photo' => 'required|image|max:8192']);
 
