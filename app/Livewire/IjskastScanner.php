@@ -43,15 +43,17 @@ class IjskastScanner extends Component
             return;
         }
 
-        $key = 'scanner:' . request()->ip();
+        if (! auth()->check() || auth()->user()->role !== 'admin') {
+            $key = 'scanner:' . request()->ip();
 
-        if (RateLimiter::tooManyAttempts($key, 5)) {
-            $minutes = ceil(RateLimiter::availableIn($key) / 60);
-            $this->error = "Je hebt het maximum van 5 scans per halfuur bereikt. Probeer het over {$minutes} minuten opnieuw.";
-            return;
+            if (RateLimiter::tooManyAttempts($key, 5)) {
+                $minutes = ceil(RateLimiter::availableIn($key) / 60);
+                $this->error = "Je hebt het maximum van 5 scans per halfuur bereikt. Probeer het over {$minutes} minuten opnieuw.";
+                return;
+            }
+
+            RateLimiter::hit($key, 1800);
         }
-
-        RateLimiter::hit($key, 1800);
 
         $this->validate(['photo' => 'required|image|max:8192']);
 
