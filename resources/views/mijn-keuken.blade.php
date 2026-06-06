@@ -31,7 +31,7 @@
                     </div>
                     <div class="flex items-center gap-2 flex-wrap md:flex-shrink-0 md:mt-1">
                         <span class="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 bg-[var(--lime)] border-2 border-black">AI POWERED</span>
-                        <span class="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 bg-black text-white border-2 border-black">BETA</span>
+                        <span class="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 bg-purple-500 text-white border-2 border-black">BETA</span>
                         <button class="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                             TEST M UIT
                         </button>
