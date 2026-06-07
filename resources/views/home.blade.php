@@ -60,10 +60,12 @@
                         {{-- Yellow image box --}}
                         <a href="{{ $sushiRecept ? route('recept', $sushiRecept->id) : '#' }}" class="block border-4 border-black bg-[var(--yellow)] shadow-[6px_6px_0px_0px_var(--hot-pink)] hover:shadow-[10px_10px_0px_0px_var(--hot-pink)] transition-all duration-200">
                             <div class="aspect-square bg-[var(--yellow)] flex items-center justify-center text-[var(--yellow)] overflow-hidden">
-                                <img src="{{ asset('storage/recepten/sushi-bowl.jpg') }}" alt="Sushi Bowl met Balls & Glory Challenge" class="w-full h-full object-cover">
+                                @if($sushiRecept?->image_path)
+                                    <img src="{{ asset('storage/' . $sushiRecept->image_path) }}" alt="{{ $sushiRecept->title }}" class="w-full h-full object-cover">
+                                @endif
                             </div>
                             <div class="bg-white px-4 py-3 border-t-4 border-black">
-                                <span class="text-black font-black uppercase tracking-widest text-sm italic">SUSHI BOWL MET BALLS & GLORY CHALLENGE</span>
+                                <span class="text-black font-black uppercase tracking-widest text-sm italic">{{ $sushiRecept?->title }}</span>
                             </div>
                         </a>
                         {{-- HOT! badge --}}

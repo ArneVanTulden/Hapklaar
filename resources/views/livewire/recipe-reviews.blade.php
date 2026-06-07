@@ -138,7 +138,7 @@
             @endif
             @if($canDelete)
                 <div class="flex items-center justify-end border-t border-gray-100 pt-3">
-                    <button wire:click="deleteReview({{ $review->id }})" wire:confirm="Review verwijderen?" class="text-[9px] font-black uppercase tracking-widest text-red-600 hover:underline">VERWIJDER</button>
+                    <button wire:click="deleteReview({{ $review->id }})" class="text-[9px] font-black uppercase tracking-widest text-red-600 hover:underline">VERWIJDER</button>
                 </div>
             @endif
         </div>
