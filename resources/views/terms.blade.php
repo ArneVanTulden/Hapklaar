@@ -22,7 +22,7 @@
 
                 {{-- Header --}}
                 <div class="mb-10">
-                    <h1 class="text-4xl sm:text-6xl font-black uppercase italic leading-none mb-3">GEBRUIKSVOORWAARDEN</h1>
+                    <h1 class="text-3xl sm:text-6xl font-black uppercase italic leading-none mb-3 break-words">GEBRUIKSVOORWAARDEN</h1>
                     <p class="text-brand font-black uppercase italic text-sm sm:text-base leading-none">HAPKLAAR — LAATST BIJGEWERKT 7 JUNI 2026</p>
                 </div>
 

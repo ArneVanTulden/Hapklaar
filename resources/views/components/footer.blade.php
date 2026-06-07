@@ -34,7 +34,7 @@
         </a>
 
         <ul class="flex items-center justify-center gap-5 list-none m-0 p-0 flex-wrap">
-            <li><a href="#" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 no-underline">PRIVACY</a></li>
+            <li><a href="{{ route('privacy') }}" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 no-underline">PRIVACY</a></li>
             <li><a href="{{ route('terms') }}" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 no-underline">TERMS</a></li>
             <li><a href="mailto:info@hapklaar.net" class="text-[11px] font-bold uppercase tracking-widest text-gray-400 no-underline">CONTACT</a></li>
         </ul>
