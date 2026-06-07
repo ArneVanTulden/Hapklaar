@@ -9,6 +9,7 @@ class HomeController extends Controller
     public function index()
     {
         $recepten = Recipe::orderBy('id')->limit(3)->get();
-        return view('home', compact('recepten'));
+        $sushiRecept = Recipe::where('title', 'Sushi Bowl met Balls & Glory Challenge')->first();
+        return view('home', compact('recepten', 'sushiRecept'));
     }
 }

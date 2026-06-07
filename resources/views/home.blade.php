@@ -56,16 +56,16 @@
 
                 {{-- Right: Image card --}}
                 <div class="flex-shrink-0 relative">
-                    <div class="relative w-60 md:w-72" style="transform: rotate(3deg);">
+                    <div class="relative w-60 md:w-72 rotate-[3deg] transition-transform duration-200 hover:rotate-[1deg] hover:-translate-y-1">
                         {{-- Yellow image box --}}
-                        <div class="border-4 border-black bg-[var(--yellow)]" style="box-shadow: 6px 6px 0px 0px var(--hot-pink);">
+                        <a href="{{ $sushiRecept ? route('recept', $sushiRecept->id) : '#' }}" class="block border-4 border-black bg-[var(--yellow)] shadow-[6px_6px_0px_0px_var(--hot-pink)] hover:shadow-[10px_10px_0px_0px_var(--hot-pink)] transition-all duration-200">
                             <div class="aspect-square bg-[var(--yellow)] flex items-center justify-center text-[var(--yellow)] overflow-hidden">
-                                <img src="{{ asset('images/kater_bowl.png') }}" alt="Ultieme Katerbowl" class="w-full h-full object-cover">
+                                <img src="{{ asset('storage/recepten/sushi-bowl.jpg') }}" alt="Sushi Bowl met Balls & Glory Challenge" class="w-full h-full object-cover">
                             </div>
                             <div class="bg-white px-4 py-3 border-t-4 border-black">
-                                <span class="text-black font-black uppercase tracking-widest text-sm italic">ULTIEME KATER BOWL</span>
+                                <span class="text-black font-black uppercase tracking-widest text-sm italic">SUSHI BOWL MET BALLS & GLORY CHALLENGE</span>
                             </div>
-                        </div>
+                        </a>
                         {{-- HOT! badge --}}
                         <div class="absolute -top-3 -right-4 bg-[var(--lime)] border-2 border-black px-3 py-1 font-black text-sm uppercase shadow-[5px_5px_0px_0px_#000]">
                             HOT!
