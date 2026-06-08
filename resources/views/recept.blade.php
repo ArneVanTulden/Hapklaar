@@ -46,6 +46,7 @@
                     },
                     isFullscreen: false,
                     videoEnded: false,
+                    videoStarted: false,
                     controlsVisible: true,
                     endVideoSec: (() => { const t = @json($recipe->end_video_timestamp); if (!t) return null; const p = String(t).split(':'); return p.length === 2 ? +p[0]*60 + +p[1] : +p[0]; })(),
                     get showEndButton() { return this.endVideoSec !== null && this.currentTime >= this.endVideoSec && !this.videoEnded; },
@@ -55,7 +56,7 @@
                         if (p) {
                             p.addEventListener('timeupdate', () => { this.currentTime = p.currentTime; });
                             p.addEventListener('ended', () => { this.videoEnded = true; });
-                            p.addEventListener('play', () => { this.videoEnded = false; });
+                            p.addEventListener('play', () => { this.videoEnded = false; this.videoStarted = true; });
 
                             let hideTimer;
                             const showCtrl = () => { this.controlsVisible = true; clearTimeout(hideTimer); };
@@ -160,13 +161,22 @@
                              class="border-2 border-black overflow-hidden relative"
                              :style="isFullscreen ? 'width:100%;height:100%;' : 'aspect-ratio:16/9;'">
                                 @if($recipe->video_url)
+                                    <div x-show="!videoStarted"
+                                         @click="$refs.player.play()"
+                                         class="absolute inset-0 z-10 cursor-pointer flex items-center justify-center"
+                                         style="background-image: url('{{ asset('storage/' . $recipe->image_path) }}'); background-size: cover; background-position: center;">
+                                        <div class="w-20 h-20 rounded-full bg-black flex items-center justify-center">
+                                            <svg class="w-9 h-9 text-white ml-1.5" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
                                     <mux-player
                                         id="recipe-player"
                                         x-ref="player"
                                         src="{{ $recipe->video_url }}"
-                                        poster="{{ asset('storage/' . $recipe->image_path) }}"
                                         env-key="{{ config('services.mux.data_env_key') }}"
-                                        style="width: 100%; height: 100%; --media-object-fit: contain; --media-poster-object-fit: cover;"
+                                        style="width: 100%; height: 100%; --media-object-fit: contain;"
                                         playsinline
                                     ></mux-player>
 
