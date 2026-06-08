@@ -27,6 +27,17 @@ class ProfileController extends Controller
         return redirect()->route('profiel', ['tab' => 'instellingen'])->with('password_reset_sent', true);
     }
 
+    public function destroy()
+    {
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        auth()->logout();
+        $user->delete();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/')->with('account_deleted', true);
+    }
+
     public function show()
     {
         /** @var User $user */

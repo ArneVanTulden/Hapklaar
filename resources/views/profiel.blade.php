@@ -464,15 +464,35 @@
                         </div>
 
                         {{-- GEVAAR ZONE --}}
-                        <div class="border-2 border-brand shadow-[4px_4px_0px_0px_var(--hot-pink)] bg-white p-6">
+                        <div x-data="{ confirm: false }" class="border-2 border-brand shadow-[4px_4px_0px_0px_var(--hot-pink)] bg-white p-6">
                             <h3 class="text-sm font-black uppercase tracking-widest text-brand mb-4">GEVAAR ZONE</h3>
                             <p class="text-[10px] font-black uppercase tracking-widest leading-relaxed mb-4">
                                 ACCOUNT VERWIJDEREN? LET OP: DIT KAN NIET ONGEDAAN WORDEN GEMAAKT.
                             </p>
-                            <a href="#"
-                               class="text-[10px] font-black uppercase tracking-widest underline underline-offset-2 text-black hover:text-brand transition-colors">
+                            <button type="button"
+                                    @click="confirm = true"
+                                    x-show="!confirm"
+                                    class="text-[10px] font-black uppercase tracking-widest underline underline-offset-2 text-black hover:text-brand transition-colors">
                                 ACCOUNT PERMANENT VERWIJDEREN
-                            </a>
+                            </button>
+                            <div x-show="confirm" x-cloak class="mt-2">
+                                <p class="text-[10px] font-black uppercase tracking-widest mb-3">BEN JE ZEKER? DIT KAN NIET ONGEDAAN WORDEN GEMAAKT.</p>
+                                <div class="flex gap-3">
+                                    <form method="POST" action="{{ route('profiel.verwijderen') }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="text-[10px] font-black uppercase tracking-widest px-4 py-2 bg-brand text-white border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                            JA, VERWIJDER
+                                        </button>
+                                    </form>
+                                    <button type="button"
+                                            @click="confirm = false"
+                                            class="text-[10px] font-black uppercase tracking-widest px-4 py-2 bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                                        NEE, ANNULEER
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

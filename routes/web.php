@@ -18,6 +18,7 @@ Route::view('/mijn-voorraad', 'mijn-voorraad')->middleware('auth')->name('mijn-v
 
 Route::get('/profiel', [ProfileController::class, 'show'])->middleware('auth')->name('profiel');
 Route::post('/profiel/wachtwoord-reset', [ProfileController::class, 'sendPasswordReset'])->middleware('auth')->name('profiel.wachtwoord-reset');
+Route::delete('/profiel/verwijderen', [ProfileController::class, 'destroy'])->middleware('auth')->name('profiel.verwijderen');
 
 Route::middleware('guest')->group(function () {
     Route::view('/login', 'login')->name('login');
