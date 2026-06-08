@@ -48,7 +48,7 @@ class Boodschappen extends Component
         }
 
         $this->ahFetchMessage = $updated > 0
-            ? "{$updated} PRIJS" . ($updated === 1 ? '' : 'EN') . ' GEVONDEN'
+            ? ($updated === 1 ? "{$updated} PRIJS" : "{$updated} PRIJZEN") . ' GEVONDEN'
             : 'GEEN PRIJZEN GEVONDEN';
     }
 
