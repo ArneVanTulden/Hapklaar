@@ -117,6 +117,10 @@ class RecipeResource extends Resource
                             ])
                             ->default('stuks')
                             ->required(),
+                        Forms\Components\TextInput::make('notes')
+                            ->label('Notitie')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
                     ])
                     ->columns(2)
                     ->addActionLabel('Ingrediënt toevoegen')
