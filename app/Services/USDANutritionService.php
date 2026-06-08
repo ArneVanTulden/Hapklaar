@@ -106,6 +106,8 @@ class USDANutritionService
             'kg'                            => $quantity * 1000,
             'ml'                            => $quantity,
             'l'                             => $quantity * 1000,
+            'eetlepel'                      => $quantity * 15,
+            'theelepel'                     => $quantity * 5,
             'stuks', 'blikken', 'zakjes'    => $gramPerUnit !== null ? $quantity * $gramPerUnit : null,
             default                         => null,
         };

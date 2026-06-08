@@ -112,11 +112,17 @@ class RecipeResource extends Resource
                                 'kg'      => 'KG',
                                 'ml'      => 'ML',
                                 'l'       => 'L',
-                                'blikken' => 'Blikken',
-                                'zakjes'  => 'Zakjes',
+                                'blikken'    => 'Blikken',
+                                'zakjes'     => 'Zakjes',
+                                'eetlepel'   => 'Eetlepel',
+                                'theelepel'  => 'Theelepel',
                             ])
                             ->default('stuks')
                             ->required(),
+                        Forms\Components\TextInput::make('notes')
+                            ->label('Notitie')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
                     ])
                     ->columns(2)
                     ->addActionLabel('Ingrediënt toevoegen')
