@@ -112,8 +112,10 @@ class RecipeResource extends Resource
                                 'kg'      => 'KG',
                                 'ml'      => 'ML',
                                 'l'       => 'L',
-                                'blikken' => 'Blikken',
-                                'zakjes'  => 'Zakjes',
+                                'blikken'    => 'Blikken',
+                                'zakjes'     => 'Zakjes',
+                                'eetlepel'   => 'Eetlepel',
+                                'theelepel'  => 'Theelepel',
                             ])
                             ->default('stuks')
                             ->required(),
