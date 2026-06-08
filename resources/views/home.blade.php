@@ -96,7 +96,8 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                     @foreach($recepten as $recept)
-                    <div class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white">
+                    <a href="{{ route('recept', $recept->id) }}"
+                       class="border-2 border-black shadow-[6px_6px_0px_0px_#000] flex flex-col bg-white no-underline group hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                         <div class="relative border-b-2 border-black overflow-hidden" style="aspect-ratio:4/3;">
                             @if($recept->image_path)
                                 <img src="{{ asset('storage/' . $recept->image_path) }}" alt="{{ $recept->title }}" class="w-full h-full object-cover">
@@ -109,7 +110,7 @@
                         </div>
 
                         <div class="p-4 flex flex-col flex-1">
-                            <h3 class="font-black uppercase text-lg leading-tight mb-3">{{ $recept->title }}</h3>
+                            <h3 class="font-black uppercase text-lg leading-tight mb-3 text-black">{{ $recept->title }}</h3>
 
                             <div class="flex items-center gap-3 mb-4 text-[10px] font-bold uppercase text-gray-500 tracking-wide flex-wrap">
                                 @if($recept->prep_time_minutes)
@@ -123,12 +124,11 @@
                                 @endif
                             </div>
 
-                            <a href="{{ route('recept', $recept->id) }}"
-                               class="mt-auto text-center text-[11px] font-black uppercase tracking-widest bg-brand text-white no-underline px-4 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
+                            <span class="mt-auto text-center text-[11px] font-black uppercase tracking-widest bg-brand text-white px-4 py-3 border-2 border-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000] transition-all duration-75">
                                 LAAT ME ZIEN!
-                            </a>
+                            </span>
                         </div>
-                    </div>
+                    </a>
                     @endforeach
 
                 </div>
