@@ -108,7 +108,11 @@
         <div class="bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] p-5" wire:key="review-{{ $review->id }}">
             <div class="flex items-start justify-between mb-3">
                 <div class="flex items-center gap-3">
-                    <span class="w-9 h-9 rounded-full {{ $color }} border-2 border-black flex items-center justify-center text-sm font-black flex-shrink-0">{{ $initial }}</span>
+                    @if(!empty($review->user->avatar_url))
+                        <img src="{{ asset($review->user->avatar_url) }}" alt="{{ $username }}" class="w-9 h-9 rounded-full border-2 border-black object-cover flex-shrink-0">
+                    @else
+                        <span class="w-9 h-9 rounded-full {{ $color }} border-2 border-black flex items-center justify-center text-sm font-black flex-shrink-0">{{ $initial }}</span>
+                    @endif
                     <div>
                         <div class="flex items-center gap-2">
                             <span class="text-[11px] font-black uppercase">{{ strtoupper($username) }}</span>
