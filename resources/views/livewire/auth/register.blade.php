@@ -94,11 +94,4 @@
         INLOGGEN
     </a>
 
-    {{-- Terms --}}
-    <p class="text-center text-[10px] text-gray-400 mt-3 leading-relaxed">
-        Door je aan te melden ga je akkoord met onze
-        <a href="#" class="underline hover:text-brand transition-colors">Terms</a>
-        &amp;
-        <a href="#" class="underline hover:text-brand transition-colors">Privacy Policy</a>.
-    </p>
 </div>
