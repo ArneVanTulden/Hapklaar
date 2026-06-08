@@ -109,7 +109,7 @@
             <div class="flex items-start justify-between mb-3">
                 <div class="flex items-center gap-3">
                     @if(!empty($review->user->avatar_url))
-                        <img src="{{ asset($review->user->avatar_url) }}" alt="{{ $username }}" class="w-9 h-9 rounded-full border-2 border-black object-cover flex-shrink-0">
+                        <img src="{{ Storage::url($review->user->avatar_url) }}" alt="{{ $username }}" class="w-9 h-9 rounded-full border-2 border-black object-cover flex-shrink-0">
                     @else
                         <span class="w-9 h-9 rounded-full {{ $color }} border-2 border-black flex items-center justify-center text-sm font-black flex-shrink-0">{{ $initial }}</span>
                     @endif
