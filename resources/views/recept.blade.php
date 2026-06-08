@@ -326,7 +326,7 @@
                                             @if($ingredient->pivot->quantity)
                                                 <span x-text="({{ $ingredient->pivot->quantity }} * portions) % 1 === 0 ? ({{ $ingredient->pivot->quantity }} * portions) : ({{ $ingredient->pivot->quantity }} * portions).toFixed(1)"></span>
                                             @endif
-                                            @if($ingredient->pivot->unit && $ingredient->pivot->unit !== 'stuks') {{ $ingredient->pivot->unit }} @endif
+                                            @if($ingredient->pivot->unit && $ingredient->pivot->unit !== 'stuks') {{ ['eetlepel' => 'el.', 'theelepel' => 'tl.'][$ingredient->pivot->unit] ?? $ingredient->pivot->unit }} @endif
                                             {{ $ingredient->canonical_name }}
                                             @if($ingredient->pivot->notes) ({{ $ingredient->pivot->notes }})@endif
                                         </span>
