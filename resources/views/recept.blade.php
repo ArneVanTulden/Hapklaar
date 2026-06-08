@@ -158,7 +158,7 @@
                             </div>
                             <div x-ref="videoWrapper"
                              class="border-2 border-black overflow-hidden relative"
-                             :style="isFullscreen ? 'width:100%;height:100%;' : 'aspect-ratio:16/10;'">
+                             :style="isFullscreen ? 'width:100%;height:100%;' : 'aspect-ratio:16/9;'">
                                 @if($recipe->video_url)
                                     <mux-player
                                         id="recipe-player"
@@ -166,7 +166,7 @@
                                         src="{{ $recipe->video_url }}"
                                         poster="{{ asset('storage/' . $recipe->image_path) }}"
                                         env-key="{{ config('services.mux.data_env_key') }}"
-                                        style="width: 100%; height: 100%; --media-object-fit: cover;"
+                                        style="width: 100%; height: 100%; --media-object-fit: contain; --media-poster-object-fit: cover;"
                                         playsinline
                                     ></mux-player>
 
