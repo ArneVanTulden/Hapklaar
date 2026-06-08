@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Gebruiksvoorwaarden - Hapklaar</title>
         <meta name="description" content="De gebruiksvoorwaarden van Hapklaar.">
+        <link rel="icon" type="image/png" href="/images/H-favicon.png">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700,800,900&display=swap" rel="stylesheet" />
@@ -22,7 +23,7 @@
 
                 {{-- Header --}}
                 <div class="mb-10">
-                    <h1 class="text-3xl sm:text-6xl font-black uppercase italic leading-none mb-3 break-words">GEBRUIKSVOORWAARDEN</h1>
+                    <h1 class="text-xl sm:text-4xl md:text-6xl font-black uppercase italic leading-none mb-3">GEBRUIKSVOORWAARDEN</h1>
                     <p class="text-brand font-black uppercase italic text-sm sm:text-base leading-none">HAPKLAAR — LAATST BIJGEWERKT 7 JUNI 2026</p>
                 </div>
 
