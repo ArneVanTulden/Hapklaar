@@ -59,14 +59,34 @@
         + NIET HERKEND?
     </button>
 
+    {{-- Locatie selector --}}
+    <div class="flex gap-2 mb-3">
+        @foreach(['fridge' => 'KOELKAST', 'freezer' => 'VRIEZER', 'pantry' => 'VOORRAADSKIST'] as $loc => $label)
+            <button wire:click="setLocation('{{ $loc }}')"
+                    class="flex-1 py-2.5 text-[9px] font-black uppercase tracking-widest border-2 border-black transition-all duration-75
+                           {{ $selectedLocation === $loc
+                               ? 'bg-brand text-white shadow-[2px_2px_0px_0px_#000]'
+                               : 'bg-white text-black hover:bg-gray-100' }}">
+                {{ $label }}
+            </button>
+        @endforeach
+    </div>
+
     {{-- Voeg toe aan inventaris --}}
+    @php
+        $locationLabel = match($selectedLocation) {
+            'freezer' => 'VRIEZER',
+            'pantry'  => 'VOORRAADSKIST',
+            default   => 'KOELKAST',
+        };
+    @endphp
     <button wire:click="addAllToInventory"
             @if(empty($items)) disabled @endif
             class="w-full py-3.5 text-[10px] font-black uppercase tracking-widest border-2 border-black shadow-[3px_3px_0px_0px_#000] transition-all duration-75
                    {{ empty($items)
                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed shadow-none'
                        : 'bg-brand text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#000]' }}">
-        VOEG TOE AAN INVENTARIS →
+        VOEG TOE AAN {{ $locationLabel }} →
     </button>
 
 </div>

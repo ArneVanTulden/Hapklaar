@@ -11,6 +11,8 @@ class ScannerResults extends Component
 
     public ?string $flash = null;
 
+    public string $selectedLocation = 'fridge';
+
     public function clearAll(): void
     {
         $this->items = [];
@@ -50,6 +52,13 @@ class ScannerResults extends Component
         $this->dispatch('scanner-items-updated', ids: $ids);
     }
 
+    public function setLocation(string $location): void
+    {
+        if (in_array($location, ['fridge', 'freezer', 'pantry'])) {
+            $this->selectedLocation = $location;
+        }
+    }
+
     public function addAllToInventory(): void
     {
         if (! auth()->check()) {
@@ -73,7 +82,7 @@ class ScannerResults extends Component
                     'name'     => strtolower($item['label']),
                     'quantity' => $item['qty'],
                     'unit'     => $item['unit'],
-                    'location' => 'fridge',
+                    'location' => $this->selectedLocation,
                 ]
             );
         }
