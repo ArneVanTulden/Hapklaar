@@ -187,13 +187,6 @@
                         moet vreten op basis van je budget
                         en hoeveel tijd het inneemt om te maken. Geen gedoe, gewoon eten.
                     </p>
-                    <div>
-                        <button
-                            type="button"
-                            class="text-[11px] font-black uppercase tracking-widest bg-black text-white px-6 py-3 border-2 border-black shadow-[5px_5px_0px_0px_var(--lime)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_var(--lime)] transition-all duration-75 cursor-pointer">
-                            IK WIL DIT!
-                        </button>
-                    </div>
                 </div>
 
                 {{-- Right: Phone mockup --}}
