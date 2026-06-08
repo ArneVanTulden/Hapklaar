@@ -13,10 +13,16 @@ class ScannerResults extends Component
 
     public string $selectedLocation = 'fridge';
 
+    public function mount(): void
+    {
+        $this->items = session('scanner_items', []);
+    }
+
     public function clearAll(): void
     {
         $this->items = [];
         $this->flash = null;
+        session()->forget('scanner_items');
         $this->broadcastItems();
     }
 
@@ -25,6 +31,7 @@ class ScannerResults extends Component
         array_splice($this->items, $index, 1);
         $this->items = array_values($this->items);
         $this->flash = null;
+        session(['scanner_items' => $this->items]);
         $this->broadcastItems();
     }
 
@@ -39,6 +46,7 @@ class ScannerResults extends Component
             'category'      => $category,
         ];
         $this->flash = null;
+        session(['scanner_items' => $this->items]);
         $this->broadcastItems();
     }
 
@@ -92,7 +100,10 @@ class ScannerResults extends Component
             ? "Alle {$count} ingrediënten toegevoegd aan je inventaris!"
             : "{$count} van " . count($this->items) . " ingrediënten toegevoegd (rest niet herkend).";
 
+        $this->items = [];
+        session()->forget('scanner_items');
         $this->dispatch('inventory-updated');
+        $this->broadcastItems();
     }
 
     public function render()

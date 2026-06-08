@@ -19,6 +19,14 @@ class KitchenMatches extends Component
     {
         $this->source = $source;
         $this->visible = $source === 'scanner';
+
+        if ($source === 'scanner') {
+            $sessionItems = session('scanner_items', []);
+            $this->scannedIds = array_values(array_unique(array_filter(
+                array_map(fn($i) => $i['ingredient_id'] ?? null, $sessionItems),
+                fn($v) => $v !== null,
+            )));
+        }
     }
 
     #[On('scanner-items-updated')]
