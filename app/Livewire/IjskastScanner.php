@@ -93,7 +93,11 @@ class IjskastScanner extends Component
                                 ],
                                 [
                                     'type' => 'text',
-                                    'text' => "Je bent een koelkast-scanner. Identificeer alle voedselingrediënten die zichtbaar zijn in deze afbeelding.\n\nBekende ingrediënten (gebruik deze exacte namen als het ingredient daarin staat):\n{$ingredientNames}\n\nRegels:\n- Gebruik EXACT de naam uit de lijst hierboven als het ingredient daarin voorkomt\n- Staat het niet in de lijst? Gebruik dan de meest passende Nederlandse naam\n- Scan alle schappen en vakken volledig\n- Neem alleen op wat je daadwerkelijk ziet, geen aannames\n- Vloeistoffen: identificeer op kleur/label (oranje sap = sinaasappelsap, transparant = water)\n\nGeef ALLEEN een JSON-array terug: [{\"name\":\"naam\",\"qty\":\"hoeveelheid\",\"unit\":\"stuks|g|kg|ml|l\"}]. Gebruik altijd de afkorting (g niet gram, ml niet milliliter). Geen uitleg, geen markdown.",
+                                    'text' => "Je bent een koelkast-scanner. Identificeer alle voedselingrediënten die zichtbaar zijn in deze afbeelding.\n\nBekende ingrediënten 
+                                    (gebruik deze exacte namen als het ingredient daarin staat):\n{$ingredientNames}\n\nRegels:\n- Gebruik EXACT de naam uit de lijst hierboven als het ingredient daarin voorkomt\n- 
+                                    Staat het niet in de lijst? Gebruik dan de meest passende Nederlandse naam\n- Scan alle schappen en vakken volledig\n- Neem alleen op wat je daadwerkelijk ziet, geen aannames\n- 
+                                    Vloeistoffen: identificeer op kleur/label (oranje sap = sinaasappelsap, transparant = water)\n\nGeef ALLEEN een JSON-array terug: [{\"name\":\"naam\",\"qty\":\"hoeveelheid\",\"unit\":\"stuks|g|kg|ml|l\"}]. 
+                                    Gebruik altijd de afkorting (g niet gram, ml niet milliliter). Geen uitleg, geen markdown.",
                                 ],
                             ],
                         ],
