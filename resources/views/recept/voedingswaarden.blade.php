@@ -1,4 +1,5 @@
 @php
+// Haalt voedingswaarden op uit DB en berekent hoeveel % dat is van wat je dagelijks nodig hebt.
     $n        = $recipe->nutritionInfo;
     $kcal     = $n ? (int) round($n->calories)   : 0;
     $protein  = $n ? (int) round($n->protein)    : 0;
