@@ -20,7 +20,7 @@ class AlbertHeijnService
         if (! $token) {
             return [];
         }
-
+        //hier worden prijzen van de ingredienten opgehaald.
         $responses = Http::pool(function (Pool $pool) use ($queries, $token) {
             foreach ($queries as $key => $query) {
                 $pool->as((string) $key)
@@ -117,7 +117,7 @@ class AlbertHeijnService
         if ($cached = Cache::get(self::TOKEN_CACHE_KEY)) {
             return $cached;
         }
-
+        //token ophalen
         $response = Http::timeout(10)->post(self::BASE_URL . '/mobile-auth/v1/auth/token/anonymous', [
             'clientId' => 'appie',
         ]);
@@ -127,7 +127,7 @@ class AlbertHeijnService
         }
 
         $token = $response->json('access_token');
-
+        //token bewaren
         if ($token) {
             Cache::put(self::TOKEN_CACHE_KEY, $token, now()->addMinutes(110));
         }
