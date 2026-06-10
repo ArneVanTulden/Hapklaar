@@ -131,6 +131,7 @@ class VoiceController extends Controller
         return mb_substr("Hey Hapklaar. {$recipe->title}. {$ingredients}.", 0, 900);
     }
 
+    //knipt mijn commando in losse woorden
     private function matchSteps(string $command, $steps): ?array
     {
         $commandWords = $this->tokenize($command);
@@ -138,7 +139,6 @@ class VoiceController extends Controller
 
         $timedSteps = $steps->filter(fn($s) => $s->video_timestamp)->values();
 
-        // IDF: words appearing in fewer steps are more discriminating
         $wordStepCount = [];
         foreach ($timedSteps as $step) {
             foreach (array_unique($this->tokenize($step->description)) as $w) {
@@ -150,6 +150,7 @@ class VoiceController extends Controller
         $bestStep  = null;
         $bestScore = 0.0;
 
+        //telt het per stap hoeveel woorden overeenkomen met wat ik zeg en de stap
         foreach ($timedSteps as $step) {
             $stepWords = $this->tokenize($step->description);
             $score     = 0.0;
@@ -162,6 +163,7 @@ class VoiceController extends Controller
             }
         }
 
+        //geeft de beste stap terug
         if ($bestStep && $bestScore > 0) {
             return ['timestamp' => $bestStep->video_timestamp, 'step' => $bestStep->step_number];
         }
@@ -169,6 +171,7 @@ class VoiceController extends Controller
         return null;
     }
 
+    //brengt woorden terug naar hun basisvorm voor geen verwarring!
     private function stem(string $word): string
     {
         static $prefixes = ['ge', 'be', 'ver', 'ont', 'her', 'over'];
