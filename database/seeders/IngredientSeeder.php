@@ -15,7 +15,6 @@ class IngredientSeeder extends Seeder
             ['canonical_name' => 'Boter',          'category' => 'zuivel', 'name_en' => 'butter'],
             ['canonical_name' => 'Slagroom',        'category' => 'zuivel', 'name_en' => 'heavy whipping cream'],
             ['canonical_name' => 'Melk',            'category' => 'zuivel', 'name_en' => 'whole milk'],
-            ['canonical_name' => 'Yoghurt',         'category' => 'zuivel', 'name_en' => 'yogurt, plain, whole milk'],
             ['canonical_name' => 'Griekse yoghurt', 'category' => 'zuivel', 'name_en' => 'yogurt, greek, plain, whole milk', 'gram_per_unit' => 15],
             ['canonical_name' => 'Mozzarella',      'category' => 'zuivel', 'name_en' => 'cheese, mozzarella, whole milk'],
             ['canonical_name' => 'kaas',            'category' => 'zuivel', 'name_en' => 'cheese, blue'],
