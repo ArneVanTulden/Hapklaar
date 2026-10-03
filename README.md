@@ -1,8 +1,8 @@
-# Hapklaar 🍳
+# Hapklaar
 
 Hapklaar is een receptenplatform dat koken makkelijker maakt: scan je koelkast en zie meteen wat je ermee kan maken, volg videorecepten handsfree met je stem en zet ontbrekende ingrediënten met één klik op je boodschappenlijst — inclusief prijsschatting.
 
-Gebouwd als afstudeerproject met Laravel 13, Livewire 4 en Filament 5.
+Gebouwd als bachelorproject met Laravel 13, Livewire 4 en Filament 5.
 
 **🔗 Live: [hapklaar.net](https://hapklaar.net/)**
 
