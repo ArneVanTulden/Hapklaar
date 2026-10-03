@@ -1,58 +1,51 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Hapklaar 🍳
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Hapklaar is een receptenplatform dat koken makkelijker maakt: scan je koelkast en zie meteen wat je ermee kan maken, volg videorecepten handsfree met je stem en zet ontbrekende ingrediënten met één klik op je boodschappenlijst — inclusief prijsschatting.
 
-## About Laravel
+Gebouwd als afstudeerproject met Laravel 13, Livewire 4 en Filament 5.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**🔗 Live: [hapklaar.net](https://hapklaar.net/)**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Koelkastscanner** — upload een foto van je koelkast; GPT-4o-mini herkent de ingrediënten, die daarna met fuzzy matching gekoppeld worden aan de ingrediëntendatabase.
+- **"Wat kan ik maken?"** — recepten worden gerangschikt op hoeveel ingrediënten je al hebt, op basis van een scan of je opgeslagen voorraad.
+- **Handsfree koken met spraak** — zeg *"Hey Hapklaar, volgende stap"* of *"Hey Hapklaar, wanneer gaat de ui erin?"* en de receptvideo springt naar het juiste moment.
+- **Videorecepten** — streaming via Mux, met per stap een tijdstempel in de video.
+- **Boodschappenlijst met prijzen** — ontbrekende ingrediënten toevoegen vanuit een recept; prijzen worden geschat via de Albert Heijn API.
+- **Voorraadbeheer** — houd bij wat je in huis hebt; na het koken haal je de gebruikte ingrediënten met één klik van je voorraad.
+- **Voedingswaarden** — macro's per recept, berekend uit USDA-data per ingrediënt.
+- **Ontdekken & filteren** — op dieet, hoeveel afwas een recept geeft, sortering, of laat een willekeurig recept kiezen.
+- **Reviews met foto's, favorieten en een profielpagina.**
+- **Adminpaneel** (Filament) — beheer recepten, stappen, reviews, gebruikers en site-inhoud.
+- **Installeerbaar als PWA** op gsm.
 
-## Learning Laravel
+## Hoe de spraakbesturing werkt
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Dit was technisch het meest uitdagende onderdeel:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Voice Activity Detection** in de browser (`@ricky0123/vad-web`, ONNX) detecteert wanneer iemand praat, zodat enkel echte spraak verstuurd wordt — geen continue opname.
+2. Het audiofragment gaat naar de backend en wordt getranscribeerd met **OpenAI Whisper**. De prompt bevat de receptnaam en ingrediënten, wat de herkenning van kookwoorden sterk verbetert.
+3. Zonder het wake word *"Hapklaar"* wordt de input genegeerd.
+4. Het commando wordt in volgorde van prioriteit geïnterpreteerd: pauze/afspelen → volgende/vorige stap → "stap 3" → vrije tekst.
+5. Vrije tekst wordt gematcht met de stapbeschrijvingen via een eigen **TF-IDF-achtige scoring** met een eenvoudige Nederlandse stemmer en stopwoordenlijst, zodat *"wanneer gaat de ui erin"* bij de juiste stap uitkomt.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Zie [`app/Http/Controllers/VoiceController.php`](app/Http/Controllers/VoiceController.php) en [`resources/js/voice.js`](resources/js/voice.js).
 
-## Agentic Development
+## Tech stack
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+| Laag | Technologie |
+|---|---|
+| Backend | PHP 8.3, Laravel 13 |
+| Frontend | Livewire 4, Alpine.js, Tailwind CSS 4, Vite |
+| Admin | Filament 5 |
+| AI | OpenAI Whisper (spraak), GPT-4o-mini (beeldherkenning) |
+| Video | Mux |
+| Externe API's | USDA FoodData Central, Albert Heijn |
+| E-mail | Resend |
+| Hosting | Combell |
 
-```bash
-composer require laravel/boost --dev
+---
 
-php artisan boost:install
-```
+Gemaakt door **Arne Van Tulden** — [GitHub](https://github.com/ArneVanTulden)
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
